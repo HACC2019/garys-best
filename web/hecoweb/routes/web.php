@@ -11,6 +11,16 @@
 |
 */
 
+//Views web
 Route::get('/', function () {
     return view('welcome');
 });
+
+//API web
+
+//API app
+Route::post('/api/app/postreview', 'ApiHecoApp@postReview');
+Route::get('/api/app/getpoints', 'ApiHecoApp@getPoints');
+
+//API hardware
+Route::post('/api/hardware/licenseplateatstation', 'ApiHeco@licensePlateAtStation');
