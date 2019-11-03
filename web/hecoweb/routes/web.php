@@ -19,8 +19,8 @@ Route::get('/', function () {
 //API web
 
 //API app
-Route::post('/api/app/postreview', 'ApiHecoApp@postReview');
+Route::post('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
 Route::get('/api/app/getpoints', 'ApiHecoApp@getPoints');
 
-//API hardware
+//API hardware -- Checkin
 Route::post('/api/hardware/licenseplateatstation', 'ApiHeco@licensePlateAtStation');
