@@ -22,9 +22,9 @@ class ApiHecoApp extends Controller
 	{
 		if($request->has('json'))
 		{
-			$json = json_decode($request->input('json'));
+			$json = json_decode($request->input('json'), true);
 			
-			$ex = DB::select('exec HecoRewards_InsertSurvey_Proc(?,?,?,?,?,?,?)', array(
+			$ex = DB::select('exec HecoRewards_InsertSurvey_Proc ?,?,?,?,?,?,?', array(
 					$json['LicensePlate'],
 					$json['DidTheCarCharge'],
 					$json['CardDeclined'],
@@ -51,13 +51,13 @@ class ApiHecoApp extends Controller
 	{
 		if($request->has('json'))
 		{
-			$json = json_decode($request->input('json'));
+			$json = json_decode($request->input('json'), true);
 			
-			$ex = DB::select('exec HecoRewards_GetPoints_Proc(?)', array(
+			$ex = DB::select('exec HecoRewards_GetPoints_Proc ?', array(
 					$json['LicensePlate']
 				)
 			);
-
+			
 			//Should only return 1 row
 			foreach($ex as $output)
 			{
