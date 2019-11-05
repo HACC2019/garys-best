@@ -129,3 +129,6 @@ ipython_config.py
 #   git rm -r .ipynb_checkpoints/
 
 # End of https://www.gitignore.io/api/jupyternotebooks
+
+venv/
+linux_venv/
