@@ -11,12 +11,11 @@
 |
 */
 
-//Views web
-Route::get('/', function () {
-    return view('welcome');
-});
-
 //API web
+//CHANGE TO ACTUAL GULPED FILE NAME AFTER
+Route::get('/', function() {
+	return File::get(public_path() . '/heco/index.html');
+});
 
 //API app
 Route::post('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
