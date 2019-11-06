@@ -14,7 +14,7 @@
 //API web
 //CHANGE TO ACTUAL GULPED FILE NAME AFTER
 Route::get('/', function() {
-	return File::get(public_path() . '/heco/index.html');
+	return view('index');
 });
 
 //API app
