@@ -13,11 +13,18 @@ def readlicense(filename):
     # resize for better results
     img = cv2.resize(img, (620,480) )
 
+
+    # cv2.imwrite('1resized.jpg', img) 
+
     # convert to grey scale
     grayscale_img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
+    # cv2.imwrite('2gray.jpg', grayscale_img) 
+
     # blur out unwanted details
     grayscale_img = cv2.bilateralFilter(grayscale_img, 11, 17, 17)
+
+    # cv2.imwrite('3blur.jpg', grayscale_img) 
 
     # detect edges
     edges = cv2.Canny(grayscale_img, 30, 200)
@@ -45,13 +52,17 @@ def readlicense(filename):
     new_image = cv2.drawContours(mask,[screenCnt],0,255,-1,)
     new_image = cv2.bitwise_and(img,img,mask=mask)
 
+    # cv2.imwrite('4masked.jpg', new_image) 
+
     # crop image
     (x, y) = np.where(mask == 255)
     (topx, topy) = (np.min(x), np.min(y))
     (bottomx, bottomy) = (np.max(x), np.max(y))
-    Cropped = grayscale_img[topx:bottomx+1, topy:bottomy+1]
+    cropped = new_image[topx:bottomx+1, topy:bottomy+1]
+
+    # cv2.imwrite('5cropped.jpg', cropped) 
 
     # read plate
-    text = pytesseract.image_to_string(Cropped, config='--psm 11')
+    text = pytesseract.image_to_string(cropped, config='--psm 13')
     
     return text
