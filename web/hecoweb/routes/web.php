@@ -17,6 +17,8 @@ Route::get('/', function() {
 	return view('index');
 });
 
+Route::get('/test', 'ApiHeco@forecastedData');
+
 //API app
 Route::post('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
 Route::get('/api/app/getpoints', 'ApiHecoApp@getPoints');
