@@ -26,7 +26,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->command('call_eda:run')->everyFifteenMinutes();;
+        //$schedule->command('call_eda:run')->everyFifteenMinutes();
+        $schedule->command('call_eda:run')->everyMinute();
     }
 
     /**
