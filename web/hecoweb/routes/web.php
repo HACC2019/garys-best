@@ -11,16 +11,17 @@
 |
 */
 
-//Views web
-Route::get('/', function () {
-    return view('welcome');
+//API web
+//CHANGE TO ACTUAL GULPED FILE NAME AFTER
+Route::get('/', function() {
+	return view('index');
 });
 
-//API web
+Route::get('/test', 'ApiHeco@forecastedData');
 
 //API app
-Route::post('/api/app/postreview', 'ApiHecoApp@postReview');
+Route::post('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
 Route::get('/api/app/getpoints', 'ApiHecoApp@getPoints');
 
-//API hardware
+//API hardware -- Checkin
 Route::post('/api/hardware/licenseplateatstation', 'ApiHeco@licensePlateAtStation');
