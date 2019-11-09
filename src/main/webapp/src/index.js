@@ -38,7 +38,7 @@ class Mid extends React.Component {
               <Grid.Column>
                 <Chart
                     width={'550px'}
-                    height={'500px'}
+                    height={'450px'}
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[
@@ -54,9 +54,10 @@ class Mid extends React.Component {
                       ['May-19', 100],
                       ['Jun-19', 200],
                       ['Jul-19', 300],
+                      ['Aug-19', 300],
                     ]}
                     options={{
-                      title: 'COST PREDICTED',
+                      title: 'COST PREDICTED (Average)',
                       backgroundColor: '#add8e6',
                       // Just add this option
                       is3D: true,
@@ -69,8 +70,91 @@ class Mid extends React.Component {
               <Grid.Column>
                 <div className="description">
                   <Header as='h3'>
-                    Cost predicted: ...
+                    Cost predicted (Daily kW)
                   </Header>
+
+
+                  <Chart
+                      width={'800px'}
+                      height={'400px'}
+                      chartType="Table"
+                      loader={<div>Loading Chart</div>}
+                      data={[
+                        ['Total Duration (Min)', 'Total Cost ($)', 'Date'],
+                        [
+                          '120',
+                          '100',
+                          new Date(2018, 8, 1),
+                        ],
+                        [
+                          '200',
+                          '240',
+                          new Date(2018, 8, 2),
+                        ],
+                        [
+                          '330',
+                          '290',
+                          new Date(2018, 8, 3),
+                        ],
+                        [
+                          '500',
+                          '800',
+                          new Date(2018, 8, 4),
+                        ],
+                        [
+                          '450',
+                          '480',
+                          new Date(2018, 8, 5),
+                        ],
+                        [
+                          '250',
+                          '280',
+                          new Date(2018, 8, 10),
+                        ],
+                        [
+                          '600',
+                          '650',
+                          new Date(2018, 9, 30),
+                        ],
+                        [
+                          '1000',
+                          '1050',
+                          new Date(2018, 10, 18),
+                        ],
+                        [
+                          '330',
+                          '290',
+                          new Date(2018, 10, 26),
+                        ],
+                        [
+                          '550',
+                          '600',
+                          new Date(2018, 10, 27),
+                        ],
+                        [
+                          '450',
+                          '480',
+                          new Date(2018, 0, 30),
+                        ],
+                        [
+                          '300',
+                          '280',
+                          new Date(2019, 7, 26),
+                        ],
+
+                      ]}
+                      rootProps={{ 'data-testid': '1' }}
+                      chartPackages={['corechart', 'controls']}
+                      controls={[
+                        {
+                          controlType: 'DateRangeFilter',
+                          options: {
+                            filterColumnLabel: 'Date',
+                            ui: { format: { pattern: '' } },
+                          },
+                        },
+                      ]}
+                  />
                 </div>
               </Grid.Column>
             </Grid.Row>
@@ -95,9 +179,10 @@ class Mid extends React.Component {
                       ['May-19', 100],
                       ['Jun-19', 200],
                       ['Jul-19', 300],
+                      ['Aug-19', 300],
                     ]}
                     options={{
-                      title: 'CHANGE IN COST',
+                      title: 'CHANGE IN COST (Average)',
                       backgroundColor: '#add8e6',
                       chartArea: { width: '50%' },
                       hAxis: {
@@ -115,8 +200,91 @@ class Mid extends React.Component {
               <Grid.Column>
                 <div className="description">
                   <Header as='h3'>
-                    Change in cost: ...
+                    Change in cost (Daily kW)
                   </Header>
+
+                  <Chart
+                      width={'800px'}
+                      height={'400px'}
+                      chartType="Table"
+                      loader={<div>Loading Chart</div>}
+                      data={[
+                        ['Total Duration (Min)', 'Total Cost ($)', 'Date'],
+                        [
+                          '120',
+                          '100',
+                          new Date(2018, 8, 1),
+                        ],
+                        [
+                          '200',
+                          '240',
+                          new Date(2018, 8, 2),
+                        ],
+                        [
+                          '330',
+                          '290',
+                          new Date(2018, 8, 3),
+                        ],
+                        [
+                          '500',
+                          '800',
+                          new Date(2018, 8, 4),
+                        ],
+                        [
+                          '450',
+                          '480',
+                          new Date(2018, 8, 5),
+                        ],
+                        [
+                          '250',
+                          '280',
+                          new Date(2018, 8, 10),
+                        ],
+                        [
+                          '600',
+                          '650',
+                          new Date(2018, 9, 30),
+                        ],
+                        [
+                          '1000',
+                          '1050',
+                          new Date(2018, 10, 18),
+                        ],
+                        [
+                          '330',
+                          '290',
+                          new Date(2018, 10, 26),
+                        ],
+                        [
+                          '550',
+                          '600',
+                          new Date(2018, 10, 27),
+                        ],
+                        [
+                          '450',
+                          '480',
+                          new Date(2018, 0, 30),
+                        ],
+                        [
+                          '300',
+                          '280',
+                          new Date(2019, 7, 26),
+                        ],
+
+                      ]}
+                      rootProps={{ 'data-testid': '1' }}
+                      chartPackages={['corechart', 'controls']}
+                      controls={[
+                        {
+                          controlType: 'DateRangeFilter',
+                          options: {
+                            filterColumnLabel: 'Date',
+                            ui: { format: { pattern: '' } },
+                          },
+                        },
+                      ]}
+                  />
+
                 </div>
               </Grid.Column>
 
@@ -132,20 +300,21 @@ class Mid extends React.Component {
                     loader={<div>Loading Chart</div>}
                     data={[
                       ['Year', 'kWh', 'Threshold'],
-                      ['Sep-18', 100, 100],
-                      ['Oct-18', 200, 100],
-                      ['Nov-18', 300, 100],
-                      ['Dec-18', 400, 100],
-                      ['Jan-19', 120, 100],
-                      ['Feb-19', 178, 100],
-                      ['Mar-19', 287, 100],
-                      ['Apr-19', 394, 100],
-                      ['May-19', 300, 100],
-                      ['Jun-19', 200, 100],
-                      ['Jul-19', 350, 100],
+                      ['Sep-18', 100, 80],
+                      ['Oct-18', 200, 90],
+                      ['Nov-18', 300, 120],
+                      ['Dec-18', 400, 140],
+                      ['Jan-19', 120, 180],
+                      ['Feb-19', 178, 200],
+                      ['Mar-19', 287, 160],
+                      ['Apr-19', 394, 140],
+                      ['May-19', 300, 130],
+                      ['Jun-19', 200, 110],
+                      ['Jul-19', 350, 120],
+                      ['Aug-19', 300, 150],
                     ]}
                     options={{
-                      title: 'USAGE ESTIMATE',
+                      title: 'USAGE ESTIMATE (Average)',
                       hAxis: { title: 'Month-year', titleTextStyle: { color: '#333' } },
                       vAxis: { minValue: 0 },
                       backgroundColor: '#add8e6',
@@ -159,8 +328,90 @@ class Mid extends React.Component {
               <Grid.Column>
                 <div className="description">
                   <Header as='h3'>
-                    Usage Estimate: ...
+                    Usage Estimate (Daily kW)
                   </Header>
+
+                  <Chart
+                      width={'800px'}
+                      height={'400px'}
+                      chartType="Table"
+                      loader={<div>Loading Chart</div>}
+                      data={[
+                        ['Total Duration (Min)', 'Total Cost ($)', 'Date'],
+                        [
+                          '120',
+                          '100',
+                          new Date(2018, 8, 1),
+                        ],
+                        [
+                          '200',
+                          '240',
+                          new Date(2018, 8, 2),
+                        ],
+                        [
+                          '330',
+                          '290',
+                          new Date(2018, 8, 3),
+                        ],
+                        [
+                          '500',
+                          '800',
+                          new Date(2018, 8, 4),
+                        ],
+                        [
+                          '450',
+                          '480',
+                          new Date(2018, 8, 5),
+                        ],
+                        [
+                          '250',
+                          '280',
+                          new Date(2018, 8, 10),
+                        ],
+                        [
+                          '600',
+                          '650',
+                          new Date(2018, 9, 30),
+                        ],
+                        [
+                          '1000',
+                          '1050',
+                          new Date(2018, 10, 18),
+                        ],
+                        [
+                          '330',
+                          '290',
+                          new Date(2018, 10, 26),
+                        ],
+                        [
+                          '550',
+                          '600',
+                          new Date(2018, 10, 27),
+                        ],
+                        [
+                          '450',
+                          '480',
+                          new Date(2018, 10, 30),
+                        ],
+                        [
+                          '300',
+                          '280',
+                          new Date(2019, 7, 26),
+                        ],
+
+                      ]}
+                      rootProps={{ 'data-testid': '1' }}
+                      chartPackages={['corechart', 'controls']}
+                      controls={[
+                        {
+                          controlType: 'DateRangeFilter',
+                          options: {
+                            filterColumnLabel: 'Date',
+                            ui: { format: { pattern: '' } },
+                          },
+                        },
+                      ]}
+                  />
                 </div>
               </Grid.Column>
 
@@ -199,8 +450,90 @@ class Mid extends React.Component {
               <Grid.Column>
                 <div className="description">
                   <Header as='h3'>
-                    Predicted: ...
+                    Station (Daily kW)
                   </Header>
+
+                  <Chart
+                      width={'800px'}
+                      height={'400px'}
+                      chartType="Table"
+                      loader={<div>Loading Chart</div>}
+                      data={[
+                        ['Total Duration (Min)', 'Total Cost ($)', 'Date'],
+                        [
+                          '120',
+                          '100',
+                          new Date(2018, 8, 1),
+                        ],
+                        [
+                          '200',
+                          '240',
+                          new Date(2018, 8, 2),
+                        ],
+                        [
+                          '330',
+                          '290',
+                          new Date(2018, 8, 3),
+                        ],
+                        [
+                          '500',
+                          '800',
+                          new Date(2018, 8, 4),
+                        ],
+                        [
+                          '450',
+                          '480',
+                          new Date(2018, 8, 5),
+                        ],
+                        [
+                          '250',
+                          '280',
+                          new Date(2018, 8, 10),
+                        ],
+                        [
+                          '600',
+                          '650',
+                          new Date(2018, 9, 30),
+                        ],
+                        [
+                          '1000',
+                          '1050',
+                          new Date(2018, 10, 18),
+                        ],
+                        [
+                          '330',
+                          '290',
+                          new Date(2018, 10, 26),
+                        ],
+                        [
+                          '550',
+                          '600',
+                          new Date(2018, 10, 27),
+                        ],
+                        [
+                          '450',
+                          '480',
+                          new Date(2018, 10, 30),
+                        ],
+                        [
+                          '300',
+                          '280',
+                          new Date(2019, 7, 27),
+                        ],
+
+                      ]}
+                      rootProps={{ 'data-testid': '1' }}
+                      chartPackages={['corechart', 'controls']}
+                      controls={[
+                        {
+                          controlType: 'DateRangeFilter',
+                          options: {
+                            filterColumnLabel: 'Date',
+                            ui: { format: { pattern: '' } },
+                          },
+                        },
+                      ]}
+                  />
                 </div>
               </Grid.Column>
 
