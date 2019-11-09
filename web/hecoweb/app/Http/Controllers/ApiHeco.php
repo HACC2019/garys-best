@@ -38,4 +38,31 @@ class ApiHeco extends Controller
 		}
 	}
 
+	function getStationHealth(Request $request)
+	{
+		if($request->has('json'))
+		{
+			$json = json_decode($request->input('json'), true);
+			
+			$ex = DB::select('exec HecoStation_GetStationHealth_Proc ?', array(
+					$json['StationID']
+				)
+			);
+			
+			return json_encode($ex);
+		}
+	}
+
+	function getStationHealthStats(Request $request)
+	{
+		if($request->has('json'))
+		{
+			$json = json_decode($request->input('json'), true);
+			
+			$ex = DB::select('exec HecoStation_GetStationHealthStats_Proc');
+			
+			return json_encode($ex);
+		}
+	}
+
 }
