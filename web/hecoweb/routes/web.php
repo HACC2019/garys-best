@@ -16,7 +16,7 @@
 Route::get('/', function() {
 	return view('index');
 });
-Route::get('/api/web/getstationhealth', 'ApiHeco@getStatinoHealth');
+Route::get('/api/web/getstationhealth', 'ApiHeco@getStationHealth');
 Route::get('/api/web/getstationhealthstats', 'ApiHeco@getStationHealthStatus');
 
 
