@@ -6,12 +6,12 @@
 
 import numpy as np
 import pandas as pd
+import sys
 
 
 # In[2]:
 
-
-df = pd.read_csv('data/hacc.csv')
+df = pd.read_csv(sys.argv[1])
 df.head()
 
 

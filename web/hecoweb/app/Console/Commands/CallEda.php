@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class CallEda extends Command
 {
@@ -37,23 +38,27 @@ class CallEda extends Command
      */
     public function handle()
     {
+        $pathCSV = storage_path('eda/data/hacc.csv');
+        $pathPy = storage_path('eda/eda.py');
+        
         //Get all csv data and write to csv in /eda/data/
         $ex = DB::select('exec HecoStation_Data_Proc');
         $list = array (
             array('header 1', 'header 2', 'header 3', 'header 4', 'header 5','header 6',  'header 7', 'header 8', 'header 9', 'header 10')
         );
+
         foreach($ex as $output)
         {
-            array_push($list, array($ex[0], $ex[1], $ex[2], $ex[3], $ex[4], $ex[5], $ex[6], $ex[7], $ex[8], $ex[9]));
+            array_push($list, array($output->StationName, $output->SessionInitiated, $output->StartTime, $output->EndTime, $output->Duration, $output->Energy, $output->SessionAmount, $output->SessionID, $output->PortType, $output->PaymentMode));
         }
         
-        $fp = fopen('/eda/data/hacc.csv', 'wb');
+        $fp = fopen($pathCSV, 'w');
         
         foreach ($list as $fields) {
             fputcsv($fp, $fields);
         }
         
         fclose($fp);
-        shell_exec('py /eda/eda.py');
+        shell_exec('py ' . $pathPy . ' ' . $pathCSV);
     }
 }
