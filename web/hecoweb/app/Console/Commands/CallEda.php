@@ -38,8 +38,8 @@ class CallEda extends Command
      */
     public function handle()
     {
-        $pathCSV = storage_path('eda/data/hacc.csv');
-        $pathPy = storage_path('eda/eda.py');
+        $pathCSV = storage_path('eda/data');
+        $pathPy = storage_path('eda/all_forecast.py');
         
         //Get all csv data and write to csv in /eda/data/
         $ex = DB::select('exec HecoStation_Data_Proc');
