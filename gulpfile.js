@@ -3,14 +3,11 @@ const argv = require('yargs').argv;
 const gulp = require('gulp');
 const gulpif = require('gulp-if');
 const concat = require('gulp-concat');
-// const ngAnnotate = require('gulp-ng-annotate');
-// const templateCache = require('gulp-angular-templatecache');
 const autoprefixer = require('gulp-autoprefixer');
 const sass = require('gulp-sass');
 const csso = require('gulp-csso');
-const uglify = require('gulp-uglify');
+// const uglify = require('gulp-uglify');
 const plumber = require('gulp-plumber');
-// const babel = require('gulp-babel');
 const sourcemaps = require('gulp-sourcemaps');
 const browserSync = require('browser-sync').create();
 const browserify = require('browserify');
@@ -20,7 +17,6 @@ const log = require('gulplog');
 const watchify = require('watchify');
 const assign = require('lodash.assign');
 const source = require('vinyl-source-stream');
-// const gutil = require('gulp-util');
 
 const src = {
   sass: ['web/hecoweb/react-src/scss/*.scss'],
@@ -72,12 +68,10 @@ gulp.task('react', argv.production ? () => {
   .pipe(source(dest.react.file)) //compile the jsx into a single file
   .pipe(buffer())
   .pipe(sourcemaps.init({loadMaps: true}))
-  // .pipe(gulpif(argv.production, uglify())).on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
   .pipe(sourcemaps.write('./')) //create mappings at piped dir
   .pipe(gulp.dest(dest.react.dir));
 } : compileReact);
 watch.on('update', compileReact); // on any dep update, runs the bundler
-watch2.on('update', compileInstSurv); // on any dep update, runs the bundler
 watch.on('log', log.info); // output build logs to terminal.
 
 // Note, there's a delay when watchify compiles the jsx and when it actually finish writing the build to file. Causing the browser to
@@ -93,7 +87,6 @@ function compileReact() {
     .pipe(source(dest.react.file)) //compile the jsx into a single file
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(gulpif(argv.production, uglify()))
     .pipe(sourcemaps.write('./')) //create mappings at piped dir
     .pipe(gulp.dest(dest.react.dir));
 }
@@ -126,5 +119,5 @@ gulp.task('default', ['build', 'watch'], () => {
     // add browserSync.reload to the tasks array to make
     // all browsers reload after tasks are complete.
     gulp.watch(src.sass, ['sass']);
-    gulp.watch(src.templates).on('change', browserSync.reload);
+    // gulp.watch(src.react).on('change', browserSync.reload);
 });
