@@ -4,6 +4,7 @@
 ## BUILD WEB
 
 ### Requirements
+Cron (optional, see alternative)
 PHP Version >= 7.1.3
 Composer
 Laravel Installer
@@ -29,3 +30,10 @@ php artisan key:generate
 ```
 php artisan serve
 ```
+
+### Cron Jobs
+Note that the project makes uses of scheduled tasks which require cron. If your environment does not have cron installed, you'll need an alternative to run the following command
+```
+php artisan call_eda:run
+```
+which is responsible for forecasting data gathered from stations
