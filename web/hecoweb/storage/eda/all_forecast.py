@@ -442,5 +442,5 @@ df_test = pd.DataFrame({
     'payment_mode_CREDITCARD': predictions[8],
     'payment_mode_RFID': predictions[9]
 })
-df_test.to_csv(sys.argv[1] + 'test_run.csv',index=False)
+df_test.to_csv(sys.argv[1] + '/../test_run.csv',index=False)
 
