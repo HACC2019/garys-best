@@ -21,8 +21,8 @@ Route::get('/api/web/getstationhealthstats', 'ApiHeco@getStationHealthStats');
 Route::get('/api/web/getforecast', 'ApiHeco@getForecastedData');
 
 //API app
-Route::post('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
+Route::get('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
 Route::get('/api/app/getpoints', 'ApiHecoApp@getPoints');
 
 //API hardware -- Checkin
-Route::post('/api/hardware/licenseplateatstation', 'ApiHeco@licensePlateAtStation');
+Route::get('/api/hardware/licenseplateatstation', 'ApiHeco@licensePlateAtStation');
