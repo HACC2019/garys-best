@@ -1,7 +1,7 @@
 # for making http request
 import requests 
   
-endpoint = '/api/hardware/licenseplateatstation.php'
+endpoint = 'https://hecoweb.azurewebsites.net/api/hardware/licenseplateatstation'
   
 def to_svr(plate_no, station_name):
 
@@ -9,4 +9,4 @@ def to_svr(plate_no, station_name):
 
     req_params = { 'json': js_payload }
     
-    r = requests.post(url = endpoint, data = req_params) 
+    r = requests.post(url = endpoint, data = req_params)
