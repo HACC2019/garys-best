@@ -16,6 +16,11 @@
 Route::get('/', function() {
 	return view('index');
 });
+Route::get('/api/web/getstationhealth', 'ApiHeco@getStationHealth');
+Route::get('/api/web/getstationhealthstats', 'ApiHeco@getStationHealthStats');
+
+
+Route::get('/test', 'ApiHeco@forecastedData');
 
 //API app
 Route::post('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
