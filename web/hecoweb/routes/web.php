@@ -18,9 +18,7 @@ Route::get('/', function() {
 });
 Route::get('/api/web/getstationhealth', 'ApiHeco@getStationHealth');
 Route::get('/api/web/getstationhealthstats', 'ApiHeco@getStationHealthStats');
-
-
-Route::get('/test', 'ApiHeco@forecastedData');
+Route::get('/api/web/getforecast', 'ApiHeco@getForecastedData');
 
 //API app
 Route::post('/api/app/postsurvey', 'ApiHecoApp@postSurvey');

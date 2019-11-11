@@ -65,4 +65,11 @@ class ApiHeco extends Controller
 		}
 	}
 
+	function getForecastedData(Request $request)
+	{
+		$ex = DB::select('SELECT [Timestamp], Energy, ErrorRounding, ErrorCalculation, OnPeak, MidDay, OffPeak, PortType_CHADEMO, PortType_DCCOMBOTYP1, PaymentMode_CreditCard, PaymentMode_RFID FROM HecoDB.dbo.ForecastOutputEnergyTbl');
+
+		return json_encode($ex);
+	}
+
 }
