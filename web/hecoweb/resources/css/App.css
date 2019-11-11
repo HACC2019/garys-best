@@ -1,0 +1,117 @@
+.ui.grid {
+    padding: 0;
+    margin: 0;
+  }
+  
+  .column {
+    padding: 0!important;
+  }
+  
+  .active.item {
+    background-color: #42adff!important;
+    border-radius: none!important;
+  }
+  
+  .item {
+    color: white!important;
+    border-top: 0.5px white solid!important;
+    border-bottom: 0.5px white solid!important;
+    border-left: none!important;
+    border-right: 0.5px white solid!important; 
+  }
+  
+  .station {
+    transition: background-color 0.25s;
+    background-color: #2c2c2c;
+    -webkit-transition: background-color 0.25s; /* Safari prior 6.1 */
+    border-bottom: 1px white solid;
+  }
+  
+  .station:hover {
+    background-color: rgba(66, 173, 255, 0.7);
+    cursor: pointer;
+  }
+  
+  .isSelected {
+    background-color: rgba(66, 173, 255, 1)
+  }
+  
+  .isSelected:hover {
+    background-color: rgba(66, 173, 255, 1)
+  }
+  
+  .main-body {
+    border: 4px solid green;
+    width: 50%;
+    position: relative;
+    left: 20%;
+    top: 11%;
+    height: 75%;
+  }
+  
+  .station-screen {
+    border: 4px solid green;
+    width: 50%;
+    position: relative;
+    left: 25%;
+    top: 11%;
+    height: 25%;
+  }
+  
+  .card-reader {
+    border: 4px solid green;
+    width: 50%;
+    position: relative;
+    left: 40%;
+    top: 20%;
+    height: 15%;
+  }
+  
+  .card-slot {
+    border: 4px solid green;
+    width: 100%;
+    position: relative;
+    padding-top: 1px;
+    border-left: none;
+    border-right: none;
+    top: 35%;
+    height: 50%;
+  }
+  
+  .card-light {
+    width: 15%;
+    height: 25%;
+    background-color: green;
+    position: relative;
+    top: -45%;
+    left: 75%;
+  }
+  
+  .good-health {
+    border-color: green!important;
+  }
+  
+  .questionable-health {
+    border-color: yellow!important;
+  }
+  
+  .questionable-health-light {
+    background-color: yellow!important;
+  }
+  
+  .bad-health {
+    border-color: red!important;
+  }
+  
+  .bad-health-light {
+    background-color: red!important;
+  }
+  
+  .pump {
+    border: 4px solid green;
+    width: 35%;
+    position: relative;
+    left: 68%;
+    top: -50%;
+    height: 10%;
+  }

@@ -9,10 +9,12 @@ class Station extends React.Component {
   }
 
   render() {
+    console.log(this.props.selectedStation);
+    
     let stations = 
     <Grid>
         {this.props.stations.map((station) =>
-                    <Grid.Row key={station.id} onClick={() => this.props.handleSelectedStation(station)}>
+                    <Grid.Row key={station.id} onClick={() => this.props.handleSelectedStation(station)} style={{padding: '1em'}} className={"station" + (this.props.selectedStation && this.props.selectedStation.id == station.id ? " isSelected" : "")}>
                         <Grid.Column width={14}>
                             {station.name}
                         </Grid.Column>
