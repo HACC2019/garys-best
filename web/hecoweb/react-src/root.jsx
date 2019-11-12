@@ -21,4 +21,6 @@ class Root extends React.Component {
 
 export default Root;
 
-render(<Root />, document.getElementById('root'));
+window.addEventListener('load', function() {
+  render(<Root />, document.getElementById('root'));
+});

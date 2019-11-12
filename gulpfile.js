@@ -111,7 +111,7 @@ gulp.task('default', ['build', 'watch'], () => {
       browserSync.init({
         port: "8000",
         proxy: {
-          target: "https://localhost:10011/hecoweb",
+          target: "https://localhost:8000",
           ws: true
       },
         https: true
