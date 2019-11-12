@@ -41,3 +41,40 @@ Note that the project makes uses of scheduled tasks which require cron. If your 
 php artisan call_eda:run
 ```
 which is responsible for forecasting data gathered from stations
+
+# Rasberry Pi Setup
+Boot your Rasberry Pi and go to the terminal.
+
+Most of the Rasberry Pi comes with Raspbian Desktop that has pip install. To check if you have pip install, use the following command:
+
+```
+pip --version
+```
+
+If you get an error saying that you don't have pip install, use the following command to install pip.
+
+```
+sudo apt install python3-pip
+```
+
+After checking that pip is installed. Navigate to the pi-src folder and run the setup.sh file.
+
+```
+--Navigate to pi-src.
+
+cd ../pi-src
+
+-- Run setup.sh
+sh setup.sh
+```
+
+After running the setup.sh, run the main.sh file and the Rasberry Pi should start taking pictures and sending the data to the database.
+
+```
+-- Be sure that you are in the pi-src directory, if not use the following command.
+
+cd ../pi-src
+
+-- To run the main.sh
+sh main.sh
+```
