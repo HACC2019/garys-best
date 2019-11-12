@@ -132,3 +132,5 @@ ipython_config.py
 
 venv/
 linux_venv/
+
+node_modules
