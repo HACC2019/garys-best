@@ -328,6 +328,7 @@
       "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-3.0.0.tgz",
       "version": "3.0.0"
     },
+    "chart.js": "^2.9.2",
     "chokidar": {
       "dependencies": {
         "normalize-path": {
@@ -2998,5 +2999,9 @@
       "resolved": "https://registry.npmjs.org/yargs-parser/-/yargs-parser-5.0.0.tgz",
       "version": "5.0.0"
     }
+  },
+  "devDependencies": {
+    "react-chartjs-2": "^2.8.0",
+    "semantic-ui-react": "^0.88.1"
   }
 }
