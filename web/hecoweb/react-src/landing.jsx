@@ -60,16 +60,6 @@ class Landing extends React.Component {
                                 <h1 className='heco'>HECO[EV]</h1>
                             </Grid.Row>
                             <Segment inverted>
-                                <Grid.Row className='padding' centered>
-                                    <h4>Overall Station Health</h4>
-                                    <CircleMeter value={88}
-                                                 size={150}
-                                                 foregroundColor={overallMeterStyle.color.foreground}
-                                                 backgroundColor={overallMeterStyle.color.background}
-                                                 style={overallMeterStyle.meter}/>
-                                </Grid.Row>
-                            </Segment>
-                            <Segment inverted>
                                 <Grid.Row className='padding'>
                                     <List divided inverted relaxed>
                                         <List.Item>
@@ -164,51 +154,18 @@ class Landing extends React.Component {
 
                         <Grid.Column width={10}>
                             <Grid divided='vertically'>
-                                <Grid.Row columns={4} centered>
-                                    <Grid.Column>
-                                        <Segment inverted>
-                                            <h4>Active Sessions</h4>
-                                            <DiskMeter
-                                                value={25}
-                                                size={100}
-                                                backgroundColor={useMeterStyle.color.foreground}
-                                                textColor={useMeterStyle.color.foreground}
-                                                borderColor={useMeterStyle.color.foreground}
-                                                style={useMeterStyle.meter}
-                                            />
-                                        </Segment>
-                                    </Grid.Column>
-                                    <Grid.Column>
-                                        <Segment inverted>
-                                            <h4>Current Total Watts</h4>
-                                            <ReactSpeedometer
-                                                width={170}
-                                                height={100}
-                                                maxValue={500}
-                                                value={473}
-                                                needleColor="red"
-                                                startColor="green"
-                                                segments={10}
-                                                endColor="blue"
-                                            />
-                                        </Segment>
-                                    </Grid.Column>
-                                    <Grid.Column>
-                                        <Segment inverted>
-                                            <h4>Total Revenue</h4>
-                                            <h2>$26,179</h2>
-                                            <Grid.Row>
-                                                <p className='pBold'>24% <Icon name='arrow circle down' size='small' color='red'/></p>
-                                                <p>(from previous period)</p>
-                                            </Grid.Row>
-                                        </Segment>
-                                    </Grid.Column>
-                                    <Grid.Column>
-                                        <Segment inverted>
-                                            <h4>Payment Types</h4>
-                                        </Segment>
-                                    </Grid.Column>
-                                </Grid.Row>
+                                    <Grid.Row columns={2}>
+                                        <Grid.Column>
+                                            <Segment inverted>
+                                                <Bar data={barData}/>
+                                            </Segment>
+                                        </Grid.Column>
+                                        <Grid.Column>
+                                            <Segment inverted>
+                                                <Line data={lineData}/>
+                                            </Segment>
+                                        </Grid.Column>
+                                    </Grid.Row>
 
                                 <Grid.Row columns={1}>
                                     <Grid.Column>
@@ -225,23 +182,9 @@ class Landing extends React.Component {
                                         </div>
                                     </Grid.Column>
                                 </Grid.Row>
-
-                                <Grid.Row columns={2}>
-                                    <Grid.Column>
-                                        <Segment inverted>
-                                            <Bar data={barData}/>
-                                        </Segment>
-                                    </Grid.Column>
-                                    <Grid.Column>
-                                        <Segment inverted>
-                                            <Line data={lineData}/>
-                                        </Segment>
-                                    </Grid.Column>
-                                </Grid.Row>
                             </Grid>
                         </Grid.Column>
-
-
+                        
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row className='padding' centered>
@@ -255,9 +198,23 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <Grid.Row>
+                                    <h4>Active Sessions</h4>
+                                    <DiskMeter
+                                        value={25}
+                                        size={100}
+                                        backgroundColor={useMeterStyle.color.foreground}
+                                        textColor={useMeterStyle.color.foreground}
+                                        borderColor={useMeterStyle.color.foreground}
+                                        style={useMeterStyle.meter}
+                                    />
+                                </Grid.Row>
+                            </Segment>
+                            <Segment inverted>
+                                <Grid.Row>
+                                    <h4>Current Total Watts</h4>
                                     <ReactSpeedometer
-                                        width={200}
-                                        height={125}
+                                        width={170}
+                                        height={100}
                                         maxValue={500}
                                         value={473}
                                         needleColor="red"
@@ -268,14 +225,12 @@ class Landing extends React.Component {
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
+                                <h4>Total Revenue</h4>
+                                <h2>$26,179</h2>
                                 <Grid.Row>
-                                    <ReactSpeedometer
-                                        width={200}
-                                        height={125}
-                                        customSegmentStops={[0, 500, 750, 900, 1000]}
-                                        segmentColors={["firebrick", "tomato", "gold", "limegreen"]}
-                                        value={333}
-                                    />
+                                    <p className='pBold'>24% <Icon name='arrow circle down' size='small'
+                                                                   color='red'/></p>
+                                    <p>(from previous period)</p>
                                 </Grid.Row>
                             </Segment>
                         </Grid.Column>
