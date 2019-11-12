@@ -16,21 +16,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/hecologo"
-        android:layout_marginTop="40dp"/>
+        android:layout_marginTop="10dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp">
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
 
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120dp"
-            android:text="Points:"
+            android:layout_gravity="center"
+            android:text="Points Balance:"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -38,14 +38,15 @@
             android:id="@+id/points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="points"
+            android:layout_gravity="center"
+            android:text="Loading..."
             android:textSize="24sp" />
 
     </LinearLayout>
 
     <Button
         android:id="@+id/button"
+        android:layout_marginTop="50dp"
         android:layout_width="173dp"
         android:layout_height="102dp"
         android:layout_gravity="center"
