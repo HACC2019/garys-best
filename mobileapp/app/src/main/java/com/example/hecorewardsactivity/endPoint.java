@@ -80,8 +80,12 @@ public class endPoint extends AppCompatActivity {
                     public void run() {
                         TextView thankYou = findViewById(R.id.thankyou);
                         TextView text = findViewById(R.id.textView2);
+                        TextView comments = findViewById(R.id.getComments);
+                        Button finish = findViewById(R.id.finish);
                         thankYou.setVisibility(View.GONE);
                         text.setVisibility(View.GONE);
+                        comments.setVisibility(View.GONE);
+                        finish.setVisibility(View.GONE);
                         TextView rewardMessage = findViewById(R.id.rewardMsg);
                         rewardMessage.setText(message);
                         Handler h = new Handler();
