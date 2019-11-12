@@ -18,7 +18,7 @@ class ApiHecoApp extends Controller
 		PortType - string (50 chars)
 		AdditionalComments - string (255 chars)
 	*/
-	function postReview(Request $request)
+	function postSurvey(Request $request)
 	{
 		if($request->has('json'))
 		{
