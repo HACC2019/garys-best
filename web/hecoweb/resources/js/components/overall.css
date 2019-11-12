@@ -1,0 +1,27 @@
+.ui.borderless.topmenu.menu {
+    box-shadow: none;
+    border: none;
+    background-color: #add8e6;
+}
+
+.mid-bg {
+    background-color: #003366;
+    background-size: cover;
+    height: 2500px;
+}
+
+.description {
+    font-family: 'Open Sans';
+    font-weight: 400;
+    font-size: 14px;
+    color: #323232;
+    width: 450px;
+    height: 400px;
+    margin: 10% auto;
+    padding: 10px;
+    background-color: #add8e6;
+    border: 1px solid orangered;
+    border-radius: 15px;
+    -webkit-box-shadow:  0px 0px 10px 0px lawngreen;
+    box-shadow:  0px 0px 10px 0px yellow;
+}
