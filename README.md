@@ -42,10 +42,10 @@ php artisan call_eda:run
 ```
 which is responsible for forecasting data gathered from stations
 
-# Rasberry Pi Setup
-Boot your Rasberry Pi and go to the terminal.
-
-Most of the Rasberry Pi comes with Raspbian Desktop that has pip install. To check if you have pip install, use the following command:
+# Raspberry Pi Setup
+Boot your Raspberry Pi and go to the terminal.
+ 
+Most of the Raspberry Pi comes with Raspbian Desktop that has pip install. To check if you have pip install, use the following command:
 
 ```
 pip --version
