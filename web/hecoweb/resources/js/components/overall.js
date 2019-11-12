@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './overall.css';
+import '../../css/overall.css';
 import 'semantic-ui-css/semantic.min.css';
 import { Chart } from 'react-google-charts';
 import { Menu, Grid, Icon, Container, Header, Image, Dropdown } from 'semantic-ui-react';

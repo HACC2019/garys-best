@@ -22,6 +22,8 @@
         "sass-loader": "^7.1.0"
     },
     "dependencies": {
+        "google-charts": "^2.0.0",
+        "react-google-charts": "^3.0.15",
         "react-router-dom": "^5.1.2",
         "semantic-ui-css": "^2.4.1",
         "semantic-ui-react": "^0.88.1"
