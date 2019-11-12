@@ -6,7 +6,7 @@
 </div>
 
 <div align="center">
-[Website](https://hecoweb.azurewebsites.net/) | [Devpost](https://devpost.com/software/electric-vehicle-charging-analysis-5dv7mo)
+<a href="https://hecoweb.azurewebsites.net/">Website</a> | <a href="https://devpost.com/software/electric-vehicle-charging-analysis-5dv7mo">DevPost</a>
 </div>
 
 ## Overview
