@@ -102,12 +102,15 @@ class Landing extends React.Component {
                                 <ReactSpeedometer
                                     width={200}
                                     height={200}
-                                    maxValue={500}
-                                    value={473}
-                                    needleColor="red"
-                                    startColor="green"
-                                    segments={10}
-                                    endColor="blue"
+                                    value={333}
+                                    segments={5}
+                                    segmentColors={[
+                                        "#bf616a",
+                                        "#d08770",
+                                        "#ebcb8b",
+                                        "#a3be8c",
+                                        "#b48ead",
+                                    ]}
                                 />
                             </Grid.Row>
                             <Grid.Row>
