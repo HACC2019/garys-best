@@ -3002,6 +3002,8 @@
   },
   "devDependencies": {
     "react-chartjs-2": "^2.8.0",
+    "react-d3-speedometer": "^0.7.3",
+    "react-svg-meters": "^0.1.7",
     "semantic-ui-react": "^0.88.1"
   }
 }
