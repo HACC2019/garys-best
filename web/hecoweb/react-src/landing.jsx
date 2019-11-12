@@ -2,7 +2,7 @@ import React from 'react';
 import ReactSpeedometer from "react-d3-speedometer";
 import { CircleMeter } from 'react-svg-meters'
 import { Bar, Line } from 'react-chartjs-2';
-import { Grid, Image, Menu, Container } from 'semantic-ui-react'
+import { Grid, Menu, Container } from 'semantic-ui-react'
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
@@ -77,8 +77,11 @@ class Landing extends React.Component {
                             <Grid divided='vertically'>
                                 <Grid.Row columns={1}>
                                     <Grid.Column>
-                                        <Image
-                                            src='https://www.pobonline.com/ext/resources/POB/2016/08-August/POB-Esri-Streamflow-08302016.jpg?1472586109'/>
+                                        <div className="embed-container">
+                                            <iframe width="850" height="600" frameBorder="0" scrolling="no"
+                                                    marginHeight="0" marginWidth="0" title="EV Map"
+                                                    src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light"></iframe>
+                                        </div>
                                     </Grid.Column>
                                 </Grid.Row>
 
