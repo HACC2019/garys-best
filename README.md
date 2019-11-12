@@ -5,12 +5,15 @@
 <h3>Developed by Gary's Best</h3>
 </div>
 
+<div align="center">
 [Website](https://hecoweb.azurewebsites.net/) | [Devpost](https://devpost.com/software/electric-vehicle-charging-analysis-5dv7mo)
+</div>
 
 ## Overview
 The heart of our solution is to increase the understanding of the current data, and future data that HECO will be able to obtain about their Electrical Vehicle (EV) Charging Stations. By using the current set of data HECO has provided, we identify payment errors that have occurred and note the overall congestion of the charging stations. Using the historical data, we are able to use Machine Learning to forecast when future errors may occur and the expected congestion of the charging stations. Using only payment session data alone provides little insight as to what is happening at the charging stations at it biases the data in two ways:
 1. We only see the charging stations that are successful
 2. We only see the payment information and nothing about the health of the charging stations.
+
 By creating a mobile application, "HECO Rewards", we are able to obtain information about the charging sessions, successful or unsuccessful, which provides a new set of data that HECO has otherwise had no access to. We supplement this with a license plate reader to ensure that the users who submit data on the application were actually present at the charging station.
 
 
