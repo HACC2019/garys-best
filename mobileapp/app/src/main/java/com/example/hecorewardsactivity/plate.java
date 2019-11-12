@@ -2,6 +2,7 @@ package com.example.hecorewardsactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.content.SharedPreferences;
@@ -24,6 +25,7 @@ public class plate extends AppCompatActivity {
 
         licenseInput = findViewById(R.id.plateNumber);
         licensePlate = licenseInput.getText().toString();
+        Log.d("eewr**********", licensePlate);
     }
 
 

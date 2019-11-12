@@ -29,16 +29,18 @@
 
         <ImageButton
             android:id="@+id/chadmoPlug"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="126dp"
+            android:layout_gravity="center"
+            android:onClick="proceedToCommentSection"
             android:scaleType="centerInside"
-            android:src="@drawable/chadmoplug"
-            android:onClick="proceedToCommentSection"/>
+            android:src="@drawable/chadmoplug" />
 
         <ImageButton
             android:id="@+id/cssPlug"
-            android:layout_width="match_parent"
+            android:layout_width="300dp"
             android:layout_height="146dp"
+            android:layout_gravity="center"
             android:onClick="proceedToCommentSection"
             android:scaleType="centerInside"
             android:src="@drawable/cssplug" />

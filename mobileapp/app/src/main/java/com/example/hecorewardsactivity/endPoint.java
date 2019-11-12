@@ -2,6 +2,7 @@ package com.example.hecorewardsactivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,27 +52,26 @@ public class endPoint extends AppCompatActivity {
         @Override
         public void run() {
             json.addProperty("LicensePlate", plate.licensePlate);
-            json.addProperty("carCharged", chargingSession.carCharged);
-            json.addProperty("cardDeclined", creditCard.cardDeclined);
-            json.addProperty("cardReaderBroken", creditCard.cardReaderBroken);
-            json.addProperty("isTesla", teslaQues.isTesla);
-            json.addProperty("additionalComments", endPoint.additionalComments);
+            json.addProperty("DidTheCarCharge", chargingSession.carCharged);
+            json.addProperty("CardDeclined", creditCard.cardDeclined);
+            json.addProperty("CardReaderBroken", creditCard.cardReaderBroken);
+            json.addProperty("IsTesla", teslaQues.isTesla);
+            json.addProperty("PortType", portQues.port);
+            json.addProperty("AdditionalComments", endPoint.additionalComments);
             String data = json.toString(); //data to post
             OutputStream out = null;
             URL url = null;
             try {
-                url = new URL("https://hecoweb.azurewebsites.net/postsurvey");//URL to call
+                Log.d("fmliwannadie", data);
+                url = new URL("https://hecoweb.azurewebsites.net/postsurvey?json=" + data);//URL to call
                 HttpURLConnection cl = (HttpURLConnection) url.openConnection();
-                cl.setRequestMethod("POST");
+                cl.setRequestMethod("GET");
                 cl.setDoOutput(true);
 
-                String postReq = "json=" + data;
-
-                DataOutputStream os = new DataOutputStream(cl.getOutputStream());
-                os.writeBytes(postReq);
-                os.flush();
-                os.close();
                 BufferedReader br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
+                String o = br.readLine();
+                Log.d("fmliwannadie", o);
+                br.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }

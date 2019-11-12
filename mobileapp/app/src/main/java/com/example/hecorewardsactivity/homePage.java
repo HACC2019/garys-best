@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -41,34 +43,33 @@ public class homePage extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.putString("LicensePlate", plate.licensePlate);
 
-// Apply the edits!
+            // Apply the edits
             editor.apply();
 
             // Get from the SharedPreferences
             String LicensePlate = settings.getString("LicensePlate", plate.licensePlate);
             json.addProperty("LicensePlate", LicensePlate);
             String GetPoints = json.toString(); //data to post
-
+            Log.d("fmliwannadieasdfasdf", GetPoints);
             if (!GetPoints.contains("null")) {
                 OutputStream out = null;
                 URL url = null;
                 try {
-                    url = new URL("https://hecoweb.azurewebsites.net/getpoints");
+                    Log.d("fmliwannadiekms", GetPoints);
+                    url = new URL("https://hecoweb.azurewebsites.net/getpoints?json=" + GetPoints);
                     HttpURLConnection cl = (HttpURLConnection) url.openConnection();
-                    cl.setRequestMethod("POST");
+                    cl.setRequestMethod("GET");
                     cl.setDoOutput(true);
 
                     String postReq = "json=" + GetPoints;
 
-                    DataOutputStream os = new DataOutputStream(cl.getOutputStream());
-                    os.writeBytes(postReq);
-                    os.flush();
-                    os.close();
                     BufferedReader br = new BufferedReader(new InputStreamReader(cl.getInputStream()));
                     ret = br.readLine();
+                    Log.d("fmliwannadie", ret);
                     JsonElement jelement = new JsonParser().parse(ret);
                     JsonObject jobject = jelement.getAsJsonObject();
                     getpoints = jobject.get("Points").toString();
+                    br.close();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -89,15 +90,7 @@ public class homePage extends AppCompatActivity {
                 setContentView(R.layout.activity_main);
                 Toolbar toolbar = findViewById(R.id.toolbar);
                 setSupportActionBar(toolbar);
-
-                FloatingActionButton fab = findViewById(R.id.fab);
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
-                    }
-                });
+                getSupportActionBar().setTitle("Welcome!");
 
                 TextView points = findViewById(R.id.points);
                 points.setText(getpoints);
@@ -129,8 +122,15 @@ public class homePage extends AppCompatActivity {
     }
 
     public void getLicensePlate(View view) {
-        Intent intent = new Intent(this, plate.class);
-        startActivity(intent);
+        if(getpoints == null) {
+            Intent plate = new Intent(this, plate.class);
+            this.startActivity(plate);
+        }
+        else
+        {
+            Intent chargingSess = new Intent(this, chargingSession.class);
+            this.startActivity(chargingSess);
+        }
     }
 
 }
