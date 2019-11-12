@@ -12,9 +12,9 @@ class Landing extends React.Component {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
                 label: 'My First dataset',
-                backgroundColor: 'rgb(58,255,0)',
+                backgroundColor: '#98c255',
                 data: [0, 10, 5, 2, 20, 30, 45],
-                borderColor: 'rgb(58,255,0)'
+                borderColor: '#98c255'
             }]
         };
 
@@ -22,9 +22,9 @@ class Landing extends React.Component {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
                 label: 'My First dataset',
-                backgroundColor: 'rgb(255,242,42)',
+                backgroundColor: '#4270B9',
                 data: [0, 10, 5, 2, 20, 30, 45],
-                borderColor: 'rgb(255,242,42)'
+                borderColor: '#4270B9'
             }]
         };
 
@@ -33,9 +33,9 @@ class Landing extends React.Component {
                 margin: 8,
             },
             color: {
-                foreground: '#fdfaff',
-                background: '#b8bdbb',
-                bright: '#feff82',
+                foreground: '#4184cc',
+                background: '#1b1c1d',
+                bright: '#ffffff',
             }
         };
 
@@ -45,7 +45,7 @@ class Landing extends React.Component {
                     <Grid.Row>
                         <Grid.Column width={3}>
                             <Grid.Row className='padding'>
-                                <h1 className='h1'>HECO</h1>
+                                <h1 className='heco'>HECO[EV]</h1>
                             </Grid.Row>
                             <Grid.Row className='padding' centered>
                                 <CircleMeter value={89}
@@ -55,7 +55,7 @@ class Landing extends React.Component {
                                              style={meterStyle.meter}/>
                             </Grid.Row>
                             <Grid.Row className='padding'>
-                                <Menu pointing vertical>
+                                <Menu pointing vertical inverted>
                                     <Menu.Item
                                         name='Dashboard'
                                     />
@@ -78,9 +78,15 @@ class Landing extends React.Component {
                                 <Grid.Row columns={1}>
                                     <Grid.Column>
                                         <div className="embed-container">
-                                            <iframe width="850" height="600" frameBorder="0" scrolling="no"
-                                                    marginHeight="0" marginWidth="0" title="EV Map"
-                                                    src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light"></iframe>
+                                            <iframe width="850"
+                                                    height="600"
+                                                    frameBorder="0"
+                                                    scrolling="no"
+                                                    marginHeight="0"
+                                                    marginWidth="0"
+                                                    title="EV Map"
+                                                    src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light">
+                                            </iframe>
                                         </div>
                                     </Grid.Column>
                                 </Grid.Row>
