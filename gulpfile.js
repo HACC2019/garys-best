@@ -44,7 +44,7 @@ gulp.task('sass', () => {
   .pipe(autoprefixer())
   .pipe(gulpif(argv.production, csso()))
   .pipe(gulp.dest(dest.sass.dir))
-  .pipe(browserSync.stream());
+  //.pipe(browserSync.stream());
 });
 
 // add custom browserify options here
@@ -71,6 +71,7 @@ gulp.task('react', argv.production ? () => {
   .pipe(sourcemaps.write('./')) //create mappings at piped dir
   .pipe(gulp.dest(dest.react.dir));
 } : compileReact);
+
 watch.on('update', compileReact); // on any dep update, runs the bundler
 watch.on('log', log.info); // output build logs to terminal.
 
@@ -108,9 +109,9 @@ gulp.task('build', ['sass', 'react']);
 gulp.task('default', ['build', 'watch'], () => {
       // Serve files from the root of this project
       browserSync.init({
-        port: "10013",
+        port: "8000",
         proxy: {
-          target: "https://localhost:10011/appointment",
+          target: "https://localhost:10011/hecoweb",
           ws: true
       },
         https: true
