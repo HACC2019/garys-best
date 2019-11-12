@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonObject;
 
+import java.io.InputStream;
+import java.net.URL;
+
 
 public class plate extends AppCompatActivity {
     private EditText licenseInput;
@@ -23,14 +26,28 @@ public class plate extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plate);
 
-        licenseInput = findViewById(R.id.plateNumber);
-        licensePlate = licenseInput.getText().toString();
-        Log.d("eewr**********", licensePlate);
     }
 
 
 
     public void questions(View view){
+        licenseInput = findViewById(R.id.plateNumber);
+        licensePlate = licenseInput.getText().toString();
+        SharedPreferences settings = getApplicationContext().getSharedPreferences("licenseData", 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("LicensePlate", plate.licensePlate);
+
+        // Apply the edits
+        editor.apply();
+
+        URL url = null;
+        try {
+            url = new URL("https://hecoweb.azurewebsites.net/api/app/getpoints?json=" + licensePlate);
+            InputStream cl = url.openStream();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Intent questions = new Intent(this, chargingSession.class);
         startActivity(questions);
     }
