@@ -38,31 +38,39 @@ class Landing extends React.Component {
         };
 
         const barStackedData = {
-            type: ' bar',
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
-                    label: 'My First dataset',
+                    label: 'Active',
                     backgroundColor: '#98c255',
+                    stack: '2',
                     data: [40, 10, 5, 2, 20, 30, 45],
-                    borderColor: '#98c255'
                 },
                 {
-                    label: 'My Second dataset',
+                    label: 'Banned',
                     backgroundColor: '#c2bd4e',
+                    stack: '2',
                     data: [10, 5, 25, 12, 5, 15, 10],
-                    borderColor: '#c2bd4e'
-                }],
-            options: {
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            }
+                },
+            ],
+        };
+
+        const barStackedOptions = {
+            legend: {
+                display: false,
+            },
+            scales: {
+                xAxes: [
+                    {
+                        stacked: true,
+                    },
+                ],
+                yAxes: [
+                    {
+                        stacked: true,
+                    },
+                ],
+            },
         };
 
         const lineData = {
@@ -255,7 +263,7 @@ class Landing extends React.Component {
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barStackedData}/>
+                                            <Bar data={barStackedData} options={barStackedOptions}/>
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
