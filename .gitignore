@@ -135,7 +135,6 @@ ipython_config.py
 
 venv/
 linux_venv/
-<<<<<<< HEAD
 
 node_modules
 #built application files
@@ -174,6 +173,3 @@ output.json
 #NDK
 obj/
 .externalNativeBuild
-=======
-node_modules/
->>>>>>> eda
