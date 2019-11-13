@@ -153,7 +153,7 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <h1 className='heco'>HECO[EV]</h1>
+                                    <h1 className='heco'>HECO[EV] <Icon name='lightning' color='yellow'/></h1>
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
@@ -547,9 +547,9 @@ class Landing extends React.Component {
                                     <Grid.Column>
                                         <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
-                                                <Button size='mini' color='green'>Historical Data</Button>
+                                                <Button size='mini' color='green'> <Icon name='archive'/>Historical Data</Button>
                                                 <Button.Or />
-                                                <Button size='mini' color='blue'>Forecasted Data</Button>
+                                                <Button size='mini' color='blue'> <Icon name='chart bar'/>Forecast Data</Button>
                                             </Button.Group>
                                         </Segment>
                                     </Grid.Column>
@@ -657,7 +657,7 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <h4>Current Total Watts</h4>
+                                    <h4>Current Net Power (kwh)</h4>
                                     <ReactSpeedometer
                                         width={190}
                                         height={125}
@@ -675,7 +675,7 @@ class Landing extends React.Component {
                                 <Grid.Row style={{ textAlign: 'center' }}>
                                     <BlockMeter
                                         value={75}
-                                        size={110}
+                                        size={100}
                                         foregroundColor={avgMeterStyle.color.foreground}
                                         backgroundColor={avgMeterStyle.color.background}
                                         textColor={avgMeterStyle.color.bright}
