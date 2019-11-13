@@ -32,11 +32,9 @@ class Landing extends React.Component {
         })
             .then(res => res.json().then(data => {
                 const invertedData = {}
-                console.log(data)
                 for (let key in data[0]) {
                     invertedData[key] = data.map(x => x[key])
                 }
-                console.log(invertedData)
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
                 this.setState({ historicalData: invertedData })
             }));
@@ -51,12 +49,10 @@ class Landing extends React.Component {
         })
             .then(res => res.json().then(data => {
                 const invertedData = {}
-                console.log(data)
                 for (let key in data[0]) {
                     invertedData[key] = data.map(x => x[key])
                 }
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
-                console.log(invertedData)
                 this.setState({ forecastData: invertedData })
             }));
     }
@@ -72,8 +68,6 @@ class Landing extends React.Component {
     render() {
 
         let data = this.state.historical ? this.state.historicalData : this.state.forecastData;
-        console.log(this.state.forecastData);
-        console.log(this.state.historicalData);
 
         const barSideData = {
             type: ' bar',
@@ -92,25 +86,25 @@ class Landing extends React.Component {
         };
 
         const trafficData = {
-            labels: this.state.historical ? this.state.historicalData['Timestamp'] : this.state.forecastData['Timestamp'],
+            labels: data['Timestamp'],
             datasets: [
                 {
                     label: 'Off Peak',
                     backgroundColor: '#3d4044',
                     stack: '2',
-                    data: this.state.historical ? this.state.historicalData['OffPeak'] : this.state.forecastData['OffPeak'],
+                    data: data['OffPeak'],
                 },
                 {
                     label: 'Mid Day',
                     backgroundColor: '#c2bd4e',
                     stack: '2',
-                    data: this.state.historical ? this.state.historicalData['MidDay'] : this.state.forecastData['MidDay'],
+                    data: data['MidDay'],
                 },
                 {
                     label: 'On Peak',
                     backgroundColor: '#59b655',
                     stack: '2',
-                    data: this.state.historical ? this.state.historicalData['OnPeak'] : this.state.forecastData['OnPeak'],
+                    data: data['OnPeak'],
                 },
             ],
         };
