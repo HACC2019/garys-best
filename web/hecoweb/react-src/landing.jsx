@@ -657,7 +657,7 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <h4>Current Total Watts</h4>
+                                    <h4>Current Net Power (kwh)</h4>
                                     <ReactSpeedometer
                                         width={190}
                                         height={125}
