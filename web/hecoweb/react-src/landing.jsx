@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.css';
 import ReactSpeedometer from "react-d3-speedometer";
 import { CircleMeter, DiskMeter, BlockMeter } from 'react-svg-meters'
 import { Bar, Line } from 'react-chartjs-2';
-import { Grid, Container, List, Segment, Icon } from 'semantic-ui-react'
+import { Grid, Container, List, Segment, Icon, Divider } from 'semantic-ui-react'
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
@@ -38,50 +38,44 @@ class Landing extends React.Component {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
-                    label: 'My First dataset',
-                    backgroundColor: '#98c255',
+                    label: 'Traffic',
+                    backgroundColor: '#59b655',
                     data: [40, 10, 5, 2, 20, 30, 45],
-                    borderColor: '#98c255'
                 },
                 {
-                    label: 'My Second dataset',
-                    backgroundColor: '#c2bd4e',
+                    label: 'Congestion',
                     data: [10, 5, 25, 12, 5, 15, 10],
-                    borderColor: '#c2bd4e'
-                }],
-            options: {
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            }
+                    backgroundColor: '#c2bd4e',
+                }]
         };
 
         const barStackedData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
-                    label: 'Active',
-                    backgroundColor: '#98c255',
+                    label: 'Off Peak',
+                    backgroundColor: '#3d4044',
+                    stack: '2',
+                    data: [10, 5, 25, 12, 5, 15, 10],
+                },
+                {
+                    label: 'Mid Day',
+                    backgroundColor: '#c2bd4e',
                     stack: '2',
                     data: [40, 10, 5, 2, 20, 30, 45],
                 },
                 {
-                    label: 'Banned',
-                    backgroundColor: '#c2bd4e',
+                    label: 'On Peak',
+                    backgroundColor: '#59b655',
                     stack: '2',
-                    data: [10, 5, 25, 12, 5, 15, 10],
+                    data: [30, 45, 45, 32, 10, 5, 30],
                 },
             ],
         };
 
         const barStackedOptions = {
             legend: {
-                display: false,
+                display: true,
             },
             scales: {
                 xAxes: [
@@ -97,6 +91,33 @@ class Landing extends React.Component {
             },
         };
 
+        const lineData2 = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [
+                {
+                    label: 'Energy Forecast',
+                    borderColor: '#59b655',
+                    backgroundColor: 'rgba(89,182,85,0.55)',
+                    stack: '1',
+                    data: [10, 5, 25, 12, 5, 15, 10],
+                },
+                {
+                    label: 'Usage Forecast',
+                    borderColor: '#4270B9',
+                    backgroundColor: 'rgba(82,151,242,0.54)',
+                    stack: '2',
+                    data: [40, 10, 5, 2, 20, 30, 45],
+                }
+            ],
+            options: {
+                scales: {
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        };
+
         const lineData = {
             labels: this.state.data.map(x => x['Timestamp']),
             datasets: [{
@@ -109,7 +130,7 @@ class Landing extends React.Component {
 
         const useMeterStyle = {
             meter: {
-                marginLeft: 40,
+                marginLeft: 55,
             },
             color: {
                 foreground: '#59b655',
@@ -120,7 +141,7 @@ class Landing extends React.Component {
 
         const avgMeterStyle = {
             meter: {
-                marginLeft: 40,
+                marginLeft: 50,
             },
             color: {
                 foreground: '#59b655',
@@ -255,14 +276,14 @@ class Landing extends React.Component {
                             <Grid>
                                 <Grid.Row columns={1}>
                                     <Grid.Column>
-                                        <iframe width="850"
-                                            height="425"
-                                            frameBorder="0"
-                                            scrolling="no"
-                                            marginHeight="0"
-                                            marginWidth="0"
-                                            title="EV Map"
-                                            src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light">
+                                        <iframe width="100%"
+                                                height="425"
+                                                frameBorder="0"
+                                                scrolling="no"
+                                                marginHeight="0"
+                                                marginWidth="0"
+                                                title="EV Map"
+                                                src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light">
                                         </iframe>
                                     </Grid.Column>
                                 </Grid.Row>
@@ -282,7 +303,7 @@ class Landing extends React.Component {
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Line data={lineData} />
+                                            <Line data={lineData2}/>
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
@@ -298,10 +319,38 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row>
-                                    <h4>Active Sessions</h4>
+                                    <h4>User Error Log</h4>
+                                    <Divider/>
+                                    <List inverted divided>
+                                        <List.Item>
+                                            <p>October 25, 2019 @ 11:07 pm</p>
+                                            <List.Icon name='plug' color={'red'}/>
+                                            <List.Content>
+                                                <List.Header as='a'>Connection Error</List.Header>
+                                                <List.Description>
+                                                    Kapolei Commons
+                                                </List.Description>
+                                            </List.Content>
+                                        </List.Item>
+                                        <List.Item>
+                                            <p>October 25, 2019 @ 11:07 pm</p>
+                                            <List.Icon name='credit card' color={'red'}/>
+                                            <List.Content>
+                                                <List.Header as='a'>Payment Error</List.Header>
+                                                <List.Description>
+                                                    Kapolei Commons
+                                                </List.Description>
+                                            </List.Content>
+                                        </List.Item>
+                                    </List>
+                                </Grid.Row>
+                            </Segment>
+                            <Segment inverted>
+                                <Grid.Row>
+                                    <h4>Active Charging Sessions</h4>
                                     <DiskMeter
                                         value={25}
-                                        size={125}
+                                        size={100}
                                         backgroundColor={useMeterStyle.color.foreground}
                                         textColor={useMeterStyle.color.foreground}
                                         borderColor={useMeterStyle.color.foreground}
@@ -316,7 +365,7 @@ class Landing extends React.Component {
                                         width={200}
                                         height={125}
                                         maxValue={500}
-                                        value={473}
+                                        value={116}
                                         needleColor="black"
                                         startColor="green"
                                         segments={4}
@@ -329,7 +378,7 @@ class Landing extends React.Component {
                                 <Grid.Row>
                                     <BlockMeter
                                         value={75}
-                                        size={125}
+                                        size={110}
                                         foregroundColor={avgMeterStyle.color.foreground}
                                         backgroundColor={avgMeterStyle.color.background}
                                         textColor={avgMeterStyle.color.bright}
@@ -339,7 +388,7 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <h4>Total Revenue</h4>
-                                <h2>$26,179</h2>
+                                <h2 className='revenue'>$26,179</h2>
                                 <Grid.Row>
                                     <p className='pBold'>24% <Icon name='arrow circle down' size='small'
                                         color='red' /></p>
