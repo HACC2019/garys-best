@@ -35,3 +35,11 @@ p {
     font-size: 10px;
     color: #717478;
 }
+
+.ui.accordion .title:not(.ui) {
+    padding: 0!important;
+}
+
+.stationSelected {
+    background-color: #313438;
+}
