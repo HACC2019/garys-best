@@ -37,9 +37,22 @@ p {
 }
 
 .ui.accordion .title:not(.ui) {
-    padding: 0!important;
+    padding: 0 !important;
 }
 
 .stationSelected {
     background-color: #313438;
+}
+
+.react-datepicker__input-container input {
+    font-family: Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    display: block;
+    text-align: center;
+    width: 100px;
+    border-color: #313438;
+    background-color: white;
+}
+
+.react-datepicker__input-container {
+    padding: 5px;
 }
