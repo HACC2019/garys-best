@@ -242,7 +242,7 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <h1 className='heco'>HECO[EV]</h1>
+                                    <h1 className='heco'>HECO[EV] <Icon name='lightning' color='yellow'/></h1>
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
@@ -636,9 +636,15 @@ class Landing extends React.Component {
                                     <Grid.Column>
                                         <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
+<<<<<<< HEAD
                                                 <Button size='mini' color='green' onClick={() => this.setState({ historical: true })}>Historical Data</Button>
                                                 <Button.Or />
                                                 <Button size='mini' color='blue' onClick={() => this.setState({ historical: false })}>Forecasted Data</Button>
+=======
+                                                <Button size='mini' color='green'> <Icon name='archive'/>Historical Data</Button>
+                                                <Button.Or />
+                                                <Button size='mini' color='blue'> <Icon name='chart bar'/>Forecast Data</Button>
+>>>>>>> 9c012e0f5c3db9adedce94ffd055841c57bc01bf
                                             </Button.Group>
                                         </Segment>
                                     </Grid.Column>
@@ -746,7 +752,7 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <h4>Current Total Watts</h4>
+                                    <h4>Current Net Power (kwh)</h4>
                                     <ReactSpeedometer
                                         width={190}
                                         height={125}
@@ -764,7 +770,7 @@ class Landing extends React.Component {
                                 <Grid.Row style={{ textAlign: 'center' }}>
                                     <BlockMeter
                                         value={75}
-                                        size={110}
+                                        size={100}
                                         foregroundColor={avgMeterStyle.color.foreground}
                                         backgroundColor={avgMeterStyle.color.background}
                                         textColor={avgMeterStyle.color.bright}
