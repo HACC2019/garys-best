@@ -639,11 +639,11 @@ class Landing extends React.Component {
 
                                 <Grid.Row columns={1} style={{ textAlign: 'center', padding: 0 }}>
                                     <Grid.Column>
-                                        <Segment inverted style={{ padding: 5 }}>
+                                    <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
-                                                <Button size='mini' color='green' onClick={this.handleHistoricalDataClick}>Historical Data</Button>
+                                                <Button size='mini' color='green' onClick={this.handleHistoricalDataClick}>  <Icon name='archive'/> Historical Data</Button>
                                                 <Button.Or />
-                                                <Button size='mini' color='blue' onClick={this.handleForecastDataClick}>Forecasted Data</Button>
+                                                <Button size='mini' color='blue' onClick={this.handleForecastDataClick}><Icon name='chart bar'/> Forecasted Data</Button>
                                             </Button.Group>
                                         </Segment>
                                     </Grid.Column>
