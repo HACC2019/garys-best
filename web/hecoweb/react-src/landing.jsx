@@ -15,49 +15,43 @@ class Landing extends React.Component {
             datasets: [
                 {
                     label: 'My First dataset',
-                    backgroundColor: '#98c255',
+                    backgroundColor: '#59b655',
                     data: [40, 10, 5, 2, 20, 30, 45],
-                    borderColor: '#98c255'
                 },
                 {
                     label: 'My Second dataset',
-                    backgroundColor: '#c2bd4e',
                     data: [10, 5, 25, 12, 5, 15, 10],
-                    borderColor: '#c2bd4e'
-                }],
-            options: {
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            }
+                    backgroundColor: '#c2bd4e',
+                }]
         };
 
         const barStackedData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
-                    label: 'Active',
-                    backgroundColor: '#98c255',
+                    label: 'Off Peak',
+                    backgroundColor: '#3d4044',
+                    stack: '2',
+                    data: [10, 5, 25, 12, 5, 15, 10],
+                },
+                {
+                    label: 'Mid Day',
+                    backgroundColor: '#c2bd4e',
                     stack: '2',
                     data: [40, 10, 5, 2, 20, 30, 45],
                 },
                 {
-                    label: 'Banned',
-                    backgroundColor: '#c2bd4e',
+                    label: 'On Peak',
+                    backgroundColor: '#59b655',
                     stack: '2',
-                    data: [10, 5, 25, 12, 5, 15, 10],
+                    data: [30, 45, 45, 32, 10, 5, 30],
                 },
             ],
         };
 
         const barStackedOptions = {
             legend: {
-                display: false,
+                display: true,
             },
             scales: {
                 xAxes: [
@@ -73,11 +67,37 @@ class Landing extends React.Component {
             },
         };
 
+        const lineData2 = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [
+                {
+                    label: 'On Peak',
+                    borderColor: '#59b655',
+                    backgroundColor: 'rgba(89,182,85,0.55)',
+                    stack: '1',
+                    data: [10, 5, 25, 12, 5, 15, 10],
+                },
+                {
+                    label: 'Off Peak',
+                    borderColor: '#4270B9',
+                    backgroundColor: 'rgba(82,151,242,0.54)',
+                    stack: '2',
+                    data: [40, 10, 5, 2, 20, 30, 45],
+                }
+            ],
+            options: {
+                scales: {
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        };
+
         const lineData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
                 label: 'My First dataset',
-                backgroundColor: '#4270B9',
                 data: [0, 10, 5, 2, 20, 30, 45],
                 borderColor: '#4270B9'
             }]
@@ -231,7 +251,7 @@ class Landing extends React.Component {
                             <Grid>
                                 <Grid.Row columns={1}>
                                     <Grid.Column>
-                                        <iframe width="850"
+                                        <iframe width="100%"
                                                 height="425"
                                                 frameBorder="0"
                                                 scrolling="no"
@@ -258,7 +278,7 @@ class Landing extends React.Component {
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Line data={lineData}/>
+                                            <Line data={lineData2}/>
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
