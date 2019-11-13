@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.css';
 import ReactSpeedometer from "react-d3-speedometer";
 import { CircleMeter, DiskMeter, BlockMeter } from 'react-svg-meters'
 import { Bar, Line } from 'react-chartjs-2';
-import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button } from 'semantic-ui-react'
+import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button, Image } from 'semantic-ui-react'
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
@@ -19,6 +19,7 @@ class Landing extends React.Component {
     }
 
     render() {
+        Chart.defaults.global.defaultFontColor='white';
         const barSideData = {
             type: ' bar',
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -153,6 +154,7 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
+                                    <Image size='tiny' centered src="https://cdn.discordapp.com/attachments/635171758248296468/643610008332009472/favicon.png"/>
                                     <h1 className='heco'>HECO[EV] <Icon name='lightning' color='yellow'/></h1>
                                 </Grid.Row>
                             </Segment>

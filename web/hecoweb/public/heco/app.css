@@ -1,1 +1,38 @@
-.map-background{background-color:#030f19}.padding{padding:1em}.heco{font-size:34px}.heco,h4{color:#fff}.revenue{color:#59b655;margin-top:0}.pBold,.revenue,h4,p{text-align:center}.pBold{font-weight:700;margin:0;font-size:15px;color:#fff}p{font-size:10px;color:#717478}.ui.accordion .title:not(.ui){padding:0!important}.stationSelected{background-color:#313438}
+.map-background {
+  background-color: #030f19; }
+
+.padding {
+  padding: 1em; }
+
+.heco {
+  color: white;
+  font-size: 40px;
+  color: #90ee90;
+  text-shadow: 0 0 5px #90ee90, 0 0 10px #90ee90, 0 0 20px #90ee90, 0 0 40px #ffae42, 0 0 80px #ffae42, 0 0 90px #ffae42, 0 0 100px #ffae42, 0 0 150px #ffae42; }
+
+h4 {
+  color: white;
+  text-align: center; }
+
+.revenue {
+  color: #59b655;
+  text-align: center;
+  margin-top: 0; }
+
+.pBold {
+  text-align: center;
+  font-weight: bold;
+  font-size: 15px;
+  margin: 0;
+  color: white; }
+
+p {
+  text-align: center;
+  font-size: 10px;
+  color: #717478; }
+
+.ui.accordion .title:not(.ui) {
+  padding: 0 !important; }
+
+.stationSelected {
+  background-color: #313438; }
