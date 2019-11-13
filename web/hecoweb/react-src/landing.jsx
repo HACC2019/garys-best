@@ -14,6 +14,7 @@ class Landing extends React.Component {
         super();
         this.handleHistoricalDataClick = this.handleHistoricalDataClick.bind(this)
         this.handleForecastDataClick = this.handleForecastDataClick.bind(this)
+        this.getStationHealthRender = this.getStationHealthRender.bind(this)
         this.openSiteDetails = this.openSiteDetails.bind(this);
         this.state = {
             historicalData: [],
@@ -76,6 +77,46 @@ class Landing extends React.Component {
             stationHealth[stationId] = response.data;
             this.setState({stationHealth: stationHealth});
         })
+    }
+
+    getStationHealthRender(id){
+        const data = this.state.stationHealth[id];
+        if(data.length > 0){
+            const current = data.sort((a, b) => a.Timestamp - b.Timestamp);
+            if(current.CardDeclined || current.CardReaderBroken){
+                return (
+                    <List style={{ paddingLeft: "2.4", margin: 0 }}>
+                        {this.CardReaderBroken && <List.Item>
+                            <p>October 25, 2019 @ 11:07 pm</p>
+                            <List.Icon name='plug' color={'red'} />
+                            <List.Content>
+                                <List.Header as='a'>Connection Error</List.Header>
+                            </List.Content>
+                        </List.Item>}
+                        {current.CardDeclined && current.CardReaderBroken && <Divider />}
+                        {this.CardDeclined && <List.Item>
+                            <p>October 25, 2019 @ 11:07 pm</p>
+                            <List.Icon name='credit card' color={'red'} />
+                            <List.Content>
+                                <List.Header as='a'>Payment Error</List.Header>
+                            </List.Content>
+                        </List.Item>}
+                    </List>
+                )
+            } else {
+                return (
+                    <ul style={{ paddingLeft: "2.4", margin: 0 }}>
+                        <li>
+                            All Good
+                        </li>
+                    </ul>
+                )
+            }
+        } else {
+            return (
+                <div>No data available.</div>
+            )
+        }
     }
 
     handleHistoricalDataClick(){
@@ -318,11 +359,7 @@ class Landing extends React.Component {
                                                     </List.Content>
                                                 </Accordion.Title>
                                                 <Accordion.Content active={this.state.activeIndex === 0}>
-                                                    <ul style={{ paddingLeft: "2.4", margin: 0 }}>
-                                                        <li>
-                                                            All Good
-                                                        </li>
-                                                    </ul>
+                                                    {this.getStationHealthRender(1)}
                                                 </Accordion.Content>
                                             </Accordion>
                                         </List.Item>
@@ -356,11 +393,7 @@ class Landing extends React.Component {
                                                     </List.Content>
                                                 </Accordion.Title>
                                                 <Accordion.Content active={this.state.activeIndex === 1}>
-                                                    <ul style={{ paddingLeft: "2.4", margin: 0 }}>
-                                                        <li>
-                                                            All Good
-                                                        </li>
-                                                    </ul>
+                                                    {this.getStationHealthRender(2)}
                                                 </Accordion.Content>
                                             </Accordion>
                                         </List.Item>
