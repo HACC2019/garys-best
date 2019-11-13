@@ -14,12 +14,12 @@ class Landing extends React.Component {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
-                    label: 'My First dataset',
+                    label: 'Traffic',
                     backgroundColor: '#59b655',
                     data: [40, 10, 5, 2, 20, 30, 45],
                 },
                 {
-                    label: 'My Second dataset',
+                    label: 'Congestion',
                     data: [10, 5, 25, 12, 5, 15, 10],
                     backgroundColor: '#c2bd4e',
                 }]
@@ -71,14 +71,14 @@ class Landing extends React.Component {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
-                    label: 'On Peak',
+                    label: 'Energy Forecast',
                     borderColor: '#59b655',
                     backgroundColor: 'rgba(89,182,85,0.55)',
                     stack: '1',
                     data: [10, 5, 25, 12, 5, 15, 10],
                 },
                 {
-                    label: 'Off Peak',
+                    label: 'Usage Forecast',
                     borderColor: '#4270B9',
                     backgroundColor: 'rgba(82,151,242,0.54)',
                     stack: '2',
@@ -97,7 +97,7 @@ class Landing extends React.Component {
         const lineData = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
-                label: 'My First dataset',
+                label: 'Errors',
                 data: [0, 10, 5, 2, 20, 30, 45],
                 borderColor: '#4270B9'
             }]
@@ -105,7 +105,7 @@ class Landing extends React.Component {
 
         const useMeterStyle = {
             meter: {
-                marginLeft: 50,
+                marginLeft: 55,
             },
             color: {
                 foreground: '#59b655',
@@ -116,7 +116,7 @@ class Landing extends React.Component {
 
         const avgMeterStyle = {
             meter: {
-                marginLeft: 40,
+                marginLeft: 50,
             },
             color: {
                 foreground: '#59b655',
@@ -127,7 +127,7 @@ class Landing extends React.Component {
 
         const overallMeterStyle = {
             meter: {
-                marginLeft: 25,
+                marginLeft: 30,
             },
             color: {
                 foreground: '#59b655',
@@ -148,7 +148,7 @@ class Landing extends React.Component {
                                 <Grid.Row className='padding' centered>
                                     <h4>Overall Station Health</h4>
                                     <CircleMeter value={88}
-                                                 size={100}
+                                                 size={125}
                                                  foregroundColor={overallMeterStyle.color.foreground}
                                                  backgroundColor={overallMeterStyle.color.background}
                                                  style={overallMeterStyle.meter}/>
@@ -322,10 +322,10 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <Grid.Row>
-                                    <h4>Active Sessions</h4>
+                                    <h4>Active Charging Sessions</h4>
                                     <DiskMeter
                                         value={25}
-                                        size={90}
+                                        size={100}
                                         backgroundColor={useMeterStyle.color.foreground}
                                         textColor={useMeterStyle.color.foreground}
                                         borderColor={useMeterStyle.color.foreground}
@@ -340,7 +340,7 @@ class Landing extends React.Component {
                                         width={200}
                                         height={125}
                                         maxValue={500}
-                                        value={473}
+                                        value={116}
                                         needleColor="black"
                                         startColor="green"
                                         segments={4}
@@ -353,7 +353,7 @@ class Landing extends React.Component {
                                 <Grid.Row>
                                     <BlockMeter
                                         value={75}
-                                        size={125}
+                                        size={110}
                                         foregroundColor={avgMeterStyle.color.foreground}
                                         backgroundColor={avgMeterStyle.color.background}
                                         textColor={avgMeterStyle.color.bright}
@@ -363,7 +363,7 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <h4>Total Revenue</h4>
-                                <h2>$26,179</h2>
+                                <h2 className='revenue'>$26,179</h2>
                                 <Grid.Row>
                                     <p className='pBold'>24% <Icon name='arrow circle down' size='small'
                                                                    color='red'/></p>
