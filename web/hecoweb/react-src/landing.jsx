@@ -4,8 +4,7 @@ import DatePicker from 'react-datepicker';
 import ReactSpeedometer from "react-d3-speedometer";
 import { CircleMeter, DiskMeter, BlockMeter } from 'react-svg-meters'
 import { Bar, Line } from 'react-chartjs-2';
-import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button, Label } from 'semantic-ui-react'
-import 'react-datepicker/dist/react-datepicker.css';
+import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button, Image, Label } from 'semantic-ui-react'
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
@@ -14,6 +13,7 @@ class Landing extends React.Component {
         super();
         this.handleHistoricalDataClick = this.handleHistoricalDataClick.bind(this)
         this.handleForecastDataClick = this.handleForecastDataClick.bind(this)
+        this.getStationHealthRender = this.getStationHealthRender.bind(this)
         this.openSiteDetails = this.openSiteDetails.bind(this);
         this.startHandleChange = this.startHandleChange.bind(this);
         this.endHandleChange = this.endHandleChange.bind(this);
@@ -24,10 +24,15 @@ class Landing extends React.Component {
             activeIndex: null,
             startDate: new Date(),
             endDate: new Date(),
+            stationHealth: {}
         };
         this.fetchHistorical();
         this.fetchForecast();
+         
+        this.fetchStationHealth(1);
+        this.fetchStationHealth(2);
 
+        console.log(this.state);
     }
 
     fetchHistorical() {
@@ -62,6 +67,76 @@ class Landing extends React.Component {
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
                 this.setState({ forecastData: invertedData })
             }));
+    }
+
+    fetchStationHealth(stationId){
+        axios.get(`https://hecoweb.azurewebsites.net/api/web/getstationhealth?json={"StationID":${stationId}}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        }).then((response) => {
+            let stationHealth = this.state.stationHealth;
+            stationHealth[stationId] = response.data;
+            this.setState({stationHealth: stationHealth});
+        })
+    }
+
+    getStationHealthRender(id){
+        const data = this.state.stationHealth[id];
+        
+        if(data != undefined && data.length > 0){
+            const current = data.sort((a, b) => b.Timestamp - a.Timestamp)[0];
+            console.log(current);
+            if(current.CardDeclined || current.CardReaderBroken){
+                return (
+                    <List style={{ paddingLeft: "2.4", margin: 0 }}>
+                        {current.CardReaderBroken && <List.Item>
+                            <p>{current.Timestamp}</p>
+                            <List.Icon name='plug' color={'red'} />
+                            <List.Content>
+                                <List.Header as='a'>Connection Error</List.Header>
+                            </List.Content>
+                        </List.Item>}
+                        {current.CardDeclined && current.CardReaderBroken && <Divider />}
+                        {current.CardDeclined && <List.Item>
+                            <p>{current.Timestamp}</p>
+                            <List.Icon name='credit card' color={'red'} />
+                            <List.Content>
+                                <List.Header as='a'>Payment Error</List.Header>
+                            </List.Content>
+                        </List.Item>}
+                    </List>
+                )
+            } else {
+                return (
+                    <ul style={{ paddingLeft: "2.4", margin: 0 }}>
+                        <li>
+                            All Good
+                        </li>
+                    </ul>
+                )
+            }
+        } else {
+            return (
+                <div>No data available.</div>
+            )
+        }
+    }
+
+    unHealthy(id){
+        const data = this.state.stationHealth[id];
+        
+        if(data != undefined && data.length > 0){
+            const current = data.sort((a, b) => b.Timestamp - a.Timestamp)[0];
+            if(current.CardDeclined || current.CardReaderBroken){
+                return true;
+            } else{
+                return false;
+            }  
+        }else{
+            return false;
+        }
     }
 
     handleHistoricalDataClick() {
@@ -301,7 +376,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={this.unHealthy(1) ? 'red' : 'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -316,11 +391,7 @@ class Landing extends React.Component {
                                                     </List.Content>
                                                 </Accordion.Title>
                                                 <Accordion.Content active={this.state.activeIndex === 0}>
-                                                    <ul style={{ paddingLeft: "2.4", margin: 0 }}>
-                                                        <li>
-                                                            All Good
-                                                        </li>
-                                                    </ul>
+                                                    {this.getStationHealthRender(1)}
                                                 </Accordion.Content>
                                             </Accordion>
                                         </List.Item>
@@ -339,7 +410,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={this.unHealthy(2) ? 'red' : 'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -354,11 +425,7 @@ class Landing extends React.Component {
                                                     </List.Content>
                                                 </Accordion.Title>
                                                 <Accordion.Content active={this.state.activeIndex === 1}>
-                                                    <ul style={{ paddingLeft: "2.4", margin: 0 }}>
-                                                        <li>
-                                                            All Good
-                                                        </li>
-                                                    </ul>
+                                                    {this.getStationHealthRender(2)}
                                                 </Accordion.Content>
                                             </Accordion>
                                         </List.Item>
