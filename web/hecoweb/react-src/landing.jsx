@@ -81,21 +81,23 @@ class Landing extends React.Component {
 
     getStationHealthRender(id){
         const data = this.state.stationHealth[id];
-        if(data.length > 0){
-            const current = data.sort((a, b) => a.Timestamp - b.Timestamp);
+        
+        if(data != undefined && data.length > 0){
+            const current = data.sort((a, b) => b.Timestamp - a.Timestamp)[0];
+            console.log(current);
             if(current.CardDeclined || current.CardReaderBroken){
                 return (
                     <List style={{ paddingLeft: "2.4", margin: 0 }}>
-                        {this.CardReaderBroken && <List.Item>
-                            <p>October 25, 2019 @ 11:07 pm</p>
+                        {current.CardReaderBroken && <List.Item>
+                            <p>{current.Timestamp}</p>
                             <List.Icon name='plug' color={'red'} />
                             <List.Content>
                                 <List.Header as='a'>Connection Error</List.Header>
                             </List.Content>
                         </List.Item>}
                         {current.CardDeclined && current.CardReaderBroken && <Divider />}
-                        {this.CardDeclined && <List.Item>
-                            <p>October 25, 2019 @ 11:07 pm</p>
+                        {current.CardDeclined && <List.Item>
+                            <p>{current.Timestamp}</p>
                             <List.Icon name='credit card' color={'red'} />
                             <List.Content>
                                 <List.Header as='a'>Payment Error</List.Header>
@@ -116,6 +118,21 @@ class Landing extends React.Component {
             return (
                 <div>No data available.</div>
             )
+        }
+    }
+
+    unHealthy(id){
+        const data = this.state.stationHealth[id];
+        
+        if(data != undefined && data.length > 0){
+            const current = data.sort((a, b) => b.Timestamp - a.Timestamp)[0];
+            if(current.CardDeclined || current.CardReaderBroken){
+                return true;
+            } else{
+                return false;
+            }  
+        }else{
+            return false;
         }
     }
 
@@ -344,7 +361,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'} />
+                                                    }} name='map marker' color={this.unHealthy(1) ? 'red' : 'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -378,7 +395,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'} />
+                                                    }} name='map marker' color={this.unHealthy(2) ? 'red' : 'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
