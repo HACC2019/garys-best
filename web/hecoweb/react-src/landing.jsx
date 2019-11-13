@@ -764,11 +764,13 @@ class Landing extends React.Component {
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
+                                            <h4 style={{ margin: 5 }}>Session Type</h4>
                                             <Bar data={sessionData} options={barStackedOptions}/>
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
+                                            <h4 style={{ margin: 5 }}>Energy (kWh)</h4>
                                             <Line data={energyData}/>
                                         </Segment>
                                     </Grid.Column>
@@ -776,11 +778,13 @@ class Landing extends React.Component {
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
+                                            <h4 style={{ margin: 5 }}>Payment System Errors</h4>
                                             <Bar data={errorData} options={barStackedOptions}/>
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
+                                            <h4 style={{ margin: 5 }}>Station Usage</h4>
                                             <Bar data={trafficData} options={barStackedOptions}/>
                                         </Segment>
                                     </Grid.Column>
