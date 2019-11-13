@@ -8,14 +8,17 @@ import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button, Image
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
 
+
     constructor() {
         super();
         this.handleHistoricalDataClick = this.handleHistoricalDataClick.bind(this)
         this.handleForecastDataClick = this.handleForecastDataClick.bind(this)
+        this.openSiteDetails = this.openSiteDetails.bind(this);
         this.state = {
             historicalData: [],
             forecastData: [],
             historical: true,
+            activeIndex: null,
         };
         this.fetchHistorical();
         this.fetchForecast();
@@ -63,6 +66,11 @@ class Landing extends React.Component {
 
     handleForecastDataClick(){
         this.setState({historical: false})
+    }
+
+    openSiteDetails(index) {
+        let newIndex = this.state.activeIndex === index ? null : index;
+        this.setState({ activeIndex: newIndex });
     }
 
     render() {
