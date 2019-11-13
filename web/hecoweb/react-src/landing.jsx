@@ -3,7 +3,7 @@ import 'semantic-ui-css/semantic.css';
 import ReactSpeedometer from "react-d3-speedometer";
 import { CircleMeter, DiskMeter, BlockMeter } from 'react-svg-meters'
 import { Bar, Line } from 'react-chartjs-2';
-import { Grid, Container, List, Segment, Icon } from 'semantic-ui-react'
+import { Grid, Container, List, Segment, Icon, Divider } from 'semantic-ui-react'
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
@@ -15,49 +15,78 @@ class Landing extends React.Component {
             datasets: [
                 {
                     label: 'My First dataset',
-                    backgroundColor: '#98c255',
+                    backgroundColor: '#59b655',
                     data: [40, 10, 5, 2, 20, 30, 45],
-                    borderColor: '#98c255'
                 },
                 {
                     label: 'My Second dataset',
-                    backgroundColor: '#c2bd4e',
                     data: [10, 5, 25, 12, 5, 15, 10],
-                    borderColor: '#c2bd4e'
-                }],
-            options: {
-                scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
-                    yAxes: [{
-                        stacked: true
-                    }]
-                }
-            }
+                    backgroundColor: '#c2bd4e',
+                }]
         };
 
         const barStackedData = {
-            type: ' bar',
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
-                    label: 'My First dataset',
-                    backgroundColor: '#98c255',
-                    data: [40, 10, 5, 2, 20, 30, 45],
-                    borderColor: '#98c255'
+                    label: 'Off Peak',
+                    backgroundColor: '#3d4044',
+                    stack: '2',
+                    data: [10, 5, 25, 12, 5, 15, 10],
                 },
                 {
-                    label: 'My Second dataset',
+                    label: 'Mid Day',
                     backgroundColor: '#c2bd4e',
+                    stack: '2',
+                    data: [40, 10, 5, 2, 20, 30, 45],
+                },
+                {
+                    label: 'On Peak',
+                    backgroundColor: '#59b655',
+                    stack: '2',
+                    data: [30, 45, 45, 32, 10, 5, 30],
+                },
+            ],
+        };
+
+        const barStackedOptions = {
+            legend: {
+                display: true,
+            },
+            scales: {
+                xAxes: [
+                    {
+                        stacked: true,
+                    },
+                ],
+                yAxes: [
+                    {
+                        stacked: true,
+                    },
+                ],
+            },
+        };
+
+        const lineData2 = {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [
+                {
+                    label: 'On Peak',
+                    borderColor: '#59b655',
+                    backgroundColor: 'rgba(89,182,85,0.55)',
+                    stack: '1',
                     data: [10, 5, 25, 12, 5, 15, 10],
-                    borderColor: '#c2bd4e'
-                }],
+                },
+                {
+                    label: 'Off Peak',
+                    borderColor: '#4270B9',
+                    backgroundColor: 'rgba(82,151,242,0.54)',
+                    stack: '2',
+                    data: [40, 10, 5, 2, 20, 30, 45],
+                }
+            ],
             options: {
                 scales: {
-                    xAxes: [{
-                        stacked: true
-                    }],
                     yAxes: [{
                         stacked: true
                     }]
@@ -69,7 +98,6 @@ class Landing extends React.Component {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [{
                 label: 'My First dataset',
-                backgroundColor: '#4270B9',
                 data: [0, 10, 5, 2, 20, 30, 45],
                 borderColor: '#4270B9'
             }]
@@ -77,7 +105,7 @@ class Landing extends React.Component {
 
         const useMeterStyle = {
             meter: {
-                marginLeft: 40,
+                marginLeft: 50,
             },
             color: {
                 foreground: '#59b655',
@@ -99,7 +127,7 @@ class Landing extends React.Component {
 
         const overallMeterStyle = {
             meter: {
-                marginLeft: 30,
+                marginLeft: 25,
             },
             color: {
                 foreground: '#59b655',
@@ -120,7 +148,7 @@ class Landing extends React.Component {
                                 <Grid.Row className='padding' centered>
                                     <h4>Overall Station Health</h4>
                                     <CircleMeter value={88}
-                                                 size={125}
+                                                 size={100}
                                                  foregroundColor={overallMeterStyle.color.foreground}
                                                  backgroundColor={overallMeterStyle.color.background}
                                                  style={overallMeterStyle.meter}/>
@@ -223,7 +251,7 @@ class Landing extends React.Component {
                             <Grid>
                                 <Grid.Row columns={1}>
                                     <Grid.Column>
-                                        <iframe width="850"
+                                        <iframe width="100%"
                                                 height="425"
                                                 frameBorder="0"
                                                 scrolling="no"
@@ -250,12 +278,12 @@ class Landing extends React.Component {
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Line data={lineData}/>
+                                            <Line data={lineData2}/>
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barStackedData}/>
+                                            <Bar data={barStackedData} options={barStackedOptions}/>
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
@@ -266,10 +294,38 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row>
+                                    <h4>User Error Log</h4>
+                                    <Divider/>
+                                    <List inverted divided>
+                                        <List.Item>
+                                            <p>October 25, 2019 @ 11:07 pm</p>
+                                            <List.Icon name='plug' color={'red'}/>
+                                            <List.Content>
+                                                <List.Header as='a'>Connection Error</List.Header>
+                                                <List.Description>
+                                                    Kapolei Commons
+                                                </List.Description>
+                                            </List.Content>
+                                        </List.Item>
+                                        <List.Item>
+                                            <p>October 25, 2019 @ 11:07 pm</p>
+                                            <List.Icon name='credit card' color={'red'}/>
+                                            <List.Content>
+                                                <List.Header as='a'>Payment Error</List.Header>
+                                                <List.Description>
+                                                    Kapolei Commons
+                                                </List.Description>
+                                            </List.Content>
+                                        </List.Item>
+                                    </List>
+                                </Grid.Row>
+                            </Segment>
+                            <Segment inverted>
+                                <Grid.Row>
                                     <h4>Active Sessions</h4>
                                     <DiskMeter
                                         value={25}
-                                        size={125}
+                                        size={90}
                                         backgroundColor={useMeterStyle.color.foreground}
                                         textColor={useMeterStyle.color.foreground}
                                         borderColor={useMeterStyle.color.foreground}
