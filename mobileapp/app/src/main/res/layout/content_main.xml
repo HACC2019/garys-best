@@ -37,26 +37,50 @@
             android:textSize="24sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/points"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Loading..."
-            android:textSize="34sp" />
+<RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="150sp"
-            android:layout_height="50sp"
-            android:layout_marginLeft="140sp"
-            android:layout_marginTop="150sp"
-            android:background="@drawable/roundedbutton"
-            android:onClick="getLicensePlate"
-            android:text="Earn Points"
-            android:textAllCaps="true"
-            android:textColor="#FFFFFF" />
+    <TextView
+        android:id="@+id/points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="165dp"
+        android:layout_marginRight="155dp"
+        android:textSize="34sp" />
 
+    <ProgressBar
+        android:id="@+id/circle"
+        android:indeterminateDrawable="@drawable/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginRight="155dp"
+        android:indeterminate="true" />
+
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="150sp"
+        android:layout_height="50sp"
+        android:layout_marginLeft="140sp"
+        android:layout_marginTop="200sp"
+        android:background="@drawable/roundedbutton"
+        android:onClick="getLicensePlate"
+        android:text="Earn Points"
+        android:textAllCaps="true"
+        android:textColor="#FFFFFF" />
+</RelativeLayout>
     </LinearLayout>
 
 

@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="50dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -57,6 +57,12 @@
                 android:text="No"
                 android:textSize="25dp" />
         </RadioGroup>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/townborder" />
     </LinearLayout>
 
     <Button
