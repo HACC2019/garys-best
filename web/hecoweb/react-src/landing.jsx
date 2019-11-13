@@ -17,8 +17,9 @@ class Landing extends React.Component {
             forecastData: [],
             historical: true,
         };
-        this.fetchForecast();
         this.fetchHistorical();
+        this.fetchForecast();
+        
         
     }
 
@@ -70,19 +71,7 @@ class Landing extends React.Component {
 
     render() {
 
-        // let data = this.state.historicalData;
-        // console.log(this.state.historical)
-        // console.log(data)
-
-
-        // if (this.state.historical) {
-        //     data = this.state.historicalData;
-        // }
-        // else {
-        //     data = this.state.forescastData;
-        // }
-
-        let data = this.state.forecastData;
+        let data = this.state.historical ? this.state.historicalData : this.state.forecastData;
         console.log(this.state.forecastData);
         console.log(this.state.historicalData);
 
@@ -103,7 +92,7 @@ class Landing extends React.Component {
         };
 
         const trafficData = {
-            labels: this.state.historical ? this.state.historicalData['Timestamp'] : this.state.forescastData['Timestamp'],
+            labels: this.state.historical ? this.state.historicalData['Timestamp'] : this.state.forecastData['Timestamp'],
             datasets: [
                 {
                     label: 'Off Peak',
@@ -115,13 +104,13 @@ class Landing extends React.Component {
                     label: 'Mid Day',
                     backgroundColor: '#c2bd4e',
                     stack: '2',
-                    data: this.state.historical ? this.state.historicalData['MidDay'] : this.state.forescastData['MidDay'],
+                    data: this.state.historical ? this.state.historicalData['MidDay'] : this.state.forecastData['MidDay'],
                 },
                 {
                     label: 'On Peak',
                     backgroundColor: '#59b655',
                     stack: '2',
-                    data: this.state.historical ? this.state.historicalData['OnPeak'] : this.state.forescastData['OnPeak'],
+                    data: this.state.historical ? this.state.historicalData['OnPeak'] : this.state.forecastData['OnPeak'],
                 },
             ],
         };
@@ -657,15 +646,9 @@ class Landing extends React.Component {
                                     <Grid.Column>
                                         <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
-<<<<<<< HEAD
                                                 <Button size='mini' color='green' onClick={this.handleHistoricalDataClick}>Historical Data</Button>
                                                 <Button.Or />
                                                 <Button size='mini' color='blue' onClick={this.handleForecastDataClick}>Forecasted Data</Button>
-=======
-                                                <Button size='mini' color='green' onClick={() => this.setState({ historical: true })}>Historical Data</Button>
-                                                <Button.Or />
-                                                <Button size='mini' color='blue' onClick={() => this.setState({ historical: false })}>Forecasted Data</Button>
->>>>>>> 898707addd029d38c212792c98e9987acd2b8581
                                             </Button.Group>
                                         </Segment>
                                     </Grid.Column>
@@ -791,11 +774,7 @@ class Landing extends React.Component {
                                 <Grid.Row style={{ textAlign: 'center' }}>
                                     <BlockMeter
                                         value={75}
-<<<<<<< HEAD
-                                        size={110}
-=======
                                         size={75}
->>>>>>> 898707addd029d38c212792c98e9987acd2b8581
                                         foregroundColor={avgMeterStyle.color.foreground}
                                         backgroundColor={avgMeterStyle.color.background}
                                         textColor={avgMeterStyle.color.bright}
