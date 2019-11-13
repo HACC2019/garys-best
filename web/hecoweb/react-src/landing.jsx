@@ -31,7 +31,7 @@ class Landing extends React.Component {
             stationHealth: {}
         };
 
-        this.fetchHistorical();
+        this.fetchHistorical(-1);
         this.fetchForecast(-1);
          
         this.fetchStationHealth(1);
@@ -41,8 +41,13 @@ class Landing extends React.Component {
     }
 
     fetchHistorical(stationID) {
-        stationID = stationID === null ? -1 : stationID
-        stationID = stationID > 2 ? -1 : stationID
+        const activeIndex = stationID
+        if (stationID !== -1) {
+            stationID = stationID === null ? -1 : stationID
+            stationID += 1
+            stationID = stationID > 2 ? -1 : stationID
+        }
+        
         fetch(`https://hecoweb.azurewebsites.net/api/web/gethistorical?StationID=${stationID}`, {
             method: 'GET',
             headers: {
@@ -55,14 +60,19 @@ class Landing extends React.Component {
                 for (let key in data[0]) {
                     invertedData[key] = data.map(x => x[key])
                 }
+                console.log(invertedData)
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
-                this.setState({ historicalData: invertedData })
+                this.setState({ historicalData: invertedData, activeIndex: activeIndex })
             }));
     }
 
     fetchForecast(stationID) {
-        stationID = stationID === null ? -1 : stationID
-        stationID = stationID > 2 ? -1 : stationID
+        const activeIndex = stationID
+        if (stationID !== -1) {
+            stationID = stationID === null ? -1 : stationID
+            stationID += 1
+            stationID = stationID > 2 ? -1 : stationID
+        }
         fetch(`https://hecoweb.azurewebsites.net/api/web/getforecast?StationID=${stationID}`, {
             method: 'GET',
             headers: {
@@ -75,8 +85,9 @@ class Landing extends React.Component {
                 for (let key in data[0]) {
                     invertedData[key] = data.map(x => x[key])
                 }
+                console.log(invertedData)
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
-                this.setState({ forecastData: invertedData })
+                this.setState({ forecastData: invertedData, activeIndex: activeIndex })
             }));
     }
 
@@ -159,12 +170,14 @@ class Landing extends React.Component {
     }
 
     showAllStations() {
-        this.setState({ activeIndex: -1 })
+        this.fetchHistorical(-1);
+        this.fetchForecast(-1);
     }
 
     openSiteDetails(index) {
         let newIndex = this.state.activeIndex === index ? -1 : index;
-        this.setState({ activeIndex: newIndex });
+        this.fetchHistorical(newIndex);
+        this.fetchForecast(newIndex);
     }
 
     startHandleChange(date) {
@@ -182,9 +195,10 @@ class Landing extends React.Component {
     render() {
 
         let data = this.state.historical ? this.state.historicalData : this.state.forecastData;
+        
 
-        this.fetchHistorical(this.state.activeIndex);
-        this.fetchForecast(this.state.activeIndex);
+        // this.fetchHistorical(this.state.activeIndex);
+        // this.fetchForecast(this.state.activeIndex);
 
         const barSideData = {
             type: ' bar',
