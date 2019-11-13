@@ -33,7 +33,7 @@ class ApiHeco extends Controller
 			//Should only return 1 row
 			foreach($ex as $output)
 			{
-				return json_encode($output);
+				return response()->json($output);
 			}
 		}
 	}
@@ -49,7 +49,7 @@ class ApiHeco extends Controller
 				)
 			);
 			
-			return json_encode($ex);
+			return response()->json($ex);
 		}
 	}
 
@@ -57,21 +57,21 @@ class ApiHeco extends Controller
 	{
 		$ex = DB::select('exec HecoStation_GetStationHealthStats_Proc');
 		
-		return json_encode($ex);
+		return response()->json($ex);
 	}
 
 	function getData(Request $request)
 	{
 		$ex = DB::select('SELECT StationName, SessionInitiated, StartTime, EndTime, Duration, Energy, SessionAmount, SessionID, PortType, PaymentMode FROM HecoDB.dbo.StationDataTbl');
 
-		return json_encode($ex);
+		return response()->json($ex);
 	}
 
 	function getForecastedData(Request $request)
 	{
 		$ex = DB::select('SELECT [Timestamp], Energy, ErrorRounding, ErrorCalculation, OnPeak, MidDay, OffPeak, PortType_CHADEMO, PortType_DCCOMBOTYP1, PaymentMode_CreditCard, PaymentMode_RFID FROM HecoDB.dbo.ForecastOutputEnergyTbl');
 
-		return json_encode($ex);
+		return response()->json($ex);
 	}
 
 	/*
@@ -93,8 +93,32 @@ class ApiHeco extends Controller
 				)
 			);
 
-			return json_encode($ex);
+			return response()->json($ex);
 		}
+	}
+
+	function getHistoricalData(Request $request)
+	{
+		$ex = DB::select('SELECT [StationName]
+      ,[Timestamp]
+      ,[Energy]
+      ,[Amount]
+      ,[OnPeak]
+      ,[MidDay]
+      ,[OffPeak]
+      ,[CorrectAmount]
+      ,[ErrorRounding]
+      ,[ErrorCalculation]
+      ,[SessionTypeDevice]
+      ,[SessionTypeMobile]
+      ,[SessionTypeWeb]
+      ,[PortType_CHADEMO]
+      ,[PortType_DCCOMBOTYP1]
+      ,[PaymentMode_CreditCard]
+      ,[PaymentMode_RFID]
+      ,[CorrectDuration] FROM HecoDB.dbo.[StationDataHistoricalTbl]');
+
+		return response()->json($ex);
 	}
 
 }
