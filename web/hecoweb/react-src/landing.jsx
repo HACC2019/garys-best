@@ -7,19 +7,72 @@ import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button, Image
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { activeIndex: null };
-        this.openSiteDetails = this.openSiteDetails.bind(this);
+
+    constructor() {
+        super();
+        this.handleHistoricalDataClick = this.handleHistoricalDataClick.bind(this)
+        this.handleForecastDataClick = this.handleForecastDataClick.bind(this)
+        this.state = {
+            historicalData: [],
+            forecastData: [],
+            historical: true,
+        };
+        this.fetchHistorical();
+        this.fetchForecast();
+        
+        
     }
 
-    openSiteDetails(index) {
-        let newIndex = this.state.activeIndex === index ? null : index;
-        this.setState({ activeIndex: newIndex });
+    fetchHistorical() {
+        fetch(`https://hecoweb.azurewebsites.net/api/web/gethistorical`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        })
+            .then(res => res.json().then(data => {
+                const invertedData = {}
+                for (let key in data[0]) {
+                    invertedData[key] = data.map(x => x[key])
+                }
+                invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
+                this.setState({ historicalData: invertedData })
+            }));
+    }
+
+    fetchForecast() {
+        fetch(`https://hecoweb.azurewebsites.net/api/web/getforecast`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        })
+            .then(res => res.json().then(data => {
+                const invertedData = {}
+                for (let key in data[0]) {
+                    invertedData[key] = data.map(x => x[key])
+                }
+                invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
+                this.setState({ forecastData: invertedData })
+            }));
+    }
+
+    handleHistoricalDataClick(){
+        this.setState({historical: true})
+    }
+
+    handleForecastDataClick(){
+        this.setState({historical: false})
     }
 
     render() {
+<<<<<<< HEAD
         Chart.defaults.global.defaultFontColor='white';
+=======
+
+        let data = this.state.historical ? this.state.historicalData : this.state.forecastData;
+
+>>>>>>> front-end
         const barSideData = {
             type: ' bar',
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -36,26 +89,68 @@ class Landing extends React.Component {
                 }]
         };
 
-        const barStackedData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        const trafficData = {
+            labels: data['Timestamp'],
             datasets: [
                 {
                     label: 'Off Peak',
                     backgroundColor: '#3d4044',
                     stack: '2',
-                    data: [10, 5, 25, 12, 5, 15, 10],
+                    data: data['OffPeak'],
                 },
                 {
                     label: 'Mid Day',
                     backgroundColor: '#c2bd4e',
                     stack: '2',
-                    data: [40, 10, 5, 2, 20, 30, 45],
+                    data: data['MidDay'],
                 },
                 {
                     label: 'On Peak',
                     backgroundColor: '#59b655',
                     stack: '2',
-                    data: [30, 45, 45, 32, 10, 5, 30],
+                    data: data['OnPeak'],
+                },
+            ],
+        };
+
+        const errorData = {
+            labels: data['Timestamp'],
+            datasets: [
+                {
+                    label: 'Payment Error',
+                    backgroundColor: '#c2bd4e',
+                    stack: '2',
+                    data: data['ErrorCalculation'],
+                },
+                {
+                    label: 'Rounding Error',
+                    backgroundColor: '#59b655',
+                    stack: '2',
+                    data: data['ErrorRounding'],
+                },
+            ],
+        };
+
+        const sessionData = {
+            labels: data['Timestamp'],
+            datasets: [
+                {
+                    label: 'Device',
+                    backgroundColor: '#3d4044',
+                    stack: '2',
+                    data: data['SessionTypeDevice'],
+                },
+                {
+                    label: 'Mobile',
+                    backgroundColor: '#c2bd4e',
+                    stack: '2',
+                    data: data['SessionTypeMobile'],
+                },
+                {
+                    label: 'Web',
+                    backgroundColor: '#59b655',
+                    stack: '2',
+                    data: data['SessionTypeWeb'],
                 },
             ],
         };
@@ -78,7 +173,7 @@ class Landing extends React.Component {
             },
         };
 
-        const lineData2 = {
+        const energyData2 = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
@@ -105,11 +200,12 @@ class Landing extends React.Component {
             }
         };
 
-        const lineData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        const energyData = {
+            labels: data['Timestamp'],
             datasets: [{
-                label: 'Errors',
-                data: [0, 10, 5, 2, 20, 30, 45],
+                label: 'Energy',
+                backgroundColor: '#4270B980',
+                data: data['Energy'],
                 borderColor: '#4270B9'
             }]
         };
@@ -154,18 +250,22 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
+<<<<<<< HEAD
                                     <Image size='tiny' centered src="https://cdn.discordapp.com/attachments/635171758248296468/643610008332009472/favicon.png"/>
                                     <h1 className='heco'>HECO[EV] <Icon name='lightning' color='yellow'/></h1>
+=======
+                                    <h1 className='heco'>HECO[EV]</h1>
+>>>>>>> front-end
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
                                 <Grid.Row className='padding' style={{ textAlign: 'center' }}>
                                     <h4>Overall Station Health</h4>
                                     <CircleMeter value={88}
-                                                 size={125}
-                                                 foregroundColor={overallMeterStyle.color.foreground}
-                                                 backgroundColor={overallMeterStyle.color.background}
-                                                 style={overallMeterStyle.meter}/>
+                                        size={125}
+                                        foregroundColor={overallMeterStyle.color.foreground}
+                                        backgroundColor={overallMeterStyle.color.background}
+                                        style={overallMeterStyle.meter} />
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
@@ -185,7 +285,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -223,7 +323,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -261,7 +361,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -299,7 +399,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'red'}/>
+                                                    }} name='map marker' color={'red'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -317,15 +417,15 @@ class Landing extends React.Component {
                                                     <List style={{ paddingLeft: "2.4", margin: 0 }}>
                                                         <List.Item>
                                                             <p>October 25, 2019 @ 11:07 pm</p>
-                                                            <List.Icon name='plug' color={'red'}/>
+                                                            <List.Icon name='plug' color={'red'} />
                                                             <List.Content>
                                                                 <List.Header as='a'>Connection Error</List.Header>
                                                             </List.Content>
                                                         </List.Item>
-                                                        <Divider/>
+                                                        <Divider />
                                                         <List.Item>
                                                             <p>October 25, 2019 @ 11:07 pm</p>
-                                                            <List.Icon name='credit card' color={'red'}/>
+                                                            <List.Icon name='credit card' color={'red'} />
                                                             <List.Content>
                                                                 <List.Header as='a'>Payment Error</List.Header>
                                                             </List.Content>
@@ -349,7 +449,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -387,7 +487,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -424,7 +524,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -462,7 +562,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -500,7 +600,7 @@ class Landing extends React.Component {
                                                         verticalAlign: 'top',
                                                         WebkitTransition: 'color .1s ease',
                                                         transition: 'color .1s ease',
-                                                    }} name='map marker' color={'green'}/>
+                                                    }} name='map marker' color={'green'} />
                                                     <List.Content style={{
                                                         display: 'table-cell',
                                                         width: '100%',
@@ -534,13 +634,13 @@ class Landing extends React.Component {
                                 <Grid.Row columns={1}>
                                     <Grid.Column>
                                         <iframe width="100%"
-                                                height="370"
-                                                frameBorder="0"
-                                                scrolling="no"
-                                                marginHeight="0"
-                                                marginWidth="0"
-                                                title="EV Map"
-                                                src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light">
+                                            height="370"
+                                            frameBorder="0"
+                                            scrolling="no"
+                                            marginHeight="0"
+                                            marginWidth="0"
+                                            title="EV Map"
+                                            src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light">
                                         </iframe>
                                     </Grid.Column>
                                 </Grid.Row>
@@ -549,9 +649,9 @@ class Landing extends React.Component {
                                     <Grid.Column>
                                         <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
-                                                <Button size='mini' color='green'> <Icon name='archive'/>Historical Data</Button>
+                                                <Button size='mini' color='green' onClick={this.handleHistoricalDataClick}>Historical Data</Button>
                                                 <Button.Or />
-                                                <Button size='mini' color='blue'> <Icon name='chart bar'/>Forecast Data</Button>
+                                                <Button size='mini' color='blue' onClick={this.handleForecastDataClick}>Forecasted Data</Button>
                                             </Button.Group>
                                         </Segment>
                                     </Grid.Column>
@@ -560,24 +660,24 @@ class Landing extends React.Component {
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barSideData}/>
+                                            <Bar data={sessionData} options={barStackedOptions} />
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Line data={lineData}/>
+                                            <Line data={energyData} />
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Line data={lineData2}/>
+                                            <Bar data={errorData} options={barStackedOptions} />
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barStackedData} options={barStackedOptions}/>
+                                            <Bar data={trafficData} options={barStackedOptions} />
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
@@ -586,14 +686,14 @@ class Landing extends React.Component {
                         </Grid.Column>
 
                         <Grid.Column width={3}>
-                            <Segment inverted style={{overflow: 'auto', maxHeight: 200 }}>
+                            <Segment inverted style={{ overflow: 'auto', maxHeight: 200 }}>
                                 <Grid.Row>
                                     <h4>User Error Log</h4>
-                                    <Divider/>
+                                    <Divider />
                                     <List inverted divided>
                                         <List.Item>
                                             <p>October 25, 2019 @ 11:07 pm</p>
-                                            <List.Icon name='heartbeat' color={'red'}/>
+                                            <List.Icon name='heartbeat' color={'red'} />
                                             <List.Content>
                                                 <List.Header as='a'>Station Error</List.Header>
                                                 <List.Description>
@@ -603,7 +703,7 @@ class Landing extends React.Component {
                                         </List.Item>
                                         <List.Item>
                                             <p>October 6, 2019 @ 02:45 pm</p>
-                                            <List.Icon name='plug' color={'red'}/>
+                                            <List.Icon name='plug' color={'red'} />
                                             <List.Content>
                                                 <List.Header as='a'>Connection Error</List.Header>
                                                 <List.Description>
@@ -613,7 +713,7 @@ class Landing extends React.Component {
                                         </List.Item>
                                         <List.Item>
                                             <p>September 18, 2019 @ 05:55 pm</p>
-                                            <List.Icon name='credit card' color={'red'}/>
+                                            <List.Icon name='credit card' color={'red'} />
                                             <List.Content>
                                                 <List.Header as='a'>Payment Error</List.Header>
                                                 <List.Description>
@@ -623,7 +723,7 @@ class Landing extends React.Component {
                                         </List.Item>
                                         <List.Item>
                                             <p>September 2, 2019 @ 10:29 am</p>
-                                            <List.Icon name='heartbeat' color={'red'}/>
+                                            <List.Icon name='heartbeat' color={'red'} />
                                             <List.Content>
                                                 <List.Header as='a'>Station Error</List.Header>
                                                 <List.Description>
@@ -633,7 +733,7 @@ class Landing extends React.Component {
                                         </List.Item>
                                         <List.Item>
                                             <p>August 19, 2019 @ 09:17 am</p>
-                                            <List.Icon name='plug' color={'red'}/>
+                                            <List.Icon name='plug' color={'red'} />
                                             <List.Content>
                                                 <List.Header as='a'>Connection Error</List.Header>
                                                 <List.Description>
@@ -659,7 +759,7 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <h4>Current Net Power (kwh)</h4>
+                                    <h4>Current Total Watts</h4>
                                     <ReactSpeedometer
                                         width={190}
                                         height={125}
@@ -677,7 +777,7 @@ class Landing extends React.Component {
                                 <Grid.Row style={{ textAlign: 'center' }}>
                                     <BlockMeter
                                         value={75}
-                                        size={100}
+                                        size={75}
                                         foregroundColor={avgMeterStyle.color.foreground}
                                         backgroundColor={avgMeterStyle.color.background}
                                         textColor={avgMeterStyle.color.bright}
@@ -687,10 +787,17 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <h4>Total Revenue</h4>
+                                <Grid.Row style={{ textAlign: 'center', paddingBottom: 5}}>
+                                    <Button.Group size='mini' color='grey'>
+                                        <Button>Day</Button>
+                                        <Button>Month</Button>
+                                        <Button>Year</Button>
+                                    </Button.Group>
+                                </Grid.Row>
                                 <h2 className='revenue'>$26,179</h2>
                                 <Grid.Row>
                                     <p className='pBold'>24% <Icon name='arrow circle down' size='small'
-                                                                   color='red'/></p>
+                                        color='red' /></p>
                                     <p>(from previous period)</p>
                                 </Grid.Row>
                             </Segment>
