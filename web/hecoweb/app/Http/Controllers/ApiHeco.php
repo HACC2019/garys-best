@@ -55,14 +55,9 @@ class ApiHeco extends Controller
 
 	function getStationHealthStats(Request $request)
 	{
-		if($request->has('json'))
-		{
-			$json = json_decode($request->input('json'), true);
-			
-			$ex = DB::select('exec HecoStation_GetStationHealthStats_Proc');
-			
-			return json_encode($ex);
-		}
+		$ex = DB::select('exec HecoStation_GetStationHealthStats_Proc');
+		
+		return json_encode($ex);
 	}
 
 	function getData(Request $request)
