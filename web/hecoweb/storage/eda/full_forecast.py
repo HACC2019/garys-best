@@ -6,7 +6,9 @@
 
 import numpy as np
 import pandas as pd
+
 import sys
+
 
 # In[2]:
 
@@ -222,7 +224,7 @@ import matplotlib.pyplot as plt
 # In[24]:
 
 
-plt.scatter(df_agg['energy'].shift(-1), df_agg['energy'])
+plt.scatter(df_agg['energy'].shift(-8), df_agg['energy'])
 
 
 # In[25]:
@@ -277,170 +279,215 @@ stations[0]
 # In[27]:
 
 
-stations[1]['date'][0]
+from datetime import timedelta
+test_stations = []
+for station in stations:
+    most_recent_session = station['date'].values[-1]
+    
+    test_station = pd.DataFrame()
+    test_station['date'] = pd.Series([most_recent_session + timedelta(days=x) for x in range(1, 8)])
+    for col in ['energy', 'on_peak', 'mid_day', 'off_peak', 'error_rounding', 'error_calculation', 'session_type_DEVICE', 'session_type_MOBILE', 'session_type_WEB',
+       'port_type_CHADEMO', 'port_type_DCCOMBOTYP1', 'payment_mode_CREDITCARD',
+       'payment_mode_RFID']:
+        for x in range(1, 7):
+            test_station[f'{col}_prev_{7+x}'] = station[col].shift(7+x).values[-7:]
+    test_station = test_station.dropna().reset_index(drop=True)
+    test_station['day_of_week'] = pd.to_datetime(test_station['date']).dt.day_name()
+    test_station['month'] = pd.to_datetime(test_station['date']).dt.month_name()
+    for col in ['day_of_week', 'month']:
+        test_station[col] = test_station[col].astype('category')
+        
+    months = set([
+        'month_April',
+        'month_August',
+        'month_December',
+        'month_February',
+        'month_January',
+        'month_July',
+        'month_June',
+        'month_March',
+        'month_May',
+        'month_November',
+        'month_October'
+    ])
+    test_station = test_station.join(pd.get_dummies(test_station.select_dtypes('category')))
+    test_station = test_station.drop(test_station.select_dtypes('category'), axis=1)
+    months = months - set(test_station.columns)
+    months_df = pd.DataFrame()
+    for month in months:
+        months_df[month] = [0] * 7
+    test_station = test_station.join(months_df)
+    test_stations.append(test_station)
 
 
 # In[28]:
 
 
-plt.plot(stations[0]['energy'])
-plt.plot(stations[1]['energy'])
+test_stations[0]
 
 
 # In[29]:
 
 
-stations[1]
+from sklearn.ensemble import RandomForestRegressor
+
+
+y_preds = []
+for X_train, X_test in zip(stations, test_stations):
+    y = X_train[['energy', 'error_rounding', 'error_calculation', 'on_peak', 'mid_day', 'off_peak', 'port_type_CHADEMO', 'port_type_DCCOMBOTYP1', 'payment_mode_CREDITCARD',
+           'payment_mode_RFID', 'session_type_DEVICE', 'session_type_MOBILE', 'session_type_WEB']]
+    
+    X_train = X_train.drop(['name', 'date', 'correct_amount', 'correct_duration', 'energy', 'on_peak', 'mid_day', 'off_peak', 'error_rounding', 'error_calculation', 'session_type_DEVICE', 'session_type_MOBILE', 'session_type_WEB',
+           'port_type_CHADEMO', 'port_type_DCCOMBOTYP1', 'payment_mode_CREDITCARD',
+           'payment_mode_RFID'], axis=1)
+    
+    X_train = X_train.reindex(sorted(X_train.columns), axis=1)
+    
+    date_test = X_test['date']
+    X_test = X_test.drop(['date'], axis=1)
+    X_test = X_test.reindex(sorted(X_test.columns), axis=1)
+    
+    clf = RandomForestRegressor()
+    clf.fit(X_train, y)
+    y_pred = clf.predict(X_test)
+    y_preds.append(y_pred)
+    
 
 
 # In[30]:
 
 
-stations[0]
+# # from sklearn.utils import check_arrays
+# def mape(y_true, y_pred): 
+# #     y_true, y_pred = check_arrays(y_true, y_pred)
+
+#     ## Note: does not handle mix 1d representation
+#     #if _is_1d(y_true): 
+#     #    y_true, y_pred = _check_1d_array(y_true, y_pred)
+
+#     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
+# mape(y_test, y_pred)
+
+
+# In[ ]:
+
+
+
 
 
 # In[31]:
 
 
-X = stations[0]
-y = X[['energy', 'error_rounding', 'error_calculation', 'on_peak', 'mid_day', 'off_peak', 'port_type_CHADEMO', 'port_type_DCCOMBOTYP1', 'payment_mode_CREDITCARD',
-       'payment_mode_RFID']]
-train_test_split = int(len(X) * 0.8)
-date_train, date_test = X[:train_test_split]['date'], X[train_test_split:]['date']
-X = X.drop(['name', 'date', 'correct_amount', 'correct_duration', 'energy', 'on_peak', 'mid_day', 'off_peak', 'error_rounding', 'error_calculation', 'session_type_DEVICE', 'session_type_MOBILE', 'session_type_WEB',
-       'port_type_CHADEMO', 'port_type_DCCOMBOTYP1', 'payment_mode_CREDITCARD',
-       'payment_mode_RFID'], axis=1)
-
-X_train, X_test = X[:train_test_split], X[train_test_split:]
-y_train, y_test = y[:train_test_split], y[train_test_split:]
+all_predictions = []
+for y_pred in y_preds:
+    predictions = [[] for j in range(len(y_pred[0]))]
+    # Each date
+    for i in range(len(y_pred)):
+        # Each field
+        for j in range(len(y_pred[i])):
+            # Create list of just that field
+            predictions[j].append(y_pred[i][j])
+    all_predictions.append(predictions)
 
 
 # In[32]:
 
 
-X_train.head()
+all_predictions[0]
+
+
+# In[ ]:
+
+
+
 
 
 # In[33]:
 
 
-X_train.columns
+for j in range(len(all_predictions)):
+    predictions = all_predictions[j]
+    for i in range(len(predictions[1])):
+        predictions[1][i] = 0 if predictions[1][i] < 0 else predictions[1][i] 
+    for i in range(len(predictions[2])):
+        predictions[2][i] = 0 if predictions[2][i] < 0 else predictions[2][i]
+    predictions[0] = np.round(predictions[0], 2)
+    for i in range(1, len(predictions)):
+        predictions[i] = np.round(predictions[i])
+    all_predictions[j] = predictions
+    
 
 
 # In[34]:
 
 
-plt.plot(y_train['energy'])
+for p in all_predictions[0]:
+    print(len(p))
 
 
 # In[35]:
 
 
-from sklearn.tree import DecisionTreeRegressor
-
-clf = DecisionTreeRegressor()
-clf.fit(X_train, y_train)
-y_pred = clf.predict(X_test)
-score = clf.score(X_test, y_test)
-plt.scatter(y_pred, y_test)
-score
+len(all_predictions[0])
 
 
 # In[36]:
 
 
-from sklearn.linear_model import LinearRegression
-
-clf = LinearRegression()
-clf.fit(X_train, y_train)
-y_pred = clf.predict(X_test)
-score = clf.score(X_test, y_test)
-plt.scatter(y_pred, y_test)
-score
+df_test = pd.DataFrame()
+station_names = ['A','B']
+for predictions, station_name in zip(all_predictions, station_names):
+    df = pd.DataFrame({
+        'name': [station_name] * len(predictions[0]),
+        'date': date_test, 
+        'energy': predictions[0], 
+        'error_rounding': predictions[1], 
+        'error_calculation': predictions[2],
+        'on_peak': predictions[3],
+        'mid_day': predictions[4],
+        'off_peak': predictions[5],
+        'port_type_CHADEMO': predictions[6],
+        'port_type_DCCOMBOTYP1': predictions[7],
+        'payment_mode_CREDITCARD': predictions[8],
+        'payment_mode_RFID': predictions[9],
+        'session_type_DEVICE': predictions[10], 
+        'session_type_MOBILE': predictions[11],
+        'session_type_WEB': predictions[12],
+    })
+    df_test = df_test.append(df)
+df_test
 
 
 # In[37]:
 
 
-# from sklearn.utils import check_arrays
-def mape(y_true, y_pred): 
-#     y_true, y_pred = check_arrays(y_true, y_pred)
-
-    ## Note: does not handle mix 1d representation
-    #if _is_1d(y_true): 
-    #    y_true, y_pred = _check_1d_array(y_true, y_pred)
-
-    return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
-
-mape(y_test, y_pred)
+df_test.to_csv('test_run.csv',index=False)
 
 
 # In[38]:
 
 
-sorted(y_pred - y_test)
-
-
-# In[47]:
-
-
-y_train
+df_test_agg = df_test.groupby(['date']).agg('sum').reset_index()
+df_test_agg
 
 
 # In[39]:
 
 
-y_test
+df_test_agg['energy'] = np.round(df_test_agg['energy'], 2)
+df_test_agg['name'] = ['Agg'] * len(df_test_agg['energy'])
 
 
 # In[40]:
 
 
-predictions = [[] for j in range(len(y_pred[0]))]
-for i in range(len(y_pred)):
-    for j in range(len(y_pred[i])):
-        predictions[j].append(y_pred[i][j])
+df_final = df_test.append(df_test_agg).reset_index()
+df_final
 
 
 # In[41]:
 
 
-for i in range(len(predictions[1])):
-    predictions[1][i] = 0 if predictions[1][i] < 0 else predictions[1][i] 
-for i in range(len(predictions[2])):
-    predictions[2][i] = 0 if predictions[2][i] < 0 else predictions[2][i]
-predictions[0] = np.round(predictions[0], 2)
-for i in range(1, len(predictions)):
-    predictions[i] = np.round(predictions[i])
-
-
-# In[42]:
-
-
-predictions[0]
-
-
-# In[43]:
-
-
-y_test['energy']
-
-
-# In[46]:
-
-
-df_test = pd.DataFrame({
-    'date': date_test, 
-    'energy': predictions[0], 
-    'error_rounding': predictions[1], 
-    'error_calculation': predictions[2],
-    'on_peak': predictions[3],
-    'mid_day': predictions[4],
-    'off_peak': predictions[5],
-    'port_type_CHADEMO': predictions[6],
-    'port_type_DCCOMBOTYP1': predictions[7],
-    'payment_mode_CREDITCARD': predictions[8],
-    'payment_mode_RFID': predictions[9]
-})
-df_test.to_csv(sys.argv[1] + 'test_run.csv',index=False)
+df_test_agg.to_csv(sys.argv[1] + 'test_run.csv',index=False)
 

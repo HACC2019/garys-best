@@ -40,7 +40,7 @@ class CallEda extends Command
     {
 		
 		$pathCSV = storage_path('eda/data');
-        $pathPy = storage_path('eda/all_forecast.py');
+        $pathPy = storage_path('eda/full_forecast.py');
         
         //Get all csv data and write to csv in /eda/data/
         $ex = DB::select('exec HecoStation_Data_Proc');
@@ -64,7 +64,7 @@ class CallEda extends Command
 		
 
 		//Next, read from /storage/eda/test_run.csv and push to db
-		$insertString = 'INSERT INTO HecoDB.dbo.ForecastOutputEnergyTbl ( [Timestamp], Energy, ErrorRounding, ErrorCalculation, OnPeak, MidDay, OffPeak, PortType_CHADEMO, PortType_DCCOMBOTYP1, PaymentMode_CreditCard, PaymentMode_RFID ) VALUES ';
+		$insertString = 'INSERT INTO HecoDB.dbo.ForecastOutputEnergyTbl ( StationName, [Timestamp], Energy, ErrorRounding, ErrorCalculation, OnPeak, MidDay, OffPeak, PortType_CHADEMO, PortType_DCCOMBOTYP1, PaymentMode_CreditCard, PaymentMode_RFID, SessionTypeDevice, SessionTypeMobile, SessionTypeWeb ) VALUES ';
 
 		$forecastedCSV = fopen(storage_path('eda/test_run.csv'), 'r');
 		$skip = 0;
@@ -77,7 +77,7 @@ class CallEda extends Command
 			}
 			else
 			{
-				$insertString .= "(	'$data[0]' , $data[1] , $data[2] , $data[3] , $data[4] , $data[5] , $data[6] , $data[7] , $data[8] , $data[9] , $data[10] ),";
+				$insertString .= "(	'$data[0]' , '$data[1]' , $data[2] , $data[3] , $data[4] , $data[5] , $data[6] , $data[7] , $data[8] , $data[9] , $data[10], $data[11], $data[12], $data[13], $data[14] ),";
 			}
 		}
 

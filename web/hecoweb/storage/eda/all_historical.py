@@ -18,18 +18,24 @@ df.head()
 # In[3]:
 
 
-print(df.columns)
-df.columns = ['name', 'session_type', 'start_time', 'end_time', 'duration', 'energy', 'amount', 'id', 'port_type', 'payment_mode']
-print(df.columns)
+len(df)
 
 
 # In[4]:
 
 
-df.dtypes
+print(df.columns)
+df.columns = ['name', 'session_type', 'start_time', 'end_time', 'duration', 'energy', 'amount', 'id', 'port_type', 'payment_mode']
+print(df.columns)
 
 
 # In[5]:
+
+
+df.dtypes
+
+
+# In[6]:
 
 
 df['start_time'] = pd.to_datetime(df['start_time'])
@@ -40,7 +46,7 @@ df['amount'] = df['amount'].replace('[\$,]', '', regex=True).astype(float)
 df.head()
 
 
-# In[6]:
+# In[7]:
 
 
 df[df['duration'].str.contains('-')]['duration']
@@ -51,7 +57,7 @@ df[df['duration'].str.contains('-')]['duration']
 # 1. Positive energy, Zero amount -- Resolution: ?
 # 2. Positive amount, Zero energy -- Resolution: ?
 
-# In[7]:
+# In[8]:
 
 
 # Checking for any missing values
@@ -60,7 +66,7 @@ print(len(missing))
 missing.head()
 
 
-# In[8]:
+# In[9]:
 
 
 # Anyone who charges their car but doesn't pay is a "thief" -- correctable if we just use HECO formula?
@@ -70,7 +76,7 @@ print(len(thieves))
 thieves.head()
 
 
-# In[9]:
+# In[10]:
 
 
 # Anyone who used 0 energy but still paid got "jipped"
@@ -79,7 +85,7 @@ print(len(jipped))
 jipped.head()
 
 
-# In[10]:
+# In[11]:
 
 
 dates = df['start_time'].dt.date
@@ -87,7 +93,7 @@ df['date'] = dates
 df['date']
 
 
-# In[11]:
+# In[12]:
 
 
 df['day_of_week'] = df['start_time'].dt.day_name()
@@ -96,17 +102,19 @@ df['day_of_week']
 
 # ## Time of Day
 # Noting from his slides:
+# 
 # Times:
 # - On Peak: 5pm - 10pm => 17:00 - 22:00, Daily
 # - Mid Day: 9am - 5pm => 9:00 => 17:00, Daily
 # - Off Peak: 10pm - 9am => 22:00 - 9:00, Daily
+# 
 # Cost:
-# - On Peak: $0.57
-# - Mid Day: $0.49
-# - Off Peak: $0.54
+# - On Peak: \$0.57
+# - Mid Day: \$0.49
+# - Off Peak: \$0.54
 # 
 
-# In[12]:
+# In[13]:
 
 
 import datetime as dt
@@ -121,7 +129,7 @@ df.head()
 # Checking if each columns are in agreement with each other
 # 1. Does cost match with the amount of energy for the given time period?
 
-# In[13]:
+# In[14]:
 
 
 df['calculated_amount'] = df['energy'] * df['on_peak'] * 0.57 + df['energy'] * df['mid_day'] * 0.49 + df['energy'] * df['off_peak'] * 0.54
@@ -131,19 +139,19 @@ err = df[~(df['amount'] == df['rounded_calculated_amount'])]
 correct.head()
 
 
-# In[14]:
+# In[15]:
 
 
 err[np.abs(err['amount'] - err['rounded_calculated_amount']) == 0.01]#[['amount', 'rounded_calculated_amount', 'calculated_amount']]
 
 
-# In[15]:
+# In[16]:
 
 
 err[np.abs(err['amount'] - err['rounded_calculated_amount']) > 1]
 
 
-# In[16]:
+# In[17]:
 
 
 df = df.rename({'rounded_calculated_amount': 'correct_amount'}, axis=1)
@@ -152,7 +160,13 @@ df['error_calculation'] = np.abs(df['amount'] - df['correct_amount']) > 0.01
 df.head()
 
 
-# In[17]:
+# In[18]:
+
+
+df[df['error_rounding']]
+
+
+# In[19]:
 
 
 for col in ['session_type', 'port_type', 'payment_mode']:
@@ -160,7 +174,7 @@ for col in ['session_type', 'port_type', 'payment_mode']:
 df.dtypes
 
 
-# In[18]:
+# In[20]:
 
 
 preproc_df = df.join(pd.get_dummies(df.select_dtypes('category')))
@@ -179,87 +193,24 @@ def get_sec(time_str):
 
 preproc_df['correct_duration'] = preproc_df['duration'].apply(lambda x: get_sec(x))
 
-preproc_df = preproc_df.drop(['id', 'start_time', 'end_time', 'duration', 'amount', 'calculated_amount', 'day_of_week'], axis=1)
+preproc_df = preproc_df.drop(['id', 'start_time', 'end_time', 'calculated_amount'], axis=1)
 
 preproc_df.head()
 
 
-# In[30]:
+# In[21]:
 
 
 df_agg = preproc_df.groupby(['name', 'date']).agg('sum').reset_index()
 # df_agg.columns = df_agg.columns.to_flat_index()
 # df_agg.columns
-df_agg.head()
+df_agg['energy'] = np.round(df_agg['energy'],2)
+df_agg['amount'] = np.round(df_agg['amount'],2)
+df_agg['correct_amount'] = np.round(df_agg['correct_amount'],2)
 
 
-# In[32]:
+# In[22]:
 
 
-import matplotlib.pyplot as plt
-
-
-# In[38]:
-
-
-plt.scatter(df_agg['energy'].shift(-1), df_agg['energy'])
-
-
-# In[47]:
-
-
-from pandas.plotting import scatter_matrix
-df_temp = pd.DataFrame()
-df_temp['energy'] = df_agg['energy']
-for x in range(1, 7):
-    df_temp[f'energy_prev_{x}'] = df_temp['energy'].shift(x)
-scatter_matrix(df_temp[['energy', 'energy_prev_1', 'energy_prev_2', 'energy_prev_3']])
-df_temp.dropna().head(10)
-
-
-# In[65]:
-
-
-df_agg = preproc_df.groupby(['name', 'date']).agg('sum').reset_index()
-# df_agg.columns = df_agg.columns.to_flat_index()
-# df_agg.columns
-
-# for x in range(1, 7):
-#     df_agg[f'energy_prev_{x}'] = df_agg['energy'].shift(x)
-# df_agg = df_agg.dropna()
-# df_agg.head()
-
-stations = [g for _, g in df_agg.groupby('name')]
-
-def offset_col_x_days(df, col, days):
-    for x in range(1, days):
-        df[f'{col}_prev_{x}'] = df[col].shift(x)
-    df = df.dropna().reset_index(drop=True)
-    return df
-
-for i in range(len(stations)):
-    stations[i] = offset_col_x_days(stations[i], 'energy', 7)
-stations[0]
-
-
-# In[67]:
-
-X = stations[0]
-y = X['energy']
-X = X.drop(['name', 'date', 'energy'], axis=1)
-train_test_split = int(len(X) * 0.8)
-X_train, X_test = X[:train_test_split], X[train_test_split:]
-y_train, y_test = y[:train_test_split], y[train_test_split:]
-
-
-from autosklearn.regression import AutoSklearnRegressor
-
-automl = AutoSklearnRegressor()
-automl.fit(X_train, y_train)
-
-print(automl.show_models())
-predictions = automl.predict(X_test)
-print("R2 score:", sklearn.metrics.r2_score(y_test, predictions))
-
-
+df_agg.to_csv('historical.csv',index=False)
 

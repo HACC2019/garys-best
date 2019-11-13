@@ -69,7 +69,18 @@ class ApiHeco extends Controller
 
 	function getForecastedData(Request $request)
 	{
-		$ex = DB::select('SELECT [Timestamp], Energy, ErrorRounding, ErrorCalculation, OnPeak, MidDay, OffPeak, PortType_CHADEMO, PortType_DCCOMBOTYP1, PaymentMode_CreditCard, PaymentMode_RFID FROM HecoDB.dbo.ForecastOutputEnergyTbl');
+		$ex = NULL;
+		if($request->has('StationID'))
+		{
+			$ex = DB::select('exec HecoStation_GetForecastedData_Proc ?', array(
+					$request->input('StationID')
+				)
+			);
+		}
+		else
+		{
+			$ex = DB::select('exec HecoStation_GetForecastedData_Proc \'-1\'');
+		}
 
 		return response()->json($ex);
 	}
@@ -88,10 +99,21 @@ class ApiHeco extends Controller
 		{
 			$json = json_decode($request->input('json'), true);
 
-			$ex = DB::select('exec HecoStation_GetStationCheckin_Proc ?', array(
-					$json['Periodicity']
-				)
-			);
+			if(array_key_exists('StationID', $json))
+			{
+				$ex = DB::select('exec HecoStation_GetStationCheckin_Proc ?,?', array(
+						$json['Periodicity'],
+						$json['StationID']
+					)
+				);
+			}
+			else
+			{
+				$ex = DB::select('exec HecoStation_GetStationCheckin_Proc ?,\'-1\'', array(
+						$json['Periodicity']
+					)
+				);
+			}
 
 			return response()->json($ex);
 		}
@@ -99,24 +121,18 @@ class ApiHeco extends Controller
 
 	function getHistoricalData(Request $request)
 	{
-		$ex = DB::select('SELECT [StationName]
-      ,[Timestamp]
-      ,[Energy]
-      ,[Amount]
-      ,[OnPeak]
-      ,[MidDay]
-      ,[OffPeak]
-      ,[CorrectAmount]
-      ,[ErrorRounding]
-      ,[ErrorCalculation]
-      ,[SessionTypeDevice]
-      ,[SessionTypeMobile]
-      ,[SessionTypeWeb]
-      ,[PortType_CHADEMO]
-      ,[PortType_DCCOMBOTYP1]
-      ,[PaymentMode_CreditCard]
-      ,[PaymentMode_RFID]
-      ,[CorrectDuration] FROM HecoDB.dbo.[StationDataHistoricalTbl]');
+		$ex = NULL;
+		if($request->has('StationID'))
+		{
+			$ex = DB::select('exec HecoStation_GetHistoricalData_Proc ?', array(
+					$request->input('StationID')
+				)
+			);
+		}
+		else
+		{
+			$ex = DB::select('exec HecoStation_GetHistoricalData_Proc \'-1\'');
+		}
 
 		return response()->json($ex);
 	}
