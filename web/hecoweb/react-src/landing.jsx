@@ -66,13 +66,9 @@ class Landing extends React.Component {
     }
 
     render() {
-<<<<<<< HEAD
-        Chart.defaults.global.defaultFontColor='white';
-=======
 
         let data = this.state.historical ? this.state.historicalData : this.state.forecastData;
 
->>>>>>> front-end
         const barSideData = {
             type: ' bar',
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -250,12 +246,8 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-<<<<<<< HEAD
                                     <Image size='tiny' centered src="https://cdn.discordapp.com/attachments/635171758248296468/643610008332009472/favicon.png"/>
                                     <h1 className='heco'>HECO[EV] <Icon name='lightning' color='yellow'/></h1>
-=======
-                                    <h1 className='heco'>HECO[EV]</h1>
->>>>>>> front-end
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
