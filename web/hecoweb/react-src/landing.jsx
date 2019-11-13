@@ -26,10 +26,12 @@ class Landing extends React.Component {
             // .then(res => console.log(res))
             // .then(res => console.log(res.body))
             // .then(res => console.log(res.json()))
-            .then(res => this.setState({ data: res.json().slice(0,7) }));
+            .then(res => res.json().then(data => this.setState({data: data})));
     }
 
     render() {
+
+        console.log(this.state.data);
 
         const barSideData = {
             type: ' bar',
@@ -98,9 +100,9 @@ class Landing extends React.Component {
         const lineData = {
             labels: this.state.data.map(x => x['Timestamp']),
             datasets: [{
-                label: 'My First dataset',
+                label: 'Energy',
                 backgroundColor: '#4270B9',
-                data: [0, 10, 5, 2, 20, 30, 45],
+                data: this.state.data.map(x => x['Energy']),
                 borderColor: '#4270B9'
             }]
         };
