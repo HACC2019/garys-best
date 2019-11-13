@@ -252,7 +252,7 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <h1 className='heco'>HECO[EV]</h1>
+                                    <h1 className='heco'>HECO[EV] <Icon name='lightning' color='yellow'/></h1>
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
@@ -646,9 +646,9 @@ class Landing extends React.Component {
                                     <Grid.Column>
                                         <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
-                                                <Button size='mini' color='green' onClick={this.handleHistoricalDataClick}>Historical Data</Button>
+                                                <Button size='mini' color='green'> <Icon name='archive'/>Historical Data</Button>
                                                 <Button.Or />
-                                                <Button size='mini' color='blue' onClick={this.handleForecastDataClick}>Forecasted Data</Button>
+                                                <Button size='mini' color='blue'> <Icon name='chart bar'/>Forecast Data</Button>
                                             </Button.Group>
                                         </Segment>
                                     </Grid.Column>
