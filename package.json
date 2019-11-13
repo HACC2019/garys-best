@@ -2219,7 +2219,6 @@
       "resolved": "https://registry.npmjs.org/pumpify/-/pumpify-1.5.1.tgz",
       "version": "1.5.1"
     },
-    "query-string": "^6.9.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-router-dom": "^5.1.2",
@@ -3002,6 +3001,8 @@
     }
   },
   "devDependencies": {
+    "axios": "^0.19.0",
+    "query-string": "^6.9.0",
     "react-chartjs-2": "^2.8.0",
     "react-d3-speedometer": "^0.7.3",
     "react-datepicker": "^2.10.0",
