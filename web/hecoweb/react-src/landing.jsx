@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import ReactSpeedometer from "react-d3-speedometer";
 import { CircleMeter, DiskMeter, BlockMeter } from 'react-svg-meters'
 import { Bar, Line } from 'react-chartjs-2';
+import 'react-datepicker/dist/react-datepicker.css'
 import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button, Image, Label } from 'semantic-ui-react'
 import axios from 'axios'
 
