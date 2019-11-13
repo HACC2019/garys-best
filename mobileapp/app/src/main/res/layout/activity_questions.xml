@@ -28,14 +28,15 @@
 
         <TextView
             android:id="@+id/Question1"
-            android:layout_width="275dp"
-            android:layout_height="79dp"
+            android:layout_width="wrap_content"
+            android:layout_height="129dp"
             android:layout_marginStart="68dp"
             android:layout_marginLeft="68dp"
             android:layout_marginTop="137dp"
             android:layout_marginEnd="68dp"
             android:layout_marginRight="68dp"
-            android:text="Was the Charging Session Successful"
+            android:text="Was the Charging Session Successful?"
+            android:textAlignment="center"
             android:textSize="30sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -45,7 +46,6 @@
             android:id="@+id/choiceOne"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="79dp"
             android:layout_marginLeft="79dp">
 
 

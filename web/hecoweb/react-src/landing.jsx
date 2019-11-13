@@ -3,19 +3,22 @@ import 'semantic-ui-css/semantic.css';
 import ReactSpeedometer from "react-d3-speedometer";
 import { CircleMeter, DiskMeter, BlockMeter } from 'react-svg-meters'
 import { Bar, Line } from 'react-chartjs-2';
-import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button } from 'semantic-ui-react'
+import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button, Image } from 'semantic-ui-react'
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
+
 
     constructor() {
         super();
         this.handleHistoricalDataClick = this.handleHistoricalDataClick.bind(this)
         this.handleForecastDataClick = this.handleForecastDataClick.bind(this)
+        this.openSiteDetails = this.openSiteDetails.bind(this);
         this.state = {
             historicalData: [],
             forecastData: [],
             historical: true,
+            activeIndex: null,
         };
         this.fetchHistorical();
         this.fetchForecast();
@@ -32,11 +35,9 @@ class Landing extends React.Component {
         })
             .then(res => res.json().then(data => {
                 const invertedData = {}
-                console.log(data)
                 for (let key in data[0]) {
                     invertedData[key] = data.map(x => x[key])
                 }
-                console.log(invertedData)
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
                 this.setState({ historicalData: invertedData })
             }));
@@ -51,12 +52,10 @@ class Landing extends React.Component {
         })
             .then(res => res.json().then(data => {
                 const invertedData = {}
-                console.log(data)
                 for (let key in data[0]) {
                     invertedData[key] = data.map(x => x[key])
                 }
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
-                console.log(invertedData)
                 this.setState({ forecastData: invertedData })
             }));
     }
@@ -69,11 +68,14 @@ class Landing extends React.Component {
         this.setState({historical: false})
     }
 
+    openSiteDetails(index) {
+        let newIndex = this.state.activeIndex === index ? null : index;
+        this.setState({ activeIndex: newIndex });
+    }
+
     render() {
 
         let data = this.state.historical ? this.state.historicalData : this.state.forecastData;
-        console.log(this.state.forecastData);
-        console.log(this.state.historicalData);
 
         const barSideData = {
             type: ' bar',
@@ -92,25 +94,25 @@ class Landing extends React.Component {
         };
 
         const trafficData = {
-            labels: this.state.historical ? this.state.historicalData['Timestamp'] : this.state.forecastData['Timestamp'],
+            labels: data['Timestamp'],
             datasets: [
                 {
                     label: 'Off Peak',
                     backgroundColor: '#3d4044',
                     stack: '2',
-                    data: this.state.historical ? this.state.historicalData['OffPeak'] : this.state.forecastData['OffPeak'],
+                    data: data['OffPeak'],
                 },
                 {
                     label: 'Mid Day',
                     backgroundColor: '#c2bd4e',
                     stack: '2',
-                    data: this.state.historical ? this.state.historicalData['MidDay'] : this.state.forecastData['MidDay'],
+                    data: data['MidDay'],
                 },
                 {
                     label: 'On Peak',
                     backgroundColor: '#59b655',
                     stack: '2',
-                    data: this.state.historical ? this.state.historicalData['OnPeak'] : this.state.forecastData['OnPeak'],
+                    data: data['OnPeak'],
                 },
             ],
         };
@@ -252,6 +254,7 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
+                                    {/* <Image size='tiny' centered src="https://cdn.discordapp.com/attachments/635171758248296468/643610008332009472/favicon.png"/> */}
                                     <h1 className='heco'>HECO[EV] <Icon name='lightning' color='yellow'/></h1>
                                 </Grid.Row>
                             </Segment>
@@ -644,11 +647,11 @@ class Landing extends React.Component {
 
                                 <Grid.Row columns={1} style={{ textAlign: 'center', padding: 0 }}>
                                     <Grid.Column>
-                                        <Segment inverted style={{ padding: 5 }}>
+                                    <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
-                                                <Button size='mini' color='green'> <Icon name='archive'/>Historical Data</Button>
+                                                <Button size='mini' color='green' onClick={this.handleHistoricalDataClick}>  <Icon name='archive'/> Historical Data</Button>
                                                 <Button.Or />
-                                                <Button size='mini' color='blue'> <Icon name='chart bar'/>Forecast Data</Button>
+                                                <Button size='mini' color='blue' onClick={this.handleForecastDataClick}><Icon name='chart bar'/> Forecasted Data</Button>
                                             </Button.Group>
                                         </Segment>
                                     </Grid.Column>

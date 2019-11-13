@@ -7,12 +7,13 @@
     tools:context=".endPoint">
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/thankyou"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="190dp"
         android:layout_marginBottom="117dp"
         android:text="Thank you for answering our survey!"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +24,7 @@
     <EditText
         android:id="@+id/getComments"
         android:layout_width="261dp"
-        android:layout_height="36dp"
+        android:layout_height="50dp"
         android:layout_marginTop="34dp"
         android:layout_marginBottom="188dp"
         android:ems="10"
@@ -44,7 +45,7 @@
         android:text="Do you have additional feedback or comments?"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        app:layout_constraintTop_toBottomOf="@+id/thankyou" />
 
     <Button
         android:id="@+id/finish"
@@ -57,17 +58,24 @@
         android:text="Finish"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
     <TextView
         android:id="@+id/rewardMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="You just earned 10 points to your rewards!"
         android:textAlignment="center"
-        android:textSize="36sp"
+        android:layout_gravity="center"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"/>
+</LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

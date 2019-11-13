@@ -6,31 +6,34 @@
     android:id="@+id/Homepage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:background="@drawable/background"
+    android:layout_gravity="center"
     tools:context=".homePage"
     tools:showIn="@layout/activity_main">
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/hecologo"
-        android:layout_marginTop="40dp"/>
+        app:srcCompat="@drawable/hecologo"
+        android:adjustViewBounds="true"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="50dp">
-
+        android:layout_width="320sp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="50sp"
+        android:layout_marginBottom="30sp"
+        android:background="@drawable/gradient"
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="120dp"
-            android:text="Points:"
+            android:layout_gravity="center"
+            android:layout_marginTop="100sp"
+            android:text="Points Balance:"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -38,22 +41,23 @@
             android:id="@+id/points"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="points"
-            android:textSize="24sp" />
+            android:layout_gravity="center"
+            android:text="Loading..."
+            android:textSize="34sp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="150sp"
+            android:layout_height="50sp"
+            android:layout_marginLeft="140sp"
+            android:layout_marginTop="150sp"
+            android:background="@drawable/roundedbutton"
+            android:onClick="getLicensePlate"
+            android:text="Earn Points"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF" />
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="173dp"
-        android:layout_height="102dp"
-        android:layout_gravity="center"
-        android:textColor="#FFFFFF"
-        android:background="@drawable/testbutton"
-        android:onClick="getLicensePlate"
-        android:text="Start Earning Points"
-        android:textAllCaps="true" />
 
 
 </LinearLayout>
