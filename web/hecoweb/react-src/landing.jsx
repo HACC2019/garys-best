@@ -84,6 +84,7 @@ class Landing extends React.Component {
 
         let data = this.state.forecastData;
         console.log(this.state.forecastData);
+        console.log(this.state.historicalData);
 
         const barSideData = {
             type: ' bar',
