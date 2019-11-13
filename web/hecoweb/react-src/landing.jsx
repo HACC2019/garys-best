@@ -364,6 +364,9 @@ class Landing extends React.Component {
                             <Segment inverted>
                                 <Grid.Row className='padding'>
                                     <List divided inverted relaxed>
+                                        <Grid.Row style={{ textAlign: 'center', paddingBottom: 15 }}>
+                                        <Button size='small' color='grey'> Show All Stations</Button>
+                                        </Grid.Row>
                                         <List.Item className={this.state.activeIndex == 0 ? 'stationSelected' : ''}>
                                             <Accordion>
                                                 <Accordion.Title
