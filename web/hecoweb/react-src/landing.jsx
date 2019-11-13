@@ -26,14 +26,21 @@ class Landing extends React.Component {
             // .then(res => console.log(res))
             // .then(res => console.log(res.body))
             // .then(res => console.log(res.json()))
-            .then(res => res.json().then(data => this.setState({data: data.slice(0,7)})));
+            .then(res => res.json().then(data => {
+                const invertedData = {}
+                console.log(data)
+                for (let key in data[0]) {
+                    invertedData[key] = data.map(x => x[key])
+                }
+                console.log(invertedData)
+                invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
+                this.setState({data: invertedData})
+            }));
     }
 
     render() {
 
         console.log(this.state.data);
-
-        const timestamps = this.state.data.map(x => x['Timestamp'].split(' ')[0])
 
         const barSideData = {
             type: ' bar',
@@ -52,25 +59,67 @@ class Landing extends React.Component {
         };
 
         const trafficData = {
-            labels: timestamps,
+            labels: this.state.data['Timestamp'],
             datasets: [
                 {
                     label: 'Off Peak',
                     backgroundColor: '#3d4044',
                     stack: '2',
-                    data: this.state.data.map(x => x['OffPeak']),
+                    data: this.state.data['OffPeak'],
                 },
                 {
                     label: 'Mid Day',
                     backgroundColor: '#c2bd4e',
                     stack: '2',
-                    data: this.state.data.map(x => x['MidDay']),
+                    data: this.state.data['MidDay'],
                 },
                 {
                     label: 'On Peak',
                     backgroundColor: '#59b655',
                     stack: '2',
-                    data: this.state.data.map(x => x['OnPeak']),
+                    data: this.state.data['OnPeak'],
+                },
+            ],
+        };
+
+        const errorData = {
+            labels: this.state.data['Timestamp'],
+            datasets: [
+                {
+                    label: 'Payment Error',
+                    backgroundColor: '#c2bd4e',
+                    stack: '2',
+                    data: this.state.data['ErrorCalculation'],
+                },
+                {
+                    label: 'Rounding Error',
+                    backgroundColor: '#59b655',
+                    stack: '2',
+                    data: this.state.data['ErrorRounding'],
+                },
+            ],
+        };
+
+        const sessionData = {
+            labels: this.state.data['Timestamp'],
+            datasets: [
+                {
+                    label: 'Device',
+                    backgroundColor: '#3d4044',
+                    stack: '2',
+                    data: this.state.data['SessionTypeDevice'],
+                },
+                {
+                    label: 'Mobile',
+                    backgroundColor: '#c2bd4e',
+                    stack: '2',
+                    data: this.state.data['SessionTypeMobile'],
+                },
+                {
+                    label: 'Web',
+                    backgroundColor: '#59b655',
+                    stack: '2',
+                    data: this.state.data['SessionTypeWeb'],
                 },
             ],
         };
@@ -93,7 +142,7 @@ class Landing extends React.Component {
             },
         };
 
-        const lineData2 = {
+        const energyData2 = {
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             datasets: [
                 {
@@ -120,12 +169,12 @@ class Landing extends React.Component {
             }
         };
 
-        const lineData = {
-            labels: timestamps,
+        const energyData = {
+            labels: this.state.data['Timestamp'],
             datasets: [{
                 label: 'Energy',
                 backgroundColor: '#4270B980',
-                data: this.state.data.map(x => x['Energy']),
+                data: this.state.data['Energy'],
                 borderColor: '#4270B9'
             }]
         };
@@ -293,19 +342,19 @@ class Landing extends React.Component {
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barSideData} />
+                                            <Bar data={sessionData} options={barStackedOptions} />
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Line data={lineData} />
+                                            <Line data={energyData} />
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Line data={lineData2}/>
+                                            <Bar data={errorData} options={barStackedOptions}/>
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
