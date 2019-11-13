@@ -26,12 +26,14 @@ class Landing extends React.Component {
             // .then(res => console.log(res))
             // .then(res => console.log(res.body))
             // .then(res => console.log(res.json()))
-            .then(res => res.json().then(data => this.setState({data: data})));
+            .then(res => res.json().then(data => this.setState({data: data.slice(0,7)})));
     }
 
     render() {
 
         console.log(this.state.data);
+
+        const timestamps = this.state.data.map(x => x['Timestamp'].split(' ')[0])
 
         const barSideData = {
             type: ' bar',
@@ -49,26 +51,26 @@ class Landing extends React.Component {
                 }]
         };
 
-        const barStackedData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        const trafficData = {
+            labels: timestamps,
             datasets: [
                 {
                     label: 'Off Peak',
                     backgroundColor: '#3d4044',
                     stack: '2',
-                    data: [10, 5, 25, 12, 5, 15, 10],
+                    data: this.state.data.map(x => x['OffPeak']),
                 },
                 {
                     label: 'Mid Day',
                     backgroundColor: '#c2bd4e',
                     stack: '2',
-                    data: [40, 10, 5, 2, 20, 30, 45],
+                    data: this.state.data.map(x => x['MidDay']),
                 },
                 {
                     label: 'On Peak',
                     backgroundColor: '#59b655',
                     stack: '2',
-                    data: [30, 45, 45, 32, 10, 5, 30],
+                    data: this.state.data.map(x => x['OnPeak']),
                 },
             ],
         };
@@ -119,10 +121,10 @@ class Landing extends React.Component {
         };
 
         const lineData = {
-            labels: this.state.data.map(x => x['Timestamp']),
+            labels: timestamps,
             datasets: [{
                 label: 'Energy',
-                backgroundColor: '#4270B9',
+                backgroundColor: '#4270B980',
                 data: this.state.data.map(x => x['Energy']),
                 borderColor: '#4270B9'
             }]
@@ -308,7 +310,7 @@ class Landing extends React.Component {
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barStackedData} options={barStackedOptions} />
+                                            <Bar data={trafficData} options={barStackedOptions} />
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
