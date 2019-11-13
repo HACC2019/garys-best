@@ -10,13 +10,19 @@ class Landing extends React.Component {
 
     constructor() {
         super();
+        this.handleHistoricalDataClick = this.handleHistoricalDataClick.bind(this)
+        this.handleForecastDataClick = this.handleForecastDataClick.bind(this)
         this.state = {
             historicalData: [],
-            forescastData: [],
+            forecastData: [],
             historical: true,
         };
+        this.fetchForecast();
+        this.fetchHistorical();
+        
     }
-    componentDidMount() {
+
+    fetchHistorical() {
         fetch(`https://hecoweb.azurewebsites.net/api/web/gethistorical`, {
             method: 'GET',
             headers: {
@@ -33,7 +39,9 @@ class Landing extends React.Component {
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
                 this.setState({ historicalData: invertedData })
             }));
+    }
 
+    fetchForecast() {
         fetch(`https://hecoweb.azurewebsites.net/api/web/getforecast`, {
             method: 'GET',
             headers: {
@@ -46,24 +54,36 @@ class Landing extends React.Component {
                 for (let key in data[0]) {
                     invertedData[key] = data.map(x => x[key])
                 }
-                console.log(invertedData)
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
+                console.log(invertedData)
                 this.setState({ forecastData: invertedData })
             }));
     }
 
+    handleHistoricalDataClick(){
+        this.setState({historical: true})
+    }
+
+    handleForecastDataClick(){
+        this.setState({historical: false})
+    }
+
     render() {
 
-        let data = this.state.historicalData;;
-        console.log(this.state.historical)
-        console.log(data);
+        // let data = this.state.historicalData;
+        // console.log(this.state.historical)
+        // console.log(data)
 
-        if (this.state.historical) {
-            data = this.state.historicalData;
-        }
-        else {
-            data = this.state.forescastData;
-        }
+
+        // if (this.state.historical) {
+        //     data = this.state.historicalData;
+        // }
+        // else {
+        //     data = this.state.forescastData;
+        // }
+
+        let data = this.state.forecastData;
+        console.log(this.state.forecastData);
 
         const barSideData = {
             type: ' bar',
@@ -82,25 +102,25 @@ class Landing extends React.Component {
         };
 
         const trafficData = {
-            labels: data['Timestamp'],
+            labels: this.state.historical ? this.state.historicalData['Timestamp'] : this.state.forescastData['Timestamp'],
             datasets: [
                 {
                     label: 'Off Peak',
                     backgroundColor: '#3d4044',
                     stack: '2',
-                    data: data['OffPeak'],
+                    data: this.state.historical ? this.state.historicalData['OffPeak'] : this.state.forecastData['OffPeak'],
                 },
                 {
                     label: 'Mid Day',
                     backgroundColor: '#c2bd4e',
                     stack: '2',
-                    data: data['MidDay'],
+                    data: this.state.historical ? this.state.historicalData['MidDay'] : this.state.forescastData['MidDay'],
                 },
                 {
                     label: 'On Peak',
                     backgroundColor: '#59b655',
                     stack: '2',
-                    data: data['OnPeak'],
+                    data: this.state.historical ? this.state.historicalData['OnPeak'] : this.state.forescastData['OnPeak'],
                 },
             ],
         };
@@ -242,7 +262,7 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <h1 className='heco'>HECO[EV] <Icon name='lightning' color='yellow'/></h1>
+                                    <h1 className='heco'>HECO[EV]</h1>
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
@@ -636,15 +656,9 @@ class Landing extends React.Component {
                                     <Grid.Column>
                                         <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
-<<<<<<< HEAD
-                                                <Button size='mini' color='green' onClick={() => this.setState({ historical: true })}>Historical Data</Button>
+                                                <Button size='mini' color='green' onClick={this.handleHistoricalDataClick}>Historical Data</Button>
                                                 <Button.Or />
-                                                <Button size='mini' color='blue' onClick={() => this.setState({ historical: false })}>Forecasted Data</Button>
-=======
-                                                <Button size='mini' color='green'> <Icon name='archive'/>Historical Data</Button>
-                                                <Button.Or />
-                                                <Button size='mini' color='blue'> <Icon name='chart bar'/>Forecast Data</Button>
->>>>>>> 9c012e0f5c3db9adedce94ffd055841c57bc01bf
+                                                <Button size='mini' color='blue' onClick={this.handleForecastDataClick}>Forecasted Data</Button>
                                             </Button.Group>
                                         </Segment>
                                     </Grid.Column>
@@ -752,7 +766,7 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <h4>Current Net Power (kwh)</h4>
+                                    <h4>Current Total Watts</h4>
                                     <ReactSpeedometer
                                         width={190}
                                         height={125}
@@ -770,7 +784,7 @@ class Landing extends React.Component {
                                 <Grid.Row style={{ textAlign: 'center' }}>
                                     <BlockMeter
                                         value={75}
-                                        size={100}
+                                        size={110}
                                         foregroundColor={avgMeterStyle.color.foreground}
                                         backgroundColor={avgMeterStyle.color.background}
                                         textColor={avgMeterStyle.color.bright}
