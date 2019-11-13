@@ -548,7 +548,7 @@ class Landing extends React.Component {
                                         <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
                                                 <Button size='mini' color='green'> <Icon name='archive'/>Historical Data</Button>
-                                                <Button.Or />
+                                                <Button.Or/>
                                                 <Button size='mini' color='blue'> <Icon name='chart bar'/>Forecast Data</Button>
                                             </Button.Group>
                                         </Segment>
@@ -584,7 +584,7 @@ class Landing extends React.Component {
                         </Grid.Column>
 
                         <Grid.Column width={3}>
-                            <Segment inverted style={{overflow: 'auto', maxHeight: 200 }}>
+                            <Segment inverted style={{ overflow: 'auto', maxHeight: 200 }}>
                                 <Grid.Row>
                                     <h4>User Error Log</h4>
                                     <Divider/>
@@ -675,7 +675,7 @@ class Landing extends React.Component {
                                 <Grid.Row style={{ textAlign: 'center' }}>
                                     <BlockMeter
                                         value={75}
-                                        size={100}
+                                        size={75}
                                         foregroundColor={avgMeterStyle.color.foreground}
                                         backgroundColor={avgMeterStyle.color.background}
                                         textColor={avgMeterStyle.color.bright}
@@ -685,6 +685,13 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <h4>Total Revenue</h4>
+                                <Grid.Row style={{ textAlign: 'center', paddingBottom: 5}}>
+                                    <Button.Group size='mini' color='grey'>
+                                        <Button>Day</Button>
+                                        <Button>Month</Button>
+                                        <Button>Year</Button>
+                                    </Button.Group>
+                                </Grid.Row>
                                 <h2 className='revenue'>$26,179</h2>
                                 <Grid.Row>
                                     <p className='pBold'>24% <Icon name='arrow circle down' size='small'
