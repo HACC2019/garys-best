@@ -7,6 +7,28 @@ import { Grid, Container, List, Segment, Icon } from 'semantic-ui-react'
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
+
+    constructor() {
+        super();
+        this.state = { data: [] };
+    }
+    componentDidMount() {
+        fetch(`https://hecoweb.azurewebsites.net/api/web/gethistorical`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                // 'X-Parse-Application-Id': '12122',
+                // 'X-Parse-REST-API-Key': '12121',
+                // 'Content-Type': 'application/json',
+            }
+        })
+            // .then(res => JSON.parse())
+            // .then(res => console.log(res))
+            // .then(res => console.log(res.body))
+            // .then(res => console.log(res.json()))
+            .then(res => this.setState({ data: res.json().slice(0,7) }));
+    }
+
     render() {
 
         const barSideData = {
@@ -74,7 +96,7 @@ class Landing extends React.Component {
         };
 
         const lineData = {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: this.state.data.map(x => x['Timestamp']),
             datasets: [{
                 label: 'My First dataset',
                 backgroundColor: '#4270B9',
@@ -128,17 +150,17 @@ class Landing extends React.Component {
                                 <Grid.Row className='padding' centered>
                                     <h4>Overall Station Health</h4>
                                     <CircleMeter value={88}
-                                                 size={125}
-                                                 foregroundColor={overallMeterStyle.color.foreground}
-                                                 backgroundColor={overallMeterStyle.color.background}
-                                                 style={overallMeterStyle.meter}/>
+                                        size={125}
+                                        foregroundColor={overallMeterStyle.color.foreground}
+                                        backgroundColor={overallMeterStyle.color.background}
+                                        style={overallMeterStyle.meter} />
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
                                 <Grid.Row className='padding'>
                                     <List divided inverted relaxed>
                                         <List.Item>
-                                            <List.Icon name='map marker' color={'green'}/>
+                                            <List.Icon name='map marker' color={'green'} />
                                             <List.Content>
                                                 <List.Header as='a'>Haleiwa Town Center Charging Station</List.Header>
                                                 <List.Description>
@@ -147,7 +169,7 @@ class Landing extends React.Component {
                                             </List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='map marker' color={'green'}/>
+                                            <List.Icon name='map marker' color={'green'} />
                                             <List.Content>
                                                 <List.Header as='a'>Dole Plantation Charging Station</List.Header>
                                                 <List.Description>
@@ -156,7 +178,7 @@ class Landing extends React.Component {
                                             </List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='map marker' color={'green'}/>
+                                            <List.Icon name='map marker' color={'green'} />
                                             <List.Content>
                                                 <List.Header as='a'>Waianae Shopping Mall Charging Station</List.Header>
                                                 <List.Description>
@@ -165,7 +187,7 @@ class Landing extends React.Component {
                                             </List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='map marker' color={'red'}/>
+                                            <List.Icon name='map marker' color={'red'} />
                                             <List.Content>
                                                 <List.Header as='a'>Kapolei Commons Charging Station</List.Header>
                                                 <List.Description>
@@ -174,7 +196,7 @@ class Landing extends React.Component {
                                             </List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='map marker' color={'green'}/>
+                                            <List.Icon name='map marker' color={'green'} />
                                             <List.Content>
                                                 <List.Header as='a'>Times Square Shopping Center Charging
                                                     Station</List.Header>
@@ -184,7 +206,7 @@ class Landing extends React.Component {
                                             </List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='map marker' color={'green'}/>
+                                            <List.Icon name='map marker' color={'green'} />
                                             <List.Content>
                                                 <List.Header as='a'>Koolau Center Charging Station</List.Header>
                                                 <List.Description>
@@ -193,7 +215,7 @@ class Landing extends React.Component {
                                             </List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='map marker' color={'green'}/>
+                                            <List.Icon name='map marker' color={'green'} />
                                             <List.Content>
                                                 <List.Header as='a'>Iwilei Costco Parking Lot Charging
                                                     Station</List.Header>
@@ -203,7 +225,7 @@ class Landing extends React.Component {
                                             </List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='map marker' color={'green'}/>
+                                            <List.Icon name='map marker' color={'green'} />
                                             <List.Content>
                                                 <List.Header as='a'>Hawaiian Electric Ward Office Charging
                                                     Station</List.Header>
@@ -213,7 +235,7 @@ class Landing extends React.Component {
                                             </List.Content>
                                         </List.Item>
                                         <List.Item>
-                                            <List.Icon name='map marker' color={'green'}/>
+                                            <List.Icon name='map marker' color={'green'} />
                                             <List.Content>
                                                 <List.Header as='a'>Hawaii Kai 7-Eleven Charging Station</List.Header>
                                                 <List.Description>
@@ -232,13 +254,13 @@ class Landing extends React.Component {
                                 <Grid.Row columns={1}>
                                     <Grid.Column>
                                         <iframe width="850"
-                                                height="425"
-                                                frameBorder="0"
-                                                scrolling="no"
-                                                marginHeight="0"
-                                                marginWidth="0"
-                                                title="EV Map"
-                                                src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light">
+                                            height="425"
+                                            frameBorder="0"
+                                            scrolling="no"
+                                            marginHeight="0"
+                                            marginWidth="0"
+                                            title="EV Map"
+                                            src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light">
                                         </iframe>
                                     </Grid.Column>
                                 </Grid.Row>
@@ -246,24 +268,24 @@ class Landing extends React.Component {
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barSideData}/>
+                                            <Bar data={barSideData} />
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Line data={lineData}/>
+                                            <Line data={lineData} />
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Line data={lineData}/>
+                                            <Line data={lineData} />
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barStackedData} options={barStackedOptions}/>
+                                            <Bar data={barStackedData} options={barStackedOptions} />
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
@@ -318,7 +340,7 @@ class Landing extends React.Component {
                                 <h2>$26,179</h2>
                                 <Grid.Row>
                                     <p className='pBold'>24% <Icon name='arrow circle down' size='small'
-                                                                   color='red'/></p>
+                                        color='red' /></p>
                                     <p>(from previous period)</p>
                                 </Grid.Row>
                             </Segment>
