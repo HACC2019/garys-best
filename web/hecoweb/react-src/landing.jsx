@@ -636,15 +636,9 @@ class Landing extends React.Component {
                                     <Grid.Column>
                                         <Segment inverted style={{ padding: 5 }}>
                                             <Button.Group>
-<<<<<<< HEAD
                                                 <Button size='mini' color='green' onClick={() => this.setState({ historical: true })}>Historical Data</Button>
                                                 <Button.Or />
                                                 <Button size='mini' color='blue' onClick={() => this.setState({ historical: false })}>Forecasted Data</Button>
-=======
-                                                <Button size='mini' color='green'> <Icon name='archive'/>Historical Data</Button>
-                                                <Button.Or/>
-                                                <Button size='mini' color='blue'> <Icon name='chart bar'/>Forecast Data</Button>
->>>>>>> 9c012e0f5c3db9adedce94ffd055841c57bc01bf
                                             </Button.Group>
                                         </Segment>
                                     </Grid.Column>
