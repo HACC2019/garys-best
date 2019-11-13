@@ -9,14 +9,60 @@ import { Grid, Container, List, Segment, Icon } from 'semantic-ui-react'
 class Landing extends React.Component {
     render() {
 
-        const barData = {
+        const barSideData = {
+            type: ' bar',
             labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: '#98c255',
-                data: [0, 10, 5, 2, 20, 30, 45],
-                borderColor: '#98c255'
-            }]
+            datasets: [
+                {
+                    label: 'My First dataset',
+                    backgroundColor: '#98c255',
+                    data: [40, 10, 5, 2, 20, 30, 45],
+                    borderColor: '#98c255'
+                },
+                {
+                    label: 'My Second dataset',
+                    backgroundColor: '#c2bd4e',
+                    data: [10, 5, 25, 12, 5, 15, 10],
+                    borderColor: '#c2bd4e'
+                }],
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
+        };
+
+        const barStackedData = {
+            type: ' bar',
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [
+                {
+                    label: 'My First dataset',
+                    backgroundColor: '#98c255',
+                    data: [40, 10, 5, 2, 20, 30, 45],
+                    borderColor: '#98c255'
+                },
+                {
+                    label: 'My Second dataset',
+                    backgroundColor: '#c2bd4e',
+                    data: [10, 5, 25, 12, 5, 15, 10],
+                    borderColor: '#c2bd4e'
+                }],
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                }
+            }
         };
 
         const lineData = {
@@ -177,22 +223,22 @@ class Landing extends React.Component {
                             <Grid>
                                 <Grid.Row columns={1}>
                                     <Grid.Column>
-                                            <iframe width="850"
-                                                    height="425"
-                                                    frameBorder="0"
-                                                    scrolling="no"
-                                                    marginHeight="0"
-                                                    marginWidth="0"
-                                                    title="EV Map"
-                                                    src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light">
-                                            </iframe>
+                                        <iframe width="850"
+                                                height="425"
+                                                frameBorder="0"
+                                                scrolling="no"
+                                                marginHeight="0"
+                                                marginWidth="0"
+                                                title="EV Map"
+                                                src="//mercedezcastro.maps.arcgis.com/apps/Embed/index.html?webmap=f4c533c1a6d04d98a2b2d37277c7c160&extent=-158.361,21.2603,-157.5521,21.6208&zoom=true&previewImage=false&scale=true&disable_scroll=true&theme=light">
+                                        </iframe>
                                     </Grid.Column>
                                 </Grid.Row>
 
                                 <Grid.Row columns={2}>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barData}/>
+                                            <Bar data={barSideData}/>
                                         </Segment>
                                     </Grid.Column>
                                     <Grid.Column>
@@ -209,7 +255,7 @@ class Landing extends React.Component {
                                     </Grid.Column>
                                     <Grid.Column>
                                         <Segment inverted>
-                                            <Bar data={barData}/>
+                                            <Bar data={barStackedData}/>
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
