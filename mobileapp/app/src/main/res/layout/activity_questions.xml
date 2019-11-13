@@ -69,6 +69,13 @@
                 android:text="No"
                 android:textSize="25dp" />
         </RadioGroup>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/townborder" />
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
