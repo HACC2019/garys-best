@@ -151,11 +151,13 @@ class Landing extends React.Component {
                 <Grid className='map-background'>
                     <Grid.Row>
                         <Grid.Column width={3}>
-                            <Grid.Row className='padding' style={ {textAlign: 'center'} }>
-                                <h1 className='heco'>HECO[EV]</h1>
-                            </Grid.Row>
                             <Segment inverted>
-                                <Grid.Row className='padding' style={ {textAlign: 'center'} }>
+                                <Grid.Row style={{ textAlign: 'center' }}>
+                                    <h1 className='heco'>HECO[EV]</h1>
+                                </Grid.Row>
+                            </Segment>
+                            <Segment inverted>
+                                <Grid.Row className='padding' style={{ textAlign: 'center' }}>
                                     <h4>Overall Station Health</h4>
                                     <CircleMeter value={88}
                                                  size={125}
@@ -604,7 +606,7 @@ class Landing extends React.Component {
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
-                                <Grid.Row style={ {textAlign: 'center'} }>
+                                <Grid.Row style={{ textAlign: 'center' }}>
                                     <h4>Active Charging Sessions</h4>
                                     <DiskMeter
                                         value={25}
@@ -617,7 +619,7 @@ class Landing extends React.Component {
                                 </Grid.Row>
                             </Segment>
                             <Segment inverted>
-                                <Grid.Row style={ {textAlign: 'center'} }>
+                                <Grid.Row style={{ textAlign: 'center' }}>
                                     <h4>Current Total Watts</h4>
                                     <ReactSpeedometer
                                         width={190}
@@ -633,7 +635,7 @@ class Landing extends React.Component {
                             </Segment>
                             <Segment inverted>
                                 <h4>Average Charge Duration</h4>
-                                <Grid.Row style={ {textAlign: 'center'} }>
+                                <Grid.Row style={{ textAlign: 'center' }}>
                                     <BlockMeter
                                         value={75}
                                         size={110}
