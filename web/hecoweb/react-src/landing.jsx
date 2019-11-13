@@ -246,7 +246,7 @@ class Landing extends React.Component {
                         <Grid.Column width={3}>
                             <Segment inverted>
                                 <Grid.Row style={{ textAlign: 'center' }}>
-                                    <Image size='tiny' centered src="https://cdn.discordapp.com/attachments/635171758248296468/643610008332009472/favicon.png"/>
+                                    {/* <Image size='tiny' centered src="https://cdn.discordapp.com/attachments/635171758248296468/643610008332009472/favicon.png"/> */}
                                     <h1 className='heco'>HECO[EV] <Icon name='lightning' color='yellow'/></h1>
                                 </Grid.Row>
                             </Segment>
