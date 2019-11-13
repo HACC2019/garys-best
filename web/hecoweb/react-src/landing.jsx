@@ -4,6 +4,7 @@ import ReactSpeedometer from "react-d3-speedometer";
 import { CircleMeter, DiskMeter, BlockMeter } from 'react-svg-meters'
 import { Bar, Line } from 'react-chartjs-2';
 import { Grid, Container, List, Segment, Icon, Divider, Accordion, Button, Image } from 'semantic-ui-react'
+import axios from 'axios'
 
 /** A simple static component to render some text for the landing page. */
 class Landing extends React.Component {
@@ -19,11 +20,15 @@ class Landing extends React.Component {
             forecastData: [],
             historical: true,
             activeIndex: null,
+            stationHealth: {}
         };
         this.fetchHistorical();
         this.fetchForecast();
-        
-        
+         
+        this.fetchStationHealth(1);
+        this.fetchStationHealth(2);
+
+        console.log(this.state);
     }
 
     fetchHistorical() {
@@ -58,6 +63,19 @@ class Landing extends React.Component {
                 invertedData['Timestamp'] = invertedData['Timestamp'].map(x => x.split(' ')[0])
                 this.setState({ forecastData: invertedData })
             }));
+    }
+
+    fetchStationHealth(stationId){
+        axios.get(`https://hecoweb.azurewebsites.net/api/web/getstationhealth?json={"StationID":${stationId}}`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+            }
+        }).then((response) => {
+            let stationHealth = this.state.stationHealth;
+            stationHealth[stationId] = response.data;
+            this.setState({stationHealth: stationHealth});
+        })
     }
 
     handleHistoricalDataClick(){
