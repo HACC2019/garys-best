@@ -26,8 +26,8 @@ class Landing extends React.Component {
             forecastData: [],
             historical: true,
             activeIndex: -1,
-            startDate: new Date(),
-            endDate: new Date(),
+            startDate: new Date(2018, 9, 1),
+            endDate: new Date(2019, 8, 30),
             stationHealth: {}
         };
 
@@ -195,10 +195,46 @@ class Landing extends React.Component {
     render() {
 
         let data = this.state.historical ? this.state.historicalData : this.state.forecastData;
-        
+        console.log(this.state.historicalData)
 
-        // this.fetchHistorical(this.state.activeIndex);
-        // this.fetchForecast(this.state.activeIndex);
+        let startIndex = 0;
+        let endIndex = data['Timestamp'] !== undefined ? data['Timestamp'].length - 1 : 0;
+
+        if (data['Timestamp'] !== undefined && this.state.historical) {
+
+            const newData = {}
+
+            for (let i = 0; i < data['Timestamp'].length; i+=1) {
+                const parts = data['Timestamp'][i].split('-');
+                const date = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]))
+                if (date.getTime() === this.state.startDate.getTime()) {
+                    startIndex = i;
+                    console.log(date)
+                    console.log(data['Timestamp'][startIndex])
+                }
+                if (date.getTime() === this.state.endDate.getTime()) {
+                    endIndex = i;
+                    console.log(date)
+                    console.log(data['Timestamp'][endIndex])
+                }
+            }
+
+            // const parts = data['Timestamp'][0].split('-')
+            // const date = new Date(parts[0], parts[1], parts[2])
+
+            // console.log(date)
+            console.log(this.state.startDate);
+            console.log(this.state.endDate);
+            console.log(startIndex)
+            console.log(endIndex)
+
+            for (let key in data) {
+                newData[key] = data[key].slice(startIndex, endIndex);
+            }
+
+            data = newData;
+        } 
+        
 
         const barSideData = {
             type: ' bar',
