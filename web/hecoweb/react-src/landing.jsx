@@ -19,17 +19,20 @@ class Landing extends React.Component {
         this.openSiteDetails = this.openSiteDetails.bind(this);
         this.startHandleChange = this.startHandleChange.bind(this);
         this.endHandleChange = this.endHandleChange.bind(this);
+        this.showAllStations = this.showAllStations.bind(this);
+
         this.state = {
             historicalData: [],
             forecastData: [],
             historical: true,
-            activeIndex: null,
+            activeIndex: -1,
             startDate: new Date(),
             endDate: new Date(),
             stationHealth: {}
         };
+
         this.fetchHistorical();
-        this.fetchForecast();
+        this.fetchForecast(-1);
          
         this.fetchStationHealth(1);
         this.fetchStationHealth(2);
@@ -37,14 +40,17 @@ class Landing extends React.Component {
         console.log(this.state);
     }
 
-    fetchHistorical() {
-        fetch(`https://hecoweb.azurewebsites.net/api/web/gethistorical`, {
+    fetchHistorical(stationID) {
+        stationID = stationID === null ? -1 : stationID
+        stationID = stationID > 2 ? -1 : stationID
+        fetch(`https://hecoweb.azurewebsites.net/api/web/gethistorical?StationID=${stationID}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
             }
         })
             .then(res => res.json().then(data => {
+                console.log(`Fetched Historical Data for StationID ${stationID}`)
                 const invertedData = {}
                 for (let key in data[0]) {
                     invertedData[key] = data.map(x => x[key])
@@ -54,14 +60,17 @@ class Landing extends React.Component {
             }));
     }
 
-    fetchForecast() {
-        fetch(`https://hecoweb.azurewebsites.net/api/web/getforecast`, {
+    fetchForecast(stationID) {
+        stationID = stationID === null ? -1 : stationID
+        stationID = stationID > 2 ? -1 : stationID
+        fetch(`https://hecoweb.azurewebsites.net/api/web/getforecast?StationID=${stationID}`, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
             }
         })
             .then(res => res.json().then(data => {
+                console.log(`Fetched Forecasting Data for StationID ${stationID}`)
                 const invertedData = {}
                 for (let key in data[0]) {
                     invertedData[key] = data.map(x => x[key])
@@ -149,8 +158,12 @@ class Landing extends React.Component {
         this.setState({ historical: false })
     }
 
+    showAllStations() {
+        this.setState({ activeIndex: -1 })
+    }
+
     openSiteDetails(index) {
-        let newIndex = this.state.activeIndex === index ? null : index;
+        let newIndex = this.state.activeIndex === index ? -1 : index;
         this.setState({ activeIndex: newIndex });
     }
 
@@ -169,6 +182,9 @@ class Landing extends React.Component {
     render() {
 
         let data = this.state.historical ? this.state.historicalData : this.state.forecastData;
+
+        this.fetchHistorical(this.state.activeIndex);
+        this.fetchForecast(this.state.activeIndex);
 
         const barSideData = {
             type: ' bar',
@@ -365,7 +381,7 @@ class Landing extends React.Component {
                                 <Grid.Row className='padding'>
                                     <List divided inverted relaxed>
                                         <Grid.Row style={{ textAlign: 'center', paddingBottom: 15 }}>
-                                        <Button size='small' color='grey'> Show All Stations</Button>
+                                        <Button size='small' color='grey' onClick={this.showAllStations}> Show All Stations</Button>
                                         </Grid.Row>
                                         <List.Item className={this.state.activeIndex == 0 ? 'stationSelected' : ''}>
                                             <Accordion>
