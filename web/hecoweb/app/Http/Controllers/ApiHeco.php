@@ -38,4 +38,68 @@ class ApiHeco extends Controller
 		}
 	}
 
+	function getStationHealth(Request $request)
+	{
+		if($request->has('json'))
+		{
+			$json = json_decode($request->input('json'), true);
+			
+			$ex = DB::select('exec HecoStation_GetStationHealth_Proc ?', array(
+					$json['StationID']
+				)
+			);
+			
+			return json_encode($ex);
+		}
+	}
+
+	function getStationHealthStats(Request $request)
+	{
+		if($request->has('json'))
+		{
+			$json = json_decode($request->input('json'), true);
+			
+			$ex = DB::select('exec HecoStation_GetStationHealthStats_Proc');
+			
+			return json_encode($ex);
+		}
+	}
+
+	function getData(Request $request)
+	{
+		$ex = DB::select('SELECT StationName, SessionInitiated, StartTime, EndTime, Duration, Energy, SessionAmount, SessionID, PortType, PaymentMode FROM HecoDB.dbo.StationDataTbl');
+
+		return json_encode($ex);
+	}
+
+	function getForecastedData(Request $request)
+	{
+		$ex = DB::select('SELECT [Timestamp], Energy, ErrorRounding, ErrorCalculation, OnPeak, MidDay, OffPeak, PortType_CHADEMO, PortType_DCCOMBOTYP1, PaymentMode_CreditCard, PaymentMode_RFID FROM HecoDB.dbo.ForecastOutputEnergyTbl');
+
+		return json_encode($ex);
+	}
+
+	/*
+	JSON object should contain
+		Periodicity - integer
+			- 0: day
+			- 1: week
+			- 2: month
+			- 3: year
+	*/
+	function getCheckinData(Request $request)
+	{
+		if($request->has('json'))
+		{
+			$json = json_decode($request->input('json'), true);
+
+			$ex = DB::select('exec HecoStation_GetStationCheckin_Proc ?', array(
+					$json['Periodicity']
+				)
+			);
+
+			return json_encode($ex);
+		}
+	}
+
 }

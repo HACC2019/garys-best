@@ -16,12 +16,15 @@
 Route::get('/', function() {
 	return view('index');
 });
-
-Route::get('/test', 'ApiHeco@forecastedData');
+Route::get('/api/web/getstationhealth', 'ApiHeco@getStationHealth');
+Route::get('/api/web/getstationhealthstats', 'ApiHeco@getStationHealthStats');
+Route::get('/api/web/getforecast', 'ApiHeco@getForecastedData');
+Route::get('/api/web/getstationdata', 'ApiHeco@getData');
+Route::get('/api/web/getstationcheckins', 'ApiHeco@getCheckinData');
 
 //API app
-Route::post('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
+Route::get('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
 Route::get('/api/app/getpoints', 'ApiHecoApp@getPoints');
 
 //API hardware -- Checkin
-Route::post('/api/hardware/licenseplateatstation', 'ApiHeco@licensePlateAtStation');
+Route::get('/api/hardware/licenseplateatstation', 'ApiHeco@licensePlateAtStation');
