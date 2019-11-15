@@ -14,13 +14,9 @@
 
         <TextView
             android:id="@+id/Question2"
-            android:layout_width="275dp"
+            android:layout_width="match_parent"
             android:layout_height="79dp"
-            android:layout_marginStart="68dp"
-            android:layout_marginLeft="68dp"
-            android:layout_marginTop="137dp"
-            android:layout_marginEnd="68dp"
-            android:layout_marginRight="68dp"
+            android:layout_margin="60dp"
             android:text="Which charging port did you use?"
             android:textAlignment="center"
             android:textSize="30sp"
@@ -50,7 +46,8 @@
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/townborder" />
+            app:srcCompat="@drawable/townborder"
+            android:scaleType="fitXY"/>
     </LinearLayout>
 
 
