@@ -43,29 +43,24 @@
 
     <TextView
         android:id="@+id/points"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="center"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="165dp"
-        android:layout_marginRight="155dp"
+        android:textAlignment="center"
         android:textSize="34sp" />
 
     <ProgressBar
         android:id="@+id/circle"
         android:indeterminateDrawable="@drawable/progress"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="center"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="155dp"
-        android:layout_marginRight="155dp"
         android:indeterminate="true" />
 
 

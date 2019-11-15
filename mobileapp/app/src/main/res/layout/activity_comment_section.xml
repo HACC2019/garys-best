@@ -88,6 +88,7 @@
         android:layout_marginTop="470sp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/townborder" />
+        app:srcCompat="@drawable/townborder"
+        android:scaleType="fitXY"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
