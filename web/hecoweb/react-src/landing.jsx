@@ -993,18 +993,18 @@ class Landing extends React.Component {
                             <Segment inverted>
                                 <h4>Total Revenue</h4>
                                 <Grid.Row style={{ textAlign: 'center', paddingBottom: 5 }}>
-                                    <Button.Group size='mini' color='grey'>
+                                    {/* <Button.Group size='mini' color='grey'>
                                         <Button>Day</Button>
                                         <Button>Month</Button>
                                         <Button>Year</Button>
-                                    </Button.Group>
+                                    </Button.Group> */}
                                 </Grid.Row>
                                 <h2 className='revenue'>${totalRevenue}</h2>
-                                <Grid.Row>
+                                {/* <Grid.Row>
                                     <p className='pBold'>24% <Icon name='arrow circle down' size='small'
                                         color='red' /></p>
                                     <p>(from previous period)</p>
-                                </Grid.Row>
+                                </Grid.Row> */}
                             </Segment>
                         </Grid.Column>
                     </Grid.Row>
