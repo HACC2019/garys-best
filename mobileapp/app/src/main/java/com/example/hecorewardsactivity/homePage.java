@@ -38,6 +38,7 @@ public class homePage extends AppCompatActivity {
 
             // Get from the SharedPreferences
             String LicensePlate = settings.getString("LicensePlate", plate.licensePlate);
+            plate.licensePlate = LicensePlate;
             json.addProperty("LicensePlate", LicensePlate);
             String GetPoints = json.toString(); //data to post
             if (!GetPoints.contains("null")) {
