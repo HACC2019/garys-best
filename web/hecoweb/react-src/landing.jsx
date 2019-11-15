@@ -114,6 +114,86 @@ class Landing extends React.Component {
         })
     }
 
+    healthStats(){
+        let allItems = []
+        if(this.state.stationHealth['1']){
+            this.state.stationHealth['1'].forEach((ticket) => {
+                ticket.stationId = 1;
+                allItems.push(ticket);
+            })
+        }
+        if(this.state.stationHealth['2']){
+            this.state.stationHealth['2'].forEach((ticket) => {
+                ticket.stationId = 2;
+                allItems.push(ticket);
+            })
+        }
+        return (
+            <div>
+            {allItems.sort((a, b) => b.Timestamp - a.Timestamp).map((item) => {
+                return this.healthItem(item, true);
+            })}
+            </div>
+        )
+    }
+
+    healthItem(current, fromErrorLog){
+        // {"DidTheCarCharge":"0","CardDeclined":"0","CardReaderBroken":"0",
+        // "IsTesla":"0","PortType":"DCCCOMBOTYP1","AdditionalComments":"",
+        // "Timestamp":"2019-11-13 21:20:28.397"}
+
+        // <List.Icon name='heartbeat' color={'red'} />
+        // <List.Content>
+        //     <List.Header as='a'>Station Error</List.Header>
+        //     <List.Description>
+        //         Kapolei Commons
+        //     </List.Description>
+        // </List.Content>
+
+        if (current.CardDeclined || current.CardReaderBroken) {
+            return (
+                <div>
+                    {current.CardReaderBroken && <List.Item>
+                        <List.Content>
+                            <List.Header as='a'>
+                        <List.Icon name='plug' color={'red'} />
+                                Connection Error</List.Header>
+                        <p style={{textAlign: 'left'}}>
+                            {fromErrorLog && this.stationName(current.stationId)}
+                            <br/>
+                            {current.Timestamp}
+                        </p>
+                        </List.Content>
+                    </List.Item>}
+                    {current.CardDeclined && current.CardReaderBroken && <Divider />}
+                    {current.CardDeclined && <List.Item>
+                        <List.Content>
+                            <List.Header as='a'>
+                        <List.Icon name='credit card' color={'red'} />
+                        Payment Error</List.Header>
+                        <p style={{textAlign: 'left'}}>
+                            {fromErrorLog && this.stationName(current.stationId)}
+                            <br/>
+                            {current.Timestamp}
+                        </p>
+                        </List.Content>
+                    </List.Item>}
+                    <Divider />
+                </div>
+            )
+        } else {
+            return ''
+        }
+    }
+
+    stationName(id){
+        if(id == 1){
+            return 'Haleiwa Town Center';// Charging Station';
+        } else {
+            return 'Dole Plantation';// Charging Station';
+        }
+    }
+
     getStationHealthRender(id) {
         const data = this.state.stationHealth[id];
 
@@ -946,7 +1026,8 @@ class Landing extends React.Component {
                                     <h4>User Error Log</h4>
                                     <Divider />
                                     <List inverted divided>
-                                        <List.Item>
+                                        {this.healthStats()}
+                                        {/* <List.Item>
                                             <p>October 25, 2019 @ 11:07 pm</p>
                                             <List.Icon name='heartbeat' color={'red'} />
                                             <List.Content>
@@ -995,7 +1076,7 @@ class Landing extends React.Component {
                                                     Kapolei Commons
                                                 </List.Description>
                                             </List.Content>
-                                        </List.Item>
+                                        </List.Item> */}
                                     </List>
                                 </Grid.Row>
                             </Segment>
