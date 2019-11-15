@@ -34,8 +34,11 @@ class Landing extends React.Component {
         this.fetchHistorical(-1);
         this.fetchForecast(-1);
 
-        this.fetchStationHealth(1);
-        this.fetchStationHealth(2);
+        setInterval(() => {
+            this.fetchStationHealth(1);
+            this.fetchStationHealth(2);
+        }
+        , 5000)
 
         console.log(this.state);
     }
@@ -128,9 +131,10 @@ class Landing extends React.Component {
                 allItems.push(ticket);
             })
         }
+        allItems = allItems.sort((a, b) => b.Timestamp.localeCompare(a.Timestamp));
         return (
             <div>
-            {allItems.sort((a, b) => b.Timestamp - a.Timestamp).map((item) => {
+            {allItems.map((item) => {
                 return this.healthItem(item, true);
             })}
             </div>
@@ -150,10 +154,10 @@ class Landing extends React.Component {
         //     </List.Description>
         // </List.Content>
 
-        if (current.CardDeclined || current.CardReaderBroken) {
+        if (current.CardDeclined == 1  || current.CardReaderBroken == 1) {
             return (
                 <div>
-                    {current.CardReaderBroken && <List.Item>
+                    {current.CardReaderBroken == 1 && <List.Item>
                         <List.Content>
                             <List.Header as='a'>
                         <List.Icon name='plug' color={'red'} />
@@ -165,8 +169,8 @@ class Landing extends React.Component {
                         </p>
                         </List.Content>
                     </List.Item>}
-                    {current.CardDeclined && current.CardReaderBroken && <Divider />}
-                    {current.CardDeclined && <List.Item>
+                    {current.CardDeclined == 1 && current.CardReaderBroken == 1 && <Divider />}
+                    {current.CardDeclined == 1 && <List.Item>
                         <List.Content>
                             <List.Header as='a'>
                         <List.Icon name='credit card' color={'red'} />
@@ -198,12 +202,12 @@ class Landing extends React.Component {
         const data = this.state.stationHealth[id];
 
         if (data != undefined && data.length > 0) {
-            const current = data.sort((a, b) => b.Timestamp - a.Timestamp)[0];
+            const current = data.sort((a, b) => b.Timestamp.localeCompare(a.Timestamp))[0];
             console.log(current);
-            if (current.CardDeclined || current.CardReaderBroken) {
+            if (current.CardDeclined == 1 || current.CardReaderBroken == 1) {
                 return (
                     <List style={{ paddingLeft: "2.4", margin: 0 }}>
-                        {current.CardReaderBroken && <List.Item>
+                        {current.CardReaderBroken == 1 && <List.Item>
                             <p>{current.Timestamp}</p>
                             <List.Icon name='plug' color={'red'} />
                             <List.Content>
@@ -211,7 +215,7 @@ class Landing extends React.Component {
                             </List.Content>
                         </List.Item>}
                         {current.CardDeclined && current.CardReaderBroken && <Divider />}
-                        {current.CardDeclined && <List.Item>
+                        {current.CardDeclined == 1 && <List.Item>
                             <p>{current.Timestamp}</p>
                             <List.Icon name='credit card' color={'red'} />
                             <List.Content>
@@ -1021,11 +1025,11 @@ class Landing extends React.Component {
                         </Grid.Column>
 
                         <Grid.Column width={3}>
-                            <Segment inverted style={{ overflow: 'auto', maxHeight: 200 }}>
+                            <Segment inverted>
                                 <Grid.Row>
                                     <h4>User Error Log</h4>
                                     <Divider />
-                                    <List inverted divided>
+                                    <List inverted divided style={{ overflow: 'auto', maxHeight: 200 }}>
                                         {this.healthStats()}
                                         {/* <List.Item>
                                             <p>October 25, 2019 @ 11:07 pm</p>
