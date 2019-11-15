@@ -346,6 +346,42 @@ class Landing extends React.Component {
             ],
         };
 
+        const portData = {
+            labels: data['Timestamp'],
+            datasets: [
+                {
+                    label: 'CHADEMO',
+                    backgroundColor: '#c2bd4e',
+                    stack: '2',
+                    data: data['PortType_CHADEMO'],
+                },
+                {
+                    label: 'DCCOMBOTYP1',
+                    backgroundColor: '#59b655',
+                    stack: '2',
+                    data: data['PortType_DCCOMBOTYP1'],
+                },
+            ],
+        };
+
+        const paymentData = {
+            labels: data['Timestamp'],
+            datasets: [
+                {
+                    label: 'Credit Card',
+                    backgroundColor: '#c2bd4e',
+                    stack: '2',
+                    data: data['PaymentMode_CreditCard'],
+                },
+                {
+                    label: 'RFID',
+                    backgroundColor: '#59b655',
+                    stack: '2',
+                    data: data['PaymentMode_RFID'],
+                },
+            ],
+        };
+
         const barStackedOptions = {
             legend: {
                 display: true,
@@ -883,6 +919,20 @@ class Landing extends React.Component {
                                         <Segment inverted>
                                             <h4 style={{ margin: 5 }}>Station Usage</h4>
                                             <Bar data={trafficData} options={barStackedOptions} />
+                                        </Segment>
+                                    </Grid.Column>
+                                </Grid.Row>
+                                <Grid.Row columns={2}>
+                                    <Grid.Column>
+                                        <Segment inverted>
+                                            <h4 style={{ margin: 5 }}>Port Used</h4>
+                                            <Bar data={portData} options={barStackedOptions} />
+                                        </Segment>
+                                    </Grid.Column>
+                                    <Grid.Column>
+                                        <Segment inverted>
+                                            <h4 style={{ margin: 5 }}>Payment Used</h4>
+                                            <Bar data={paymentData} options={barStackedOptions} />
                                         </Segment>
                                     </Grid.Column>
                                 </Grid.Row>
