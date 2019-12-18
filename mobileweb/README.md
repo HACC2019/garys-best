@@ -17,13 +17,16 @@ Responsive preview:
 
 ![](images/Responsive.PNG)
 
+
 Pixel 2 preview:
 
 ![](images/Pixel2.PNG)
 
+
 iPad preview:
 
 ![](images/iPad.PNG)
+
 
 
 ## Available Scripts
