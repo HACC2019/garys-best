@@ -7,6 +7,8 @@
 import numpy as np
 import pandas as pd
 
+from sklearn.ensemble import RandomForestRegressor
+
 
 # In[2]:
 
@@ -129,41 +131,30 @@ df.head()
 # Checking if each columns are in agreement with each other
 # 1. Does cost match with the amount of energy for the given time period?
 
-# In[14]:
 
+def cost_correction(df):
+    """
+    The reported costs can differ from the actual calculated energy amounts.
+    The assumption is that the energy totals and the listed pricing should agree with the reported costs.
+    Also in future calculations, we assume that the reported energy is more reliable than the reported cost.
 
-df['calculated_amount'] = df['energy'] * df['on_peak'] * 0.57 + df['energy'] * df['mid_day'] * 0.49 + df['energy'] * df['off_peak'] * 0.54
-df['rounded_calculated_amount'] = np.round(df['calculated_amount'], 2)
-correct = df[(df['amount'] == df['rounded_calculated_amount'])]
-err = df[~(df['amount'] == df['rounded_calculated_amount'])]
-correct.head()
+    Depending on which feature is seen as more reliable, the correction should be based off that
 
+    params:
+    - df: The main DataFrame with all HECO data
 
-# In[15]:
-
-
-err[np.abs(err['amount'] - err['rounded_calculated_amount']) == 0.01]#[['amount', 'rounded_calculated_amount', 'calculated_amount']]
-
-
-# In[16]:
-
-
-err[np.abs(err['amount'] - err['rounded_calculated_amount']) > 1]
-
-
-# In[17]:
-
-
-df = df.rename({'rounded_calculated_amount': 'correct_amount'}, axis=1)
-df['error_rounding'] = np.abs(df['amount'] - df['correct_amount']) == 0.01
-df['error_calculation'] = np.abs(df['amount'] - df['correct_amount']) > 0.01
-df.head()
-
-
-# In[18]:
-
-
-df[df['error_rounding']]
+    returns:
+    - df: With four additional fields
+        calculated_amount - The price based upon the energy calculations and the appropriate customer count and pricing for each time of day
+        correct_amount - The rounded calculated_amount for pricing with 2 decimals
+        error_rounding - A flag for if the calculation differed by exactly 1 cent from the reported amount. True if it did.
+        error_calculaton - A flag for if the calculations that differed by more than 1 cent from the reported amount. True if it did.
+    """
+    df['calculated_amount'] = df['energy'] * df['on_peak'] * 0.57 + df['energy'] * df['mid_day'] * 0.49 + df['energy'] * df['off_peak'] * 0.54
+    df['correct_amount'] = np.round(df['calculated_amount'], 2)
+    df['error_rounding'] = np.abs(df['amount'] - df['correct_amount']) == 0.01
+    df['error_calculation'] = np.abs(df['amount'] - df['correct_amount']) > 0.01
+    return df
 
 
 # In[19]:
@@ -265,16 +256,8 @@ for station in stations:
     test_stations.append(test_station)
 
 
-# In[28]:
 
 
-test_stations[0]
-
-
-# In[29]:
-
-
-from sklearn.ensemble import RandomForestRegressor
 
 
 def train_model(stations, test_stations, clf):
