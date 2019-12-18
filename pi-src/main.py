@@ -27,14 +27,14 @@ while(1):
     next_plate = readlicense.readlicense('current.jpg')
 
     # get timestamp
-    timestamp = datetime.now().strftime('%m/%d/%Y %H:%M:%S')
+    timestamp = datetime.now().strftime('%m-%d-%Y+%H:%M:%S')
 
     # send image to cloudinary api and perform callback to add to db
     cloudinary.uploader.upload('current.jpg', 
         folder = "pi_surv/", 
-        public_id = '+'.join(timestamp.split(' ')),
+        public_id = timestamp,
         overwrite = true, 
-        notification_url = "https://hecoweb.azurewebsites.net/api/app/addImage?public_id="+'+'.join(timestamp.split(' ')), 
+        notification_url = "https://hecoweb.azurewebsites.net/api/app/addImage?public_id="+timestamp, 
         resource_type = "image")
     
     # if not same car, then send signal
