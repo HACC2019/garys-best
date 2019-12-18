@@ -6,3 +6,4 @@ pip install opencv-python
 pip install pytesseract
 pip install imutils
 pip install np
+pip install cloudinary
