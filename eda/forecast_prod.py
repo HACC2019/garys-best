@@ -373,6 +373,15 @@ station_names = ['A','B']
 def prepare_csv(all_predictions, station_names):
     """
     The final CSV output that contains labels for each field needs to be prepared from the raw matrices from the ML model
+    As additional charging stations are added, the list of station names should be expanded upon
+    As additional fields are added, they should be extracted appropriately from the prediction matrices
+
+    params:
+    - all_predictions: The list of matrices that contain the predicted values for each field for each charging stations
+    - station_names: The list of charging station names in the same order as the matrices in all_predictions
+
+    returns:
+    - df_test: A DataFrame that is prepared to be exported as an appropriate CSV
     """
     df_test = pd.DataFrame()
     for predictions, station_name in zip(all_predictions, station_names):
@@ -394,10 +403,7 @@ def prepare_csv(all_predictions, station_names):
             'session_type_WEB': predictions[12],
         })
         df_test = df_test.append(df)
-df_test
+    return df_test
 
 
-# In[37]:
-
-
-df_test.to_csv('production.csv',index=False)
+prepare_csv(all_predictions, station_names).to_csv('production.csv',index=False)
