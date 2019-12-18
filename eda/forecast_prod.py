@@ -279,12 +279,16 @@ from sklearn.ensemble import RandomForestRegressor
 
 def train_model(stations, test_stations, clf):
     """
-    Train a Machine Learning Model for the HECO forecasting.
+    Trains Machine Learning Models for the HECO forecasting.
+    Each station has different behavior and thus a separate model is trained from each station's historical data to forecast future data.
 
     params:
     - stations: A list of DataFrames with each containing data for a specific charging stations. Model is trained on this data
     - test_stations: Same as stations but for the test data.
     - clf: The Machine Learning classifier to train. Minimally requires a fit() function that takes the training data and the outputs
+
+    returns:
+        A list of matrices with predictions for each charging stations.
     """
     y_preds = []
     for X_train, X_test in zip(stations, test_stations):
@@ -301,16 +305,11 @@ def train_model(stations, test_stations, clf):
         X_test = X_test.drop(['date'], axis=1)
         X_test = X_test.reindex(sorted(X_test.columns), axis=1)
         
-        
         clf.fit(X_train, y)
+        y_pred = clf.predict(X_test)
+        y_preds.append(y_pred)
        
-    return y_pred
-
-
-clf = RandomForestRegressor() 
-clf = train_model(stations, test_stations, clf)
-y_pred = clf.predict(X_test)
-y_preds.append(y_pred)
+    return y_preds
 
 
 def reshape_predictions(y_preds):
@@ -368,7 +367,6 @@ def correct_predictions(all_predictions):
     return all_predictions
     
 
-station_names = ['A','B']
 def prepare_csv(all_predictions, station_names):
     """
     The final CSV output that contains labels for each field needs to be prepared from the raw matrices from the ML model
@@ -405,4 +403,10 @@ def prepare_csv(all_predictions, station_names):
     return df_test
 
 
+
+clf = RandomForestRegressor() 
+y_preds = train_model(stations, test_stations, clf)
+all_predictions = reshape_predictions(y_preds)
+
+station_names = ['A','B']
 prepare_csv(all_predictions, station_names).to_csv('production.csv',index=False)
