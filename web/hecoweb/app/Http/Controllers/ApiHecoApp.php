@@ -66,4 +66,20 @@ class ApiHecoApp extends Controller
 		}
 	}
 
+	// add new image url to db from pi capture
+	function addImage(Request $request)
+	{
+		if($request->has('public_id'))
+		{
+			$image_id  = $request->input('json');
+			
+			$ex = DB::select('exec HecoRewards_AddSurveillanceImage_Proc ?', $image_id );
+			
+			//Should only return 1 row
+			foreach($ex as $output)
+			{
+				return json_encode($output);
+			}
+		}
+	}
 }

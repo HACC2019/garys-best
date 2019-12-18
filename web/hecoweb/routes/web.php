@@ -26,6 +26,7 @@ Route::get('/api/web/gethistorical', 'ApiHeco@getHistoricalData');
 //API app
 Route::get('/api/app/postsurvey', 'ApiHecoApp@postSurvey');
 Route::get('/api/app/getpoints', 'ApiHecoApp@getPoints');
+Route::get('/api/app/addImage', 'ApiHecoApp@addImage');
 
 //API hardware -- Checkin
 Route::get('/api/hardware/licenseplateatstation', 'ApiHeco@licensePlateAtStation');
