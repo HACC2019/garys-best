@@ -195,50 +195,6 @@ preproc_df['correct_duration'] = preproc_df['duration'].apply(lambda x: get_sec(
 
 preproc_df = preproc_df.drop(['id', 'start_time', 'end_time', 'duration', 'amount', 'calculated_amount', 'day_of_week'], axis=1)
 
-preproc_df.head()
-
-
-# In[21]:
-
-
-df_agg = preproc_df.groupby(['name', 'date']).agg('sum').reset_index()
-# df_agg.columns = df_agg.columns.to_flat_index()
-# df_agg.columns
-df_agg.head()
-
-
-# In[22]:
-
-
-df_agg.columns
-
-
-# In[23]:
-
-
-import matplotlib.pyplot as plt
-
-
-# In[24]:
-
-
-plt.scatter(df_agg['energy'].shift(-8), df_agg['energy'])
-
-
-# In[25]:
-
-
-from pandas.plotting import scatter_matrix
-df_temp = pd.DataFrame()
-df_temp['energy'] = df_agg['energy']
-for x in range(1, 7):
-    df_temp[f'energy_prev_{x}'] = df_temp['energy'].shift(x)
-scatter_matrix(df_temp[['energy', 'energy_prev_1', 'energy_prev_2', 'energy_prev_3']])
-df_temp.dropna().head(10)
-
-
-# In[26]:
-
 
 df_agg = preproc_df.groupby(['name', 'date']).agg('sum').reset_index()
 df_agg['day_of_week'] = pd.to_datetime(df_agg['date']).dt.day_name()
@@ -249,14 +205,6 @@ for col in ['day_of_week', 'month']:
     
 df_agg = df_agg.join(pd.get_dummies(df_agg.select_dtypes('category')))
 df_agg = df_agg.drop(df_agg.select_dtypes('category'), axis=1)
-
-# df_agg.columns = df_agg.columns.to_flat_index()
-# df_agg.columns
-
-# for x in range(1, 7):
-#     df_agg[f'energy_prev_{x}'] = df_agg['energy'].shift(x)
-# df_agg = df_agg.dropna()
-# df_agg.head()
 
 stations = [g for _, g in df_agg.groupby('name')]
 
@@ -271,7 +219,6 @@ for i in range(len(stations)):
        'port_type_CHADEMO', 'port_type_DCCOMBOTYP1', 'payment_mode_CREDITCARD',
        'payment_mode_RFID']:
         stations[i] = offset_col_x_days(stations[i], col, 7)
-stations[0]
 
 
 # In[27]:
@@ -365,30 +312,6 @@ clf = train_model(stations, test_stations, clf)
 y_pred = clf.predict(X_test)
 y_preds.append(y_pred)
 
-# In[30]:
-
-
-# # from sklearn.utils import check_arrays
-# def mape(y_true, y_pred): 
-# #     y_true, y_pred = check_arrays(y_true, y_pred)
-
-#     ## Note: does not handle mix 1d representation
-#     #if _is_1d(y_true): 
-#     #    y_true, y_pred = _check_1d_array(y_true, y_pred)
-
-#     return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
-
-# mape(y_test, y_pred)
-
-
-# In[ ]:
-
-
-
-
-
-# In[31]:
-
 
 all_predictions = []
 for y_pred in y_preds:
@@ -416,89 +339,65 @@ all_predictions[0]
 
 # In[33]:
 
+def correct_predictions(all_predictions):
+    """
+    The machine learning model forecasts floating point values for the numerical targets in our ouput.
+    However, for the values such as expected energy, amount of people, total revenue, we shouldn't allow
+    - Negative Values
+    - Floating point values past a certain precision point (2 decimal places for money)
+    Thus, we need to correct the floating point values for different cases
 
-for j in range(len(all_predictions)):
-    predictions = all_predictions[j]
-    for i in range(len(predictions[1])):
-        predictions[1][i] = 0 if predictions[1][i] < 0 else predictions[1][i] 
-    for i in range(len(predictions[2])):
-        predictions[2][i] = 0 if predictions[2][i] < 0 else predictions[2][i]
-    predictions[0] = np.round(predictions[0], 2)
-    for i in range(1, len(predictions)):
-        predictions[i] = np.round(predictions[i])
-    all_predictions[j] = predictions
+    params:
+    - all_predictions: A list of matrices that contain the predicted values for each field for each charging station
+    """
+    for j in range(len(all_predictions)):
+        predictions = all_predictions[j]
+
+        # Correct price values to be non-negative
+        for i in range(len(predictions[1])):
+            predictions[1][i] = 0 if predictions[1][i] < 0 else predictions[1][i] 
+        for i in range(len(predictions[2])):
+            predictions[2][i] = 0 if predictions[2][i] < 0 else predictions[2][i]
+
+        # Round Energy Values
+        predictions[0] = np.round(predictions[0], 2)
+
+        # Correct values that should be whole numbers
+        for i in range(1, len(predictions)):
+            predictions[i] = np.round(predictions[i])
+        all_predictions[j] = predictions
+    return all_predictions
     
 
-
-# In[34]:
-
-
-for p in all_predictions[0]:
-    print(len(p))
-
-
-# In[35]:
-
-
-len(all_predictions[0])
-
-
-# In[36]:
-
-
-df_test = pd.DataFrame()
 station_names = ['A','B']
-for predictions, station_name in zip(all_predictions, station_names):
-    df = pd.DataFrame({
-        'name': [station_name] * len(predictions[0]),
-        'date': date_test, 
-        'energy': predictions[0], 
-        'error_rounding': predictions[1], 
-        'error_calculation': predictions[2],
-        'on_peak': predictions[3],
-        'mid_day': predictions[4],
-        'off_peak': predictions[5],
-        'port_type_CHADEMO': predictions[6],
-        'port_type_DCCOMBOTYP1': predictions[7],
-        'payment_mode_CREDITCARD': predictions[8],
-        'payment_mode_RFID': predictions[9],
-        'session_type_DEVICE': predictions[10], 
-        'session_type_MOBILE': predictions[11],
-        'session_type_WEB': predictions[12],
-    })
-    df_test = df_test.append(df)
+def prepare_csv(all_predictions, station_names):
+    """
+    The final CSV output that contains labels for each field needs to be prepared from the raw matrices from the ML model
+    """
+    df_test = pd.DataFrame()
+    for predictions, station_name in zip(all_predictions, station_names):
+        df = pd.DataFrame({
+            'name': [station_name] * len(predictions[0]),
+            'date': date_test, 
+            'energy': predictions[0], 
+            'error_rounding': predictions[1], 
+            'error_calculation': predictions[2],
+            'on_peak': predictions[3],
+            'mid_day': predictions[4],
+            'off_peak': predictions[5],
+            'port_type_CHADEMO': predictions[6],
+            'port_type_DCCOMBOTYP1': predictions[7],
+            'payment_mode_CREDITCARD': predictions[8],
+            'payment_mode_RFID': predictions[9],
+            'session_type_DEVICE': predictions[10], 
+            'session_type_MOBILE': predictions[11],
+            'session_type_WEB': predictions[12],
+        })
+        df_test = df_test.append(df)
 df_test
 
 
 # In[37]:
 
 
-df_test.to_csv('test_run.csv',index=False)
-
-
-# In[38]:
-
-
-df_test_agg = df_test.groupby(['date']).agg('sum').reset_index()
-df_test_agg
-
-
-# In[39]:
-
-
-df_test_agg['energy'] = np.round(df_test_agg['energy'], 2)
-df_test_agg['name'] = ['Agg'] * len(df_test_agg['energy'])
-
-
-# In[40]:
-
-
-df_final = df_test.append(df_test_agg).reset_index()
-df_final
-
-
-# In[41]:
-
-
-# df_test_agg.to_csv('test_run.csv',index=False)
-
+df_test.to_csv('production.csv',index=False)
