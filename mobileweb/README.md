@@ -9,6 +9,7 @@
 <a href="https://hecoweb.azurewebsites.net/">Website</a> | <a href="https://devpost.com/software/electric-vehicle-charging-analysis-5dv7mo">DevPost</a>
 </div>
 
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app) and using a device detection for phone, tablet, desktop, mobile grade, os, and versions [mobile-detect.js] (http://hgoebl.github.io/mobile-detect.js/).
 
 ## Preview
