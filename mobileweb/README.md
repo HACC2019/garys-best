@@ -11,7 +11,7 @@
 
 ## About
 
-This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app) and using a device detection for phone, tablet, desktop, mobile grade, os, and versions [mobile-detect.js] (http://hgoebl.github.io/mobile-detect.js/)
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app) and using a device detection for phone, tablet, desktop, mobile grade, os, and versions [mobile-detect.js](http://hgoebl.github.io/mobile-detect.js/)
 
 ## Installation (Device detection)
 
