@@ -313,31 +313,30 @@ y_pred = clf.predict(X_test)
 y_preds.append(y_pred)
 
 
-all_predictions = []
-for y_pred in y_preds:
-    predictions = [[] for j in range(len(y_pred[0]))]
-    # Each date
-    for i in range(len(y_pred)):
-        # Each field
-        for j in range(len(y_pred[i])):
-            # Create list of just that field
-            predictions[j].append(y_pred[i][j])
-    all_predictions.append(predictions)
+def reshape_predictions(y_preds):
+    """
+    The predicted outputs need to be reshaped to be separated as lists that contain all values for a given field ordered by date
+    This allows future operations to be handled column wise instead of by each overall predicted entry
 
+    params:
+    - y_preds: The list of matrices for each charging station
 
-# In[32]:
+    returns:
+    - all_predictions: 
+        A list of matrices where each top-level entry of all_predictions contains data for exactly one charging station.
+        Each column in the matrix should contain data for a single field across all valid dates to forecast for.
+    """
+    all_predictions = []
+    for y_pred in y_preds:
+        predictions = [[] for j in range(len(y_pred[0]))]
+        # Each date
+        for i in range(len(y_pred)):
+            # Each field
+            for j in range(len(y_pred[i])):
+                # Create list of just that field
+                predictions[j].append(y_pred[i][j])
+        all_predictions.append(predictions)
 
-
-all_predictions[0]
-
-
-# In[ ]:
-
-
-
-
-
-# In[33]:
 
 def correct_predictions(all_predictions):
     """
