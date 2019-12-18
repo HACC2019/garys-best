@@ -16,6 +16,12 @@ The heart of our solution is to increase the understanding of the current data, 
 
 By creating a mobile application, "HECO Rewards", we are able to obtain information about the charging sessions, successful or unsuccessful, which provides a new set of data that HECO has otherwise had no access to. We supplement this with a license plate reader to ensure that the users who submit data on the application were actually present at the charging station.
 
+## Dashboard
+### Problem
+One of the core issues of the challenge is visualizing HECO's data in real time so it can be synthesized and acted upon.
+
+### Solution
+Combining the efforts of our mobile application, predictive forecasting, and license plate reader, HECO employees can understand how the charging stations are being utilized and what can be expected for their usage and potential errors before they occur. By simultaneously providing an overview of the historical data with a view for the forecasted data, HECO can make decisions using as much information as possible in a single location.
 
 ## Predictive Forecasting
 ### Problem
