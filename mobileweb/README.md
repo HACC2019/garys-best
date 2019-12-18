@@ -13,6 +13,17 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app) and using a device detection for phone, tablet, desktop, mobile grade, os, and versions [mobile-detect.js] (http://hgoebl.github.io/mobile-detect.js/).
 
+## Installation (Device detection)
+
+### Bower (which you should not use for new projects)
+```
+$ bower install hgoebl/mobile-detect.js --save
+```
+### Node.js/ npm
+```
+$ npm install mobile-detect --save
+```
+
 ## Preview
 
 Responsive preview:
@@ -28,7 +39,6 @@ Pixel 2 preview:
 iPad preview:
 
 ![](images/iPad.PNG)
-
 
 
 ## Available Scripts
