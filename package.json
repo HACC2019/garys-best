@@ -328,7 +328,7 @@
       "resolved": "https://registry.npmjs.org/camelcase/-/camelcase-3.0.0.tgz",
       "version": "3.0.0"
     },
-    "chart.js": "^2.9.2",
+    "chart.js": "^2.9.4",
     "chokidar": {
       "dependencies": {
         "normalize-path": {
